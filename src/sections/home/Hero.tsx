@@ -22,7 +22,7 @@ function RotatingWord() {
   }, [reduce]);
 
   if (reduce) {
-    return <span className="text-mahoney-light">{ROTATING_WORDS[0]}</span>;
+    return <span className="text-mahoney">{ROTATING_WORDS[0]}</span>;
   }
   return (
     <span
@@ -33,7 +33,7 @@ function RotatingWord() {
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.span
           key={i}
-          className="inline-block text-mahoney-light"
+          className="inline-block text-mahoney"
           initial={{ y: "100%" }}
           animate={{ y: 0 }}
           exit={{ y: "-100%" }}
@@ -87,7 +87,7 @@ export default function Hero() {
           initial={reduce ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="eyebrow !text-mahoney-light"
+          className="eyebrow"
         >
           {t("hero.eyebrow", "General Contracting · Design-Build · Since 1985")}
         </motion.p>

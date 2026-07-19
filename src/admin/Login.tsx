@@ -34,7 +34,7 @@ export default function AdminLogin() {
     <div className="flex min-h-screen items-center justify-center bg-ink px-4">
       <div className="w-full max-w-sm">
         <div className="mb-8 flex flex-col items-center text-center">
-          <LogoMark className="h-12 w-12" />
+          <LogoMark light className="h-12 w-12" />
           <h1 className="mt-4 font-display text-xl font-extrabold uppercase tracking-wide text-white">
             MDB Admin
           </h1>

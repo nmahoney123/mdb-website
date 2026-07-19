@@ -6,7 +6,6 @@ module.exports = {
     extend: {
       colors: {
         mahoney: "#7C0302",
-        "mahoney-light": "#E24A3B",
         oxblood: "#5A0202",
         ink: "#141414",
         charcoal: "#2A2A2D",

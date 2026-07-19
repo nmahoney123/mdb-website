@@ -102,7 +102,7 @@ export default function AdminApp() {
       {/* Sidebar */}
       <aside className="fixed inset-y-0 left-0 z-40 flex w-60 flex-col bg-ink text-white max-lg:hidden">
         <div className="flex items-center gap-3 border-b border-white/10 px-6 py-5">
-          <LogoMark className="h-8 w-8" />
+          <LogoMark light className="h-8 w-8" />
           <div>
             <p className="font-display text-sm font-extrabold uppercase tracking-wide">MDB Admin</p>
             <p className="font-display text-[9px] font-semibold uppercase tracking-[0.3em] text-white/40">Content Manager</p>
@@ -141,7 +141,7 @@ export default function AdminApp() {
       {/* Mobile topbar */}
       <div className="fixed inset-x-0 top-0 z-40 flex items-center justify-between bg-ink px-4 py-3 lg:hidden">
         <div className="flex items-center gap-2">
-          <LogoMark className="h-7 w-7" />
+          <LogoMark light className="h-7 w-7" />
           <span className="font-display text-sm font-extrabold uppercase text-white">MDB Admin</span>
         </div>
         <div className="flex gap-1 overflow-x-auto">

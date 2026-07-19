@@ -87,8 +87,7 @@
     color: #fff;
   }
   :focus-visible {
-    /* Lighter brand red so the ring stays visible on dark backgrounds too. */
-    outline: 2px solid #e24a3b;
+    outline: 2px solid #7c0302;
     outline-offset: 3px;
   }
 }
@@ -98,9 +97,7 @@
     @apply mx-auto w-full max-w-site px-5 sm:px-8 lg:px-10;
   }
   .eyebrow {
-    /* mahoney-light (#E24A3B) reads on both light and dark section backgrounds;
-       deep maroon (#7C0302) was illegible on the dark sections. */
-    @apply font-display text-[11px] sm:text-xs font-semibold uppercase tracking-[0.28em] text-mahoney-light;
+    @apply font-display text-[11px] sm:text-xs font-semibold uppercase tracking-[0.28em] text-mahoney;
   }
   .eyebrow-light {
     @apply font-display text-[11px] sm:text-xs font-semibold uppercase tracking-[0.28em] text-fog/70;
