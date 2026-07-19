@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router";
-import { Menu, X, Phone, ArrowRight, Lock, HardHat } from "lucide-react";
+import { Menu, X, Phone, ArrowRight, Lock, HardHat, ChevronDown } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import Logo from "./Logo";
 import { NAV_LINKS, COMPANY } from "@/data/content";
@@ -77,30 +77,69 @@ export default function Header() {
         <div className="container-site flex h-[72px] items-center justify-between">
           <Logo light />
           <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex">
-            {NAV_LINKS.map((l) => (
-              <NavLink
-                key={l.to}
-                to={l.to}
-                className={({ isActive }) =>
-                  cn(
-                    "group relative font-display text-[12px] font-semibold uppercase tracking-[0.18em] transition-colors",
-                    isActive ? "text-white" : "text-white/65 hover:text-white"
-                  )
-                }
-              >
-                {({ isActive }) => (
-                  <>
+            {NAV_LINKS.map((l) =>
+              l.children ? (
+                <div key={l.label} className="group relative">
+                  <button
+                    type="button"
+                    aria-haspopup="true"
+                    className={cn(
+                      "flex items-center gap-1 font-display text-[12px] font-semibold uppercase tracking-[0.18em] transition-colors",
+                      l.children.some((c) => c.to === location.pathname)
+                        ? "text-white"
+                        : "text-white/65 hover:text-white"
+                    )}
+                  >
                     {l.label}
-                    <span
-                      className={cn(
-                        "absolute -bottom-2 left-0 h-[2px] bg-mahoney transition-all duration-300",
-                        isActive ? "w-full" : "w-0 group-hover:w-full"
-                      )}
-                    />
-                  </>
-                )}
-              </NavLink>
-            ))}
+                    <ChevronDown className="h-3.5 w-3.5 transition-transform duration-200 group-hover:rotate-180" />
+                  </button>
+                  {/* pt-4 bridges the gap so the menu doesn't close on the way to it */}
+                  <div className="invisible absolute left-1/2 top-full z-50 -translate-x-1/2 pt-4 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                    <div className="min-w-[190px] border border-white/10 bg-ink/95 p-2 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.8)] backdrop-blur">
+                      {l.children.map((c) => (
+                        <NavLink
+                          key={c.to}
+                          to={c.to}
+                          className={({ isActive }) =>
+                            cn(
+                              "block px-4 py-2.5 font-display text-[12px] font-semibold uppercase tracking-[0.14em] transition-colors",
+                              isActive
+                                ? "bg-white/5 text-mahoney"
+                                : "text-white/70 hover:bg-white/5 hover:text-white"
+                            )
+                          }
+                        >
+                          {c.label}
+                        </NavLink>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <NavLink
+                  key={l.to}
+                  to={l.to!}
+                  className={({ isActive }) =>
+                    cn(
+                      "group relative font-display text-[12px] font-semibold uppercase tracking-[0.18em] transition-colors",
+                      isActive ? "text-white" : "text-white/65 hover:text-white"
+                    )
+                  }
+                >
+                  {({ isActive }) => (
+                    <>
+                      {l.label}
+                      <span
+                        className={cn(
+                          "absolute -bottom-2 left-0 h-[2px] bg-mahoney transition-all duration-300",
+                          isActive ? "w-full" : "w-0 group-hover:w-full"
+                        )}
+                      />
+                    </>
+                  )}
+                </NavLink>
+              )
+            )}
             <Link to="/contact" className="btn-primary !px-6 !py-3">
               Start a Project <ArrowRight className="arrow h-3.5 w-3.5" />
             </Link>
@@ -129,23 +168,46 @@ export default function Header() {
             <nav aria-label="Mobile" className="container-site flex flex-col gap-1 py-8">
               {NAV_LINKS.map((l, i) => (
                 <motion.div
-                  key={l.to}
+                  key={l.to ?? l.label}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.05 + i * 0.05 }}
                 >
-                  <NavLink
-                    to={l.to}
-                    className={({ isActive }) =>
-                      cn(
-                        "flex items-center justify-between border-b border-white/10 py-4 font-display text-2xl font-bold uppercase tracking-wide",
-                        isActive ? "text-mahoney" : "text-white"
-                      )
-                    }
-                  >
-                    {l.label}
-                    <ArrowRight className="h-5 w-5 text-mahoney" />
-                  </NavLink>
+                  {l.children ? (
+                    <>
+                      <p className="border-b border-white/10 py-4 font-display text-2xl font-bold uppercase tracking-wide text-white/40">
+                        {l.label}
+                      </p>
+                      {l.children.map((c) => (
+                        <NavLink
+                          key={c.to}
+                          to={c.to}
+                          className={({ isActive }) =>
+                            cn(
+                              "flex items-center justify-between border-b border-white/10 py-3.5 pl-5 font-display text-lg font-semibold uppercase tracking-wide",
+                              isActive ? "text-mahoney" : "text-white/85"
+                            )
+                          }
+                        >
+                          {c.label}
+                          <ArrowRight className="h-5 w-5 text-mahoney" />
+                        </NavLink>
+                      ))}
+                    </>
+                  ) : (
+                    <NavLink
+                      to={l.to!}
+                      className={({ isActive }) =>
+                        cn(
+                          "flex items-center justify-between border-b border-white/10 py-4 font-display text-2xl font-bold uppercase tracking-wide",
+                          isActive ? "text-mahoney" : "text-white"
+                        )
+                      }
+                    >
+                      {l.label}
+                      <ArrowRight className="h-5 w-5 text-mahoney" />
+                    </NavLink>
+                  )}
                 </motion.div>
               ))}
               <motion.div

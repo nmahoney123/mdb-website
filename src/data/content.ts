@@ -503,12 +503,24 @@ export const PARTNERS: Partner[] = [
   { name: "Gale Technology", logo: "/media/partners/gale-technology.png" },
 ];
 
-export const NAV_LINKS = [
+export type NavItem = {
+  label: string;
+  to?: string;
+  children?: { label: string; to: string }[];
+};
+
+// Consolidated top nav: two primary links + a "Company" group. The "Start a
+// Project" button (→ /contact) serves as the Contact entry, so it's not repeated.
+export const NAV_LINKS: NavItem[] = [
   { label: "Industries", to: "/industries" },
   { label: "Portfolio", to: "/portfolio" },
-  { label: "About", to: "/about" },
-  { label: "Locations", to: "/locations" },
-  { label: "Careers", to: "/careers" },
-  { label: "News", to: "/news" },
-  { label: "Contact", to: "/contact" },
+  {
+    label: "Company",
+    children: [
+      { label: "About", to: "/about" },
+      { label: "Locations", to: "/locations" },
+      { label: "Careers", to: "/careers" },
+      { label: "News", to: "/news" },
+    ],
+  },
 ];
