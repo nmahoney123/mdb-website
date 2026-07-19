@@ -16,7 +16,7 @@ function PartnerLogo({ partner }: { partner: CmsPartner }) {
           loading="lazy"
           decoding="async"
           onError={() => setFailed(true)}
-          className="max-h-10 w-auto max-w-full object-contain opacity-70 grayscale transition hover:opacity-100 hover:grayscale-0"
+          className="max-h-10 w-auto max-w-full object-contain opacity-60 brightness-0 invert transition hover:opacity-100"
         />
       ) : (
         <p className="text-center font-display text-xs font-semibold uppercase tracking-[0.14em] text-white/45">
