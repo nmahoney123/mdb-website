@@ -104,6 +104,18 @@ export default function SettingsPage() {
             <AField label="Repeat & Referral %"><input className="field-input" value={form.statRepeat ?? ""} onChange={(e) => upd("statRepeat", e.target.value)} /></AField>
           </div>
         </ACard>
+
+        <ACard>
+          <h2 className="font-display text-sm font-bold uppercase tracking-[0.18em] text-ink">Marketing &amp; Analytics</h2>
+          <div className="mt-5 grid gap-5 sm:grid-cols-2">
+            <AField label="Google Tag ID" hint="GA4 (G-XXXXXXX) or Google Ads (AW-XXXXXXX). Loads analytics + conversion tracking. Leave blank to disable.">
+              <input className="field-input" value={form.gaId ?? ""} onChange={(e) => upd("gaId", e.target.value)} placeholder="G-XXXXXXX" />
+            </AField>
+            <AField label="Google Search Console Verification" hint="The content value from the HTML-tag verification method.">
+              <input className="field-input" value={form.googleVerification ?? ""} onChange={(e) => upd("googleVerification", e.target.value)} />
+            </AField>
+          </div>
+        </ACard>
       </div>
     </div>
   );

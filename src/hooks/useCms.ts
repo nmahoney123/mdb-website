@@ -352,6 +352,9 @@ export const DEFAULT_SETTINGS: Record<string, string> = {
   statRepeat: "90%",
   metaDescription:
     "Mahoney Design & Build is a design-build general contractor delivering ground-up Self Storage, Hotel, and Multifamily projects across the Northeast — 40 years, family-owned.",
+  // Marketing: Google tag (GA4 "G-…" or Google Ads "AW-…") + Search Console verification.
+  gaId: "",
+  googleVerification: "",
 };
 
 export function useSettings(): Record<string, string> {

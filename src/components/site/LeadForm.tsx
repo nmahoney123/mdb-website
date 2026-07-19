@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import { trpc } from "@/providers/trpc";
+import { trackLead } from "./Analytics";
 
 const PROJECT_TYPES = [
   "Self Storage",
@@ -27,6 +28,7 @@ export default function LeadForm({ dark = false }: { dark?: boolean }) {
         projectType: String(fd.get("projectType") ?? "") || undefined,
         message: String(fd.get("message") ?? ""),
       });
+      trackLead({ project_type: String(fd.get("projectType") ?? "") || undefined });
       setSent(true);
     } catch {
       alert("Something went wrong sending your inquiry. Please call us at (315) 697-2829.");

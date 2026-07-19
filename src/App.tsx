@@ -1,6 +1,7 @@
 import { useEffect, lazy, Suspense } from "react";
 import { Routes, Route, useLocation } from "react-router";
 import { useSettingsSideEffects } from "@/hooks/useCms";
+import Analytics from "@/components/site/Analytics";
 
 const Home = lazy(() => import("./pages/Home"));
 const Industries = lazy(() => import("./pages/Industries"));
@@ -41,6 +42,7 @@ export default function App() {
   return (
     <>
       <ScrollToTop />
+      <Analytics />
       <Suspense fallback={<RouteFallback />}>
       <Routes>
         <Route path="/" element={<Home />} />

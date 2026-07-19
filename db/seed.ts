@@ -45,6 +45,8 @@ const SETTINGS: Record<string, string> = {
   statRepeat: "90%",
   metaDescription:
     "Mahoney Design & Build is a design-build general contractor delivering ground-up Self Storage, Hotel, and Multifamily projects across the Northeast — 40 years, family-owned.",
+  gaId: "",
+  googleVerification: "",
 };
 
 const PROJECTS = [
