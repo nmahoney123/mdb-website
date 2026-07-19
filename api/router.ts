@@ -174,20 +174,38 @@ export const appRouter = createRouter({
     }),
     upsert: adminQuery.input(postInput).mutation(async ({ input }) => {
       const { id, body, status, publishedAt, ...rest } = input;
-      const values = {
+      const db = getDb();
+      const base = {
         ...rest,
         coverImage: rest.coverImage ?? null,
         body: JSON.stringify(body),
         status,
-        publishedAt:
-          status === "published" ? publishedAt ?? new Date() : publishedAt ?? null,
       };
-      const db = getDb();
       if (id) {
-        await db.update(posts).set(values).where(eq(posts.id, id));
+        // Preserve the original publish date across edits: keep an explicit
+        // date if given, otherwise fall back to the stored one, and only stamp
+        // "now" the first time a post goes live without any date on record.
+        const [existing] = await db
+          .select({ publishedAt: posts.publishedAt })
+          .from(posts)
+          .where(eq(posts.id, id))
+          .limit(1);
+        const resolvedPublishedAt =
+          status === "published"
+            ? publishedAt ?? existing?.publishedAt ?? new Date()
+            : publishedAt ?? existing?.publishedAt ?? null;
+        await db
+          .update(posts)
+          .set({ ...base, publishedAt: resolvedPublishedAt })
+          .where(eq(posts.id, id));
         return { id };
       }
-      const [r] = await db.insert(posts).values(values).returning({ id: posts.id });
+      const resolvedPublishedAt =
+        status === "published" ? publishedAt ?? new Date() : publishedAt ?? null;
+      const [r] = await db
+        .insert(posts)
+        .values({ ...base, publishedAt: resolvedPublishedAt })
+        .returning({ id: posts.id });
       return { id: r.id };
     }),
     delete: adminQuery.input(z.object({ id: z.number() })).mutation(async ({ input }) => {
@@ -245,6 +263,15 @@ export const appRouter = createRouter({
     list: adminQuery.query(async () => {
       return getDb().select().from(media).orderBy(desc(media.createdAt));
     }),
+    update: adminQuery
+      .input(z.object({ id: z.number(), alt: z.string().max(300).nullable() }))
+      .mutation(async ({ input }) => {
+        await getDb()
+          .update(media)
+          .set({ alt: input.alt })
+          .where(eq(media.id, input.id));
+        return { ok: true };
+      }),
     delete: adminQuery.input(z.object({ id: z.number() })).mutation(async ({ input }) => {
       const db = getDb();
       const rows = await db.select().from(media).where(eq(media.id, input.id)).limit(1);

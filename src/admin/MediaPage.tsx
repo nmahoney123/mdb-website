@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 export default function MediaPage() {
   const { data, isLoading } = trpc.media.list.useQuery();
   const del = trpc.media.delete.useMutation();
+  const update = trpc.media.update.useMutation();
   const qc = useQueryClient();
   const [uploading, setUploading] = useState(false);
   const [copied, setCopied] = useState<number | null>(null);
@@ -74,6 +75,18 @@ export default function MediaPage() {
                 <p className="text-[10px] text-concrete/60">
                   {m.kind} · {(m.size / 1024).toFixed(0)} KB · {new Date(m.createdAt).toLocaleDateString()}
                 </p>
+                <input
+                  className="mt-1.5 w-full border-t border-fog pt-1.5 text-[11px] text-ink placeholder:text-concrete/50 focus:outline-none"
+                  defaultValue={m.alt ?? ""}
+                  placeholder="Alt text (for accessibility & SEO)…"
+                  onBlur={async (e) => {
+                    const next = e.target.value.trim();
+                    if (next !== (m.alt ?? "")) {
+                      await update.mutateAsync({ id: m.id, alt: next || null });
+                      await qc.invalidateQueries();
+                    }
+                  }}
+                />
               </div>
             </div>
           ))}

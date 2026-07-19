@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { trpc } from "@/providers/trpc";
 import { ABtn, ACard, AField, ImagePicker } from "./ui";
+import { DEFAULT_SETTINGS } from "@/hooks/useCms";
 import { Check, Loader2 } from "lucide-react";
 
 export default function SettingsPage() {
@@ -12,7 +13,9 @@ export default function SettingsPage() {
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    if (data) setForm(data);
+    // Seed every known field (so the form is complete on a fresh/unseeded DB),
+    // then overlay any values already stored in the database.
+    if (data) setForm({ ...DEFAULT_SETTINGS, ...data });
   }, [data]);
 
   if (isLoading) return <Loader2 className="h-6 w-6 animate-spin text-mahoney" />;

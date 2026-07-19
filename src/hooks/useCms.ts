@@ -121,7 +121,7 @@ export function useGallery(key: string) {
   return data ?? [];
 }
 
-const DEFAULT_SETTINGS: Record<string, string> = {
+export const DEFAULT_SETTINGS: Record<string, string> = {
   companyName: COMPANY.name,
   tagline: COMPANY.tagline,
   phone: COMPANY.phone,

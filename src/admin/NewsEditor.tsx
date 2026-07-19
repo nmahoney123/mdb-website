@@ -11,10 +11,18 @@ const EMPTY = {
   slug: "", title: "", category: "Project News", excerpt: "",
   body: [] as string[], coverImage: null as string | null,
   status: "draft" as "draft" | "published",
+  publishedAt: null as Date | null,
 };
 
 function slugify(s: string) {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
+/** Date → "yyyy-mm-dd" for a native date input (local time). */
+function toDateInput(d: Date | null): string {
+  if (!d) return "";
+  const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
+  return local.toISOString().slice(0, 10);
 }
 
 export default function NewsEditor() {
@@ -30,7 +38,7 @@ export default function NewsEditor() {
   useEffect(() => {
     if (!isNew && all) {
       const p = all.find((x) => x.id === Number(id));
-      if (p) setForm({ slug: p.slug, title: p.title, category: p.category, excerpt: p.excerpt, body: p.body, coverImage: p.coverImage ?? null, status: p.status });
+      if (p) setForm({ slug: p.slug, title: p.title, category: p.category, excerpt: p.excerpt, body: p.body, coverImage: p.coverImage ?? null, status: p.status, publishedAt: p.publishedAt ? new Date(p.publishedAt) : null });
     }
   }, [all, id, isNew]);
 
@@ -86,6 +94,14 @@ export default function NewsEditor() {
               </select>
             </AField>
           </div>
+          <AField label="Published Date" hint="Shown on the article and used for ordering. Defaults to the day you first publish.">
+            <input
+              type="date"
+              className="field-input !w-52"
+              value={toDateInput(form.publishedAt)}
+              onChange={(e) => upd("publishedAt", e.target.value ? new Date(e.target.value + "T12:00:00") : null)}
+            />
+          </AField>
           <AField label="Excerpt *" hint="1–2 sentences shown on cards and previews.">
             <textarea className="field-input resize-none" rows={2} value={form.excerpt} onChange={(e) => upd("excerpt", e.target.value)} />
           </AField>
