@@ -3,7 +3,7 @@ title: How Preconstruction Estimating De-Risks a Project
 slug: preconstruction-estimating-de-risk
 excerpt: The most important work on a building often happens before anything is built — preconstruction is where cost and schedule risk is priced out while it is still cheap to fix.
 category: Preconstruction
-coverImage: ""
+coverImage: "/media/gallery/self-storage/storage-sheathing-telehandler.webp"
 date: February 16, 2026
 author: Mahoney Design & Build
 ---

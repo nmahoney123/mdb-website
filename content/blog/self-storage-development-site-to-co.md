@@ -3,7 +3,7 @@ title: "Self-Storage Development: From Site to Certificate of Occupancy"
 slug: self-storage-development-site-to-co
 excerpt: A ground-up self-storage facility looks simple and is not — here is the full path from raw land to a certificate of occupancy, and where projects stall.
 category: Self Storage
-coverImage: ""
+coverImage: "/media/gallery/self-storage/climate-controlled-complete.webp"
 date: June 23, 2026
 author: Mahoney Design & Build
 ---

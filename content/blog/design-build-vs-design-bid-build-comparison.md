@@ -3,7 +3,7 @@ title: "Design-Build vs. Design-Bid-Build: A Cost and Schedule Comparison"
 slug: design-build-vs-design-bid-build-comparison
 excerpt: The delivery method you choose sets the cost and schedule risk before design even begins — here is how the two dominant models actually differ for commercial owners.
 category: Delivery Methods
-coverImage: ""
+coverImage: "/media/gallery/self-storage/concrete-pump-pour.webp"
 date: January 19, 2026
 author: Mahoney Design & Build
 ---

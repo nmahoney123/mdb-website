@@ -3,7 +3,7 @@ title: "Multifamily Durability: The Details That Protect NOI"
 slug: multifamily-durability-details-noi
 excerpt: On a multifamily building, the details you cannot see after move-in are the ones that decide operating cost for decades — here is where durable construction protects net operating income.
 category: Multifamily
-coverImage: ""
+coverImage: "/media/gallery/custom-homes/custom-great-room-trusses.webp"
 date: April 12, 2026
 author: Mahoney Design & Build
 ---

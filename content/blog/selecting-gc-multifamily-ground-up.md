@@ -3,7 +3,7 @@ title: Selecting a General Contractor for a Multifamily Ground-Up
 slug: selecting-gc-multifamily-ground-up
 excerpt: A ground-up multifamily build lives or dies on the GC you pick — here is how to evaluate one on the things that actually predict outcomes.
 category: Multifamily
-coverImage: ""
+coverImage: "/media/gallery/self-storage/storage-campus-aerial.webp"
 date: June 30, 2026
 author: Mahoney Design & Build
 ---

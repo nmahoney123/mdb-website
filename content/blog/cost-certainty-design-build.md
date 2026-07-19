@@ -3,7 +3,7 @@ title: How Cost Certainty Works in Design-Build Construction
 slug: cost-certainty-design-build
 excerpt: Cost certainty is not a lucky final number — it is a process that prices the building as it is designed, so surprises never accumulate.
 category: Cost Certainty
-coverImage: ""
+coverImage: "/media/gallery/self-storage/storage-site-foundations.webp"
 date: July 7, 2026
 author: Mahoney Design & Build
 ---

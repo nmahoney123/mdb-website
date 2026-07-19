@@ -3,7 +3,7 @@ title: Winter Construction in Cold Climates: Building Through the Season
 slug: winter-construction-cold-climates
 excerpt: In the Northeast, waiting out winter can cost more than building through it — here is how cold-weather construction is managed so the schedule and the quality both hold.
 category: Construction Insights
-coverImage: ""
+coverImage: "/media/gallery/self-storage/drive-up-units.webp"
 date: June 8, 2026
 author: Mahoney Design & Build
 ---

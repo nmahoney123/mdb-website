@@ -3,7 +3,7 @@ title: "Expanding to New Markets: Delivering Consistent Quality Across Regions"
 slug: mdb-expanding-chicago-bend-markets
 excerpt: With offices now in Oneida, Chicago, and Bend, MDB serves three regions — here is how a design-build firm carries the same standard into new markets without diluting it.
 category: Company News
-coverImage: ""
+coverImage: "/media/gallery/self-storage/storage-facility-aerial-front.webp"
 date: May 11, 2026
 author: Mahoney Design & Build
 ---

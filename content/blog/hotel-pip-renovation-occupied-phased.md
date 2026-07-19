@@ -3,7 +3,7 @@ title: "What a Hotel PIP Renovation Involves: Building Around Guests"
 slug: hotel-pip-renovation-occupied-phased
 excerpt: A property improvement plan is a renovation with a deadline and a full house — here is what a PIP actually involves and how phased construction keeps the doors open.
 category: Hospitality
-coverImage: ""
+coverImage: "/media/projects/microtel-inn-suites.webp"
 date: March 15, 2026
 author: Mahoney Design & Build
 ---

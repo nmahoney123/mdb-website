@@ -3,7 +3,7 @@ title: What Design-Build Actually Means for Your Project Timeline
 slug: design-build-project-timeline
 excerpt: Design-build compresses the schedule by overlapping design and construction under one contract — here is where the weeks are actually saved.
 category: Design-Build
-coverImage: ""
+coverImage: "/media/gallery/self-storage/climate-controlled-structure.webp"
 date: July 14, 2026
 author: Mahoney Design & Build
 ---
