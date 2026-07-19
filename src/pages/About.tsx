@@ -9,7 +9,7 @@ import Gallery from "@/components/site/Gallery";
 import LocationsMap from "@/components/site/LocationsMap";
 import { useGallery } from "@/hooks/useCms";
 import { useSeo, breadcrumbLd } from "@/lib/useSeo";
-import { OFFICES } from "@/data/content";
+import { OFFICES, COMPANY } from "@/data/content";
 import { Reveal, Stagger, StaggerItem, CountUp, Parallax } from "@/components/site/motion";
 
 const VALUES = [
@@ -238,11 +238,12 @@ export default function About() {
                   markets.
                 </p>
               </div>
-              {/* TODO(owner): replace with real GC license number */}
+              {/* TODO(owner): set COMPANY.license (src/data/content.ts) to show the license number */}
               <p className="mt-8 text-sm text-concrete">
-                Licensed &amp; insured general contractor. NY GC License #000000
-                — confirm before publish. OSHA-trained field leadership; written
-                safety and quality programs on every project.
+                Licensed &amp; insured general contractor.
+                {COMPANY.license ? ` ${COMPANY.license}.` : ""} OSHA-trained
+                field leadership; written safety and quality programs on every
+                project.
               </p>
             </Reveal>
             <Stagger className="grid gap-px border border-fog bg-fog sm:grid-cols-2">

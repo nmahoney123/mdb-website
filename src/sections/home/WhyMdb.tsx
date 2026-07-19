@@ -1,5 +1,30 @@
+import { useState } from "react";
 import { Marquee, Reveal } from "@/components/site/motion";
-import { CAPABILITIES_MARQUEE, PARTNER_LOGOS } from "@/data/content";
+import { CAPABILITIES_MARQUEE, PARTNERS, type Partner } from "@/data/content";
+
+/** Renders a partner's logo image, falling back to their name if the file is absent. */
+function PartnerLogo({ partner }: { partner: Partner }) {
+  const [failed, setFailed] = useState(false);
+  const showImage = partner.logo && !failed;
+  return (
+    <div className="mx-4 flex h-20 w-56 shrink-0 items-center justify-center border border-white/10 bg-white/[0.03] px-6">
+      {showImage ? (
+        <img
+          src={partner.logo}
+          alt={partner.name}
+          loading="lazy"
+          decoding="async"
+          onError={() => setFailed(true)}
+          className="max-h-10 w-auto max-w-full object-contain opacity-70 grayscale transition hover:opacity-100 hover:grayscale-0"
+        />
+      ) : (
+        <p className="text-center font-display text-xs font-semibold uppercase tracking-[0.14em] text-white/45">
+          {partner.name}
+        </p>
+      )}
+    </div>
+  );
+}
 
 export default function WhyMdb() {
   return (
@@ -42,13 +67,8 @@ export default function WhyMdb() {
         </Reveal>
         <Reveal delay={0.15} className="mt-8">
           <Marquee>
-            {PARTNER_LOGOS.map((logo) => (
-              <div
-                key={logo}
-                className="mx-4 flex h-20 w-56 shrink-0 items-center justify-center border border-white/10 bg-white/[0.03] px-6"
-              >
-                <p className="text-center text-[11px] leading-snug text-white/35">{logo}</p>
-              </div>
+            {PARTNERS.map((partner) => (
+              <PartnerLogo key={partner.name} partner={partner} />
             ))}
           </Marquee>
         </Reveal>

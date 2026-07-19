@@ -173,14 +173,13 @@ export function organizationLd(): JsonLd {
       },
     ],
     priceRange: "$$$$",
-    sameAs: [
-      "TODO_OWNER_LINKEDIN_URL",
-      "TODO_OWNER_FACEBOOK_URL",
-      "TODO_OWNER_INSTAGRAM_URL",
-      "TODO_OWNER_YOUTUBE_URL",
-    ],
+    // TODO(owner): add real social profile URLs to SOCIAL_URLS (below) — emitted as sameAs.
+    ...(SOCIAL_URLS.length ? { sameAs: SOCIAL_URLS } : {}),
   };
 }
+
+/** Real, public social profile URLs. Empty until the owner supplies them. */
+const SOCIAL_URLS: string[] = [];
 
 /** WebSite node for the site root. */
 export function websiteLd(): JsonLd {

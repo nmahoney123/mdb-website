@@ -15,7 +15,7 @@ const SETTINGS: Record<string, string> = {
   fax: "(315) 697-8406",
   email: "info@mahoneydesignandbuild.com",
   address: "559 Fitch Street, Oneida, NY 13421",
-  license: "NY GC License #000000 — confirm before publish",
+  license: "",
   logoUrl: "",
   faviconUrl: "",
   heroVideoUrl: "/media/hero-construction.mp4",

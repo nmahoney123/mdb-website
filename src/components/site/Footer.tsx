@@ -146,10 +146,10 @@ export default function Footer() {
       <div className="border-t border-white/10">
         <div className="container-site flex flex-col items-center justify-between gap-3 py-6 text-[11px] tracking-wide text-white/35 sm:flex-row">
           <p>© {new Date().getFullYear()} Mahoney Design &amp; Build. All rights reserved.</p>
-          <p>{s.license || COMPANY.license}</p>
+          {(s.license || COMPANY.license) && <p>{s.license || COMPANY.license}</p>}
           <div className="flex gap-5">
-            <a href="#privacy" className="hover:text-white/70">Privacy</a>
-            <a href="#sitemap" className="hover:text-white/70">Sitemap</a>
+            {/* TODO(owner): add a Privacy Policy page, then link it here */}
+            <a href="/sitemap.xml" className="hover:text-white/70">Sitemap</a>
           </div>
         </div>
       </div>

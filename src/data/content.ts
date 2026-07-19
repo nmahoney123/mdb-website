@@ -7,7 +7,8 @@ export const COMPANY = {
   fax: "(315) 697-8406",
   email: "info@mahoneydesignandbuild.com",
   address: "559 Fitch Street, Oneida, NY 13421",
-  license: "NY GC License #000000 — confirm before publish",
+  // TODO(owner): add real GC license number to display it in the footer/About.
+  license: "",
 };
 
 export type Office = {
@@ -479,15 +480,27 @@ export const CAPABILITIES_MARQUEE = [
   "Preconstruction",
 ];
 
-export const PARTNER_LOGOS = [
-  "[LOGO SLOT] National hotel flag — e.g., Wyndham / Microtel",
-  "[LOGO SLOT] Select-service hotel flag — e.g., Marriott select brand",
-  "[LOGO SLOT] Institutional storage operator",
-  "[LOGO SLOT] Regional self-storage owner-operator",
-  "[LOGO SLOT] Real estate capital partner",
-  "[LOGO SLOT] Multifamily development group",
-  "[LOGO SLOT] Hospitality ownership group",
-  "[LOGO SLOT] National REIT / repeat client",
+export type Partner = {
+  name: string;
+  /**
+   * Logo image path. Drop the file in `public/media/partners/` using the slug
+   * shown, then it renders automatically in the home "Trusted by" marquee.
+   * Until the file exists, the marquee shows the partner NAME as a fallback.
+   * Owner note: only use logo assets you are cleared to display; the U.S. Army
+   * mark and network-show branding have specific usage restrictions.
+   */
+  logo?: string;
+};
+
+export const PARTNERS: Partner[] = [
+  { name: "Microtel Inn & Suites", logo: "/media/partners/microtel.png" },
+  { name: "Extra Space Storage", logo: "/media/partners/extra-space-storage.png" },
+  { name: "Life Storage", logo: "/media/partners/life-storage.png" },
+  { name: "Forge Building Company", logo: "/media/partners/forge-building.png" },
+  { name: "Extreme Makeover: Home Edition", logo: "/media/partners/extreme-home-makeover.png" },
+  { name: "Fort Drum · U.S. Army", logo: "/media/partners/fort-drum.png" },
+  // TODO(owner): confirm spelling — "Gale" vs "Gail" Technology
+  { name: "Gale Technology", logo: "/media/partners/gale-technology.png" },
 ];
 
 export const NAV_LINKS = [

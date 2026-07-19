@@ -78,11 +78,6 @@ export default function News() {
                 </StaggerItem>
               ))}
             </Stagger>
-            <Reveal delay={0.2}>
-              <p className="mt-10 text-[11px] tracking-wide text-concrete/70">
-                * Articles are placeholders — replace with final editorial before publish.
-              </p>
-            </Reveal>
           </div>
         </section>
         {/* Subscribe band */}
