@@ -6,6 +6,7 @@ import CtaSection from "@/components/site/CtaSection";
 import CmsImage from "@/components/site/CmsImage";
 import Gallery from "@/components/site/Gallery";
 import { useGallery } from "@/hooks/useCms";
+import { useSeo, breadcrumbLd } from "@/lib/useSeo";
 import { Reveal, Stagger, StaggerItem, CountUp, Parallax } from "@/components/site/motion";
 
 const VALUES = [
@@ -42,6 +43,16 @@ const TEAM = [
 
 export default function About() {
   const emGallery = useGallery("extreme-makeover");
+  useSeo({
+    title: "About — Family-Built Since 1985 | Mahoney Design & Build",
+    description:
+      "Founded in Oneida, New York in 1985, Mahoney Design & Build grew from a family homebuilder into a regional design-build commercial general contractor. Meet the team.",
+    path: "/about",
+    jsonLd: breadcrumbLd([
+      { name: "Home", path: "/" },
+      { name: "About", path: "/about" },
+    ]),
+  });
   return (
     <>
       <Header />

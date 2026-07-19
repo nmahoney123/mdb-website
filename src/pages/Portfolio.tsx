@@ -9,6 +9,7 @@ import CtaSection from "@/components/site/CtaSection";
 import CmsImage from "@/components/site/CmsImage";
 import { Reveal } from "@/components/site/motion";
 import { useProjects } from "@/hooks/useCms";
+import { useSeo, breadcrumbLd } from "@/lib/useSeo";
 import { cn } from "@/lib/utils";
 
 const INDUSTRY_FILTERS = ["All Industries", "Self Storage", "Hotels & Hospitality", "Multifamily", "Custom Homes"];
@@ -18,6 +19,17 @@ export default function Portfolio() {
   const [industry, setIndustry] = useState(INDUSTRY_FILTERS[0]);
   const [location, setLocation] = useState("All Locations");
   const reduce = useReducedMotion();
+
+  useSeo({
+    title: "Portfolio — Self Storage, Hotel & Multifamily Projects | Mahoney Design & Build",
+    description:
+      "Explore ground-up and renovation projects across self storage, hospitality, multifamily, and select custom homes delivered by Mahoney Design & Build.",
+    path: "/portfolio",
+    jsonLd: breadcrumbLd([
+      { name: "Home", path: "/" },
+      { name: "Portfolio", path: "/portfolio" },
+    ]),
+  });
 
   const locations = useMemo(
     () => ["All Locations", ...Array.from(new Set(projects.map((p) => p.location)))],

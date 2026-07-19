@@ -147,7 +147,13 @@ export function useSettings(): Record<string, string> {
   return { ...DEFAULT_SETTINGS, ...(data ?? {}) };
 }
 
-/** Sync favicon + meta description from CMS settings */
+/**
+ * Sync favicon from CMS settings.
+ *
+ * The meta description is intentionally NOT managed here: every public page
+ * sets its own unique description via `useSeo`, and a global override would
+ * clobber those per-page values. See src/lib/useSeo.ts.
+ */
 export function useSettingsSideEffects() {
   const settings = useSettings();
   useEffect(() => {
@@ -155,10 +161,5 @@ export function useSettingsSideEffects() {
       let link = document.querySelector<HTMLLinkElement>('link[rel="icon"]');
       if (link) link.href = settings.faviconUrl;
     }
-    if (settings.metaDescription) {
-      document
-        .querySelector('meta[name="description"]')
-        ?.setAttribute("content", settings.metaDescription);
-    }
-  }, [settings.faviconUrl, settings.metaDescription]);
+  }, [settings.faviconUrl]);
 }

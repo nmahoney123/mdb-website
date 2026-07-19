@@ -6,6 +6,7 @@ import CtaSection from "@/components/site/CtaSection";
 import CmsImage from "@/components/site/CmsImage";
 import { Reveal, AnimatedWords } from "@/components/site/motion";
 import { usePosts } from "@/hooks/useCms";
+import { useSeo, articleLd, breadcrumbLd } from "@/lib/useSeo";
 import { motion, useReducedMotion } from "framer-motion";
 
 export default function Article() {
@@ -13,6 +14,33 @@ export default function Article() {
   const NEWS = usePosts();
   const article = NEWS.find((n) => n.slug === slug);
   const reduce = useReducedMotion();
+
+  useSeo(
+    article
+      ? {
+          title: `${article.title} | Mahoney Design & Build`,
+          description: article.excerpt,
+          path: `/news/${article.slug}`,
+          type: "article",
+          image: article.coverImage ?? undefined,
+          jsonLd: [
+            articleLd({
+              title: article.title,
+              path: `/news/${article.slug}`,
+              date: article.date,
+              image: article.coverImage,
+              description: article.excerpt,
+            }),
+            breadcrumbLd([
+              { name: "Home", path: "/" },
+              { name: "News & Insights", path: "/news" },
+              { name: article.title, path: `/news/${article.slug}` },
+            ]),
+          ],
+        }
+      : { title: "News & Insights | Mahoney Design & Build", path: "/news" },
+  );
+
   if (!article) return <Navigate to="/news" replace />;
 
   const others = NEWS.filter((n) => n.slug !== slug).slice(0, 2);
