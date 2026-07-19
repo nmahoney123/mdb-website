@@ -59,7 +59,7 @@ export function registerAdminRoutes(app: Hono<{ Bindings: HttpBindings }>) {
   app.use(
     "/api/uploads/*",
     serveStatic({
-      root: "./uploads",
+      root: UPLOADS_DIR,
       rewriteRequestPath: (p) => p.replace(/^\/api\/uploads/, ""),
     })
   );

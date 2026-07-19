@@ -1,0 +1,35 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# Connect this repo in Render as a "Blueprint" and it configures everything below.
+services:
+  - type: web
+    name: mdb-website
+    runtime: node
+    plan: starter            # paid tier — REQUIRED for the persistent disk (~$7/mo)
+    region: ohio             # pick the region closest to your users
+    branch: main
+    autoDeploy: true         # redeploys automatically on every push to main
+    numInstances: 1          # keep at 1: SQLite is single-writer; rate limiter is in-memory
+
+    buildCommand: npm install --include=dev && npm run build
+    preDeployCommand: npm run db:seed   # seed/refresh the DB (idempotent) before going live
+    startCommand: npm start
+    healthCheckPath: /
+
+    # Persistent disk — the SQLite DB and uploaded media live here so admin edits,
+    # inquiries, and uploads survive every deploy/restart.
+    disk:
+      name: mdb-data
+      mountPath: /var/data
+      sizeGB: 1
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SQLITE_PATH
+        value: /var/data/mdb.db
+      - key: UPLOADS_DIR
+        value: /var/data/uploads
+      - key: APP_SECRET
+        generateValue: true   # Render generates a strong random value and keeps it stable
+      - key: ADMIN_PASSWORD
+        sync: false           # you set this yourself in the Render dashboard (kept secret)

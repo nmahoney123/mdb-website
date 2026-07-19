@@ -8,7 +8,11 @@ import { adminSessions } from "@db/schema";
 import { env } from "./env";
 import path from "path";
 
-export const UPLOADS_DIR = path.resolve(process.cwd(), "uploads");
+// Where uploaded media is stored. Override with UPLOADS_DIR (e.g. a mounted
+// persistent disk in production) so uploads survive deploys/restarts.
+export const UPLOADS_DIR = process.env.UPLOADS_DIR
+  ? path.resolve(process.env.UPLOADS_DIR)
+  : path.resolve(process.cwd(), "uploads");
 
 const COOKIE_NAME = "mdb_admin";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 24 * 7; // 7 days
