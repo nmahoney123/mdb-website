@@ -16,6 +16,9 @@ export default function Hero() {
           <img
             src={settings.heroPosterUrl}
             alt="Construction site montage — cranes, concrete work, and completed MDB buildings"
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
             className="h-full w-full object-cover"
           />
         ) : (

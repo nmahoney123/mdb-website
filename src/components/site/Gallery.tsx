@@ -40,6 +40,7 @@ export default function Gallery({ images }: { images: GalleryImage[] }) {
                 src={img.url}
                 alt={img.caption ?? "Project photo"}
                 loading="lazy"
+                decoding="async"
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.06]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
@@ -94,6 +95,7 @@ export default function Gallery({ images }: { images: GalleryImage[] }) {
               <img
                 src={images[open].url}
                 alt={images[open].caption ?? "Project photo"}
+                decoding="async"
                 className="max-h-[78vh] w-auto max-w-full object-contain"
               />
               {images[open].caption && (
