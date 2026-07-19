@@ -1,19 +1,30 @@
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import { Routes, Route, useLocation } from "react-router";
 import { useSettingsSideEffects } from "@/hooks/useCms";
-import Home from "./pages/Home";
-import Industries from "./pages/Industries";
-import IndustryDetail from "./pages/IndustryDetail";
-import Portfolio from "./pages/Portfolio";
-import ProjectDetail from "./pages/ProjectDetail";
-import About from "./pages/About";
-import Careers from "./pages/Careers";
-import News from "./pages/News";
-import Article from "./pages/Article";
-import Contact from "./pages/Contact";
-import Subcontractors from "./pages/Subcontractors";
-import AdminLogin from "./admin/Login";
-import AdminApp from "./admin/AdminApp";
+
+const Home = lazy(() => import("./pages/Home"));
+const Industries = lazy(() => import("./pages/Industries"));
+const IndustryDetail = lazy(() => import("./pages/IndustryDetail"));
+const Portfolio = lazy(() => import("./pages/Portfolio"));
+const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
+const About = lazy(() => import("./pages/About"));
+const Careers = lazy(() => import("./pages/Careers"));
+const News = lazy(() => import("./pages/News"));
+const Article = lazy(() => import("./pages/Article"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Subcontractors = lazy(() => import("./pages/Subcontractors"));
+const AdminLogin = lazy(() => import("./admin/Login"));
+const AdminApp = lazy(() => import("./admin/AdminApp"));
+
+/** Lightweight route fallback — avoids a jarring blank flash on chunk load. */
+function RouteFallback() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-bone" aria-busy="true">
+      <span className="sr-only">Loading…</span>
+      <div className="h-8 w-8 animate-spin rounded-full border-2 border-fog border-t-mahoney" />
+    </div>
+  );
+}
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -28,6 +39,7 @@ export default function App() {
   return (
     <>
       <ScrollToTop />
+      <Suspense fallback={<RouteFallback />}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/industries" element={<Industries />} />
@@ -44,6 +56,7 @@ export default function App() {
         <Route path="/admin/*" element={<AdminApp />} />
         <Route path="*" element={<Home />} />
       </Routes>
+      </Suspense>
     </>
   );
 }

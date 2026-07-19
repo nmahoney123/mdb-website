@@ -25,5 +25,18 @@ export default defineConfig({
   build: {
     outDir: path.resolve(__dirname, "dist/public"),
     emptyOutDir: true,
+    target: "es2020",
+    cssMinify: "esbuild",
+    chunkSizeWarningLimit: 900,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ["react", "react-dom", "react-router"],
+          "vendor-motion": ["framer-motion"],
+          "vendor-charts": ["recharts"],
+          "vendor-query": ["@tanstack/react-query", "@trpc/client", "@trpc/react-query", "superjson"],
+        },
+      },
+    },
   },
 });

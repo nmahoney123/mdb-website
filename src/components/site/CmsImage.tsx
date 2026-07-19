@@ -28,6 +28,8 @@ export default function CmsImage({
         src={url}
         alt={alt ?? shot}
         loading={loading}
+        decoding="async"
+        fetchPriority={loading === "eager" ? "high" : undefined}
         className={cn("h-full w-full object-cover", className)}
       />
     );
