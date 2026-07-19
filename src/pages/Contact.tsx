@@ -26,7 +26,7 @@ const PATHS = [
   {
     icon: FileText,
     title: "Bid Inquiries",
-    body: "Active bid invitations and document requests for current opportunities.",
+    body: "Requesting drawings, specs, or a bid package for a current opportunity? Reach our estimating team directly.",
     action: "Email our estimating team",
     href: "mailto:info@mahoneydesignandbuild.com?subject=Bid%20Inquiry",
   },

@@ -10,10 +10,11 @@ export default function WhyMdb() {
           <h2 className="display-2 mt-6 text-3xl sm:text-5xl">
             Four decades. Family-built.
           </h2>
+          {/* TODO(owner): confirm real figure — client recommendation rate */}
           <p className="mt-6 text-base leading-relaxed text-white/60 sm:text-lg">
-            Forty years, family-owned, licensed &amp; insured. The same name on
-            the door since 1985 — and more than 95% of our clients say they
-            would recommend us. We build like our name is on it, because it is.
+            Family-owned, licensed &amp; insured, with the same name on the door
+            since 1985 — and more than 95% of our clients say they'd recommend
+            us. We build like our name is on it, because it is.
           </p>
         </Reveal>
       </div>

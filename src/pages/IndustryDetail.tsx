@@ -40,12 +40,12 @@ function StorageDeepDive() {
             <p className="mt-6 text-base leading-relaxed text-concrete">
               Every storage facility has different requirements — unit mix,
               climate zones, drive aisles, gate systems, retail frontage. Our
-              team works with you from initial design through completion, using
-              current techniques and materials to build structures that are
-              sturdy and secure, photograph well for your marketing, and
-              operate cheap for decades. Expanding an existing facility or
-              breaking ground on a new one, we design around one goal:
-              maximizing rentable square feet per dollar.
+              team works with you from first design through final inspection to
+              build facilities that are sturdy and secure, photograph well for
+              your marketing, and stay inexpensive to operate for decades.
+              Whether you're expanding an operating site or breaking ground on a
+              new one, we design around one goal: maximizing rentable square feet
+              per dollar.
             </p>
           </Reveal>
 

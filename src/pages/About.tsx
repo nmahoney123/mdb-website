@@ -77,11 +77,13 @@ export default function About() {
                   contractor with the systems of a national firm and the
                   accountability of the family business we still are.
                 </p>
+                {/* TODO(owner): confirm real figure — repeat/referral share of work */}
                 <p>
                   More than 90% of our work comes from repeat and referral
                   clients. That number is the whole strategy.
                 </p>
               </div>
+              {/* TODO(owner): confirm real figures — founding year, years building, repeat/referral rate */}
               <div className="mt-10 grid grid-cols-3 gap-6 border-t border-fog pt-8">
                 {[
                   { v: 1985, l: "Founded", raw: true },
@@ -147,6 +149,7 @@ export default function About() {
                 The same discipline that made those 106 hours work is what we
                 bring to every storage facility, hotel, and community we build.
               </p>
+              {/* TODO(owner): confirm real figures — home sq ft, days to complete, volunteer count, total hours */}
               <div className="mt-8 flex gap-10">
                 <div>
                   <p className="font-display text-4xl font-extrabold text-mahoney">&lt;5</p>

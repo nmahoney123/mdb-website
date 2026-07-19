@@ -28,7 +28,7 @@ export default function Advantage() {
             <p className="eyebrow">The MDB Advantage</p>
             <div className="rule-red mt-4" />
             <h2 className="display-2 mt-6 text-3xl text-ink sm:text-5xl">
-              From concept to certificate of occupancy, we optimize every step.
+              From concept to certificate of occupancy, we control every step.
             </h2>
           </Reveal>
           <Reveal delay={0.15} className="flex flex-col justify-end gap-5 text-[15px] leading-relaxed text-concrete sm:text-base">
