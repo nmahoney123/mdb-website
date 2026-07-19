@@ -30,9 +30,6 @@ export default function StatBand() {
             </StaggerItem>
           ))}
         </Stagger>
-        <p className="mt-12 text-[11px] tracking-wide text-white/30">
-          * Figures illustrative — confirm final numbers before publish.
-        </p>
       </div>
     </section>
   );

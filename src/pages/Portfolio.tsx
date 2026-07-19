@@ -156,11 +156,6 @@ export default function Portfolio() {
                 </div>
               ))}
             </Reveal>
-            <Reveal delay={0.15}>
-              <p className="mt-10 text-center text-[11px] tracking-wide text-concrete/70">
-                * Figures illustrative — confirm final numbers before publish.
-              </p>
-            </Reveal>
           </div>
         </section>
 

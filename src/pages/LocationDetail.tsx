@@ -41,8 +41,6 @@ export default function LocationDetail() {
 
   if (!office) return <Navigate to="/locations" replace />;
 
-  const contactMissing = !office.address && !office.phone;
-
   return (
     <>
       <Header />
@@ -128,13 +126,6 @@ export default function LocationDetail() {
                       <a href={`mailto:${office.email}`} className="hover:text-ink">
                         {office.email}
                       </a>
-                    </p>
-                  )}
-                  {contactMissing && (
-                    <p className="text-xs italic text-concrete/70">
-                      {/* TODO(owner): add this office's street address, phone, and email */}
-                      Direct line coming soon — reach us through the main office
-                      or the contact form.
                     </p>
                   )}
                 </div>

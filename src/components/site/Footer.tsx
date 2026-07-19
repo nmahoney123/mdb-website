@@ -147,7 +147,6 @@ export default function Footer() {
           <p>© {new Date().getFullYear()} Mahoney Design &amp; Build. All rights reserved.</p>
           {(s.license || COMPANY.license) && <p>{s.license || COMPANY.license}</p>}
           <div className="flex gap-5">
-            {/* TODO(owner): add a Privacy Policy page, then link it here */}
             <a href="/sitemap.xml" className="hover:text-white/70">Sitemap</a>
             <Link to="/admin/login" className="hover:text-white/70">Admin</Link>
           </div>

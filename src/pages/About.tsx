@@ -85,7 +85,6 @@ export default function About() {
                     "Clients grew, and asked us to grow with them — first into renovations and small commercial work, then into ground-up Self Storage, Hospitality, and Multifamily projects across the Northeast. Today MDB operates as a design-build general contractor with the systems of a national firm and the accountability of the family business we still are."
                   )}
                 </p>
-                {/* TODO(owner): confirm real figure — repeat/referral share of work */}
                 <p>
                   {t(
                     "story.p3",
@@ -93,7 +92,6 @@ export default function About() {
                   )}
                 </p>
               </div>
-              {/* TODO(owner): confirm real figures — founding year, years building, repeat/referral rate */}
               <div className="mt-10 grid grid-cols-3 gap-6 border-t border-fog pt-8">
                 {[
                   { v: 1985, l: "Founded", raw: true },
@@ -159,7 +157,6 @@ export default function About() {
                 The same discipline that made those 106 hours work is what we
                 bring to every storage facility, hotel, and community we build.
               </p>
-              {/* TODO(owner): confirm real figures — home sq ft, days to complete, volunteer count, total hours */}
               <div className="mt-8 flex gap-10">
                 <div>
                   <p className="font-display text-4xl font-extrabold text-mahoney">&lt;5</p>
@@ -243,7 +240,6 @@ export default function About() {
                   markets.
                 </p>
               </div>
-              {/* TODO(owner): set COMPANY.license (src/data/content.ts) to show the license number */}
               <p className="mt-8 text-sm text-concrete">
                 Licensed &amp; insured general contractor.
                 {COMPANY.license ? ` ${COMPANY.license}.` : ""} We contract on

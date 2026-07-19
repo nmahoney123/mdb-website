@@ -65,9 +65,6 @@ export default function AdminLogin() {
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <>Sign In <ArrowRight className="arrow h-4 w-4" /></>}
           </button>
         </form>
-        <p className="mt-4 text-center text-[11px] text-white/30">
-          Default password: mahoney1985 — change it via the ADMIN_PASSWORD environment variable.
-        </p>
       </div>
     </div>
   );

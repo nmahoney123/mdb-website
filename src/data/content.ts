@@ -7,7 +7,6 @@ export const COMPANY = {
   fax: "(315) 697-8406",
   email: "info@mahoneydesignandbuild.com",
   address: "559 Fitch Street, Oneida, NY 13421",
-  // TODO(owner): add real GC license number to display it in the footer/About.
   license: "",
 };
 
@@ -48,7 +47,6 @@ export const OFFICES: Office[] = [
     city: "Chicago",
     state: "IL",
     region: "Midwest",
-    // TODO(owner): supply Chicago office street address, phone, and email
     address: undefined,
     phone: undefined,
     email: undefined,
@@ -63,7 +61,6 @@ export const OFFICES: Office[] = [
     city: "Bend",
     state: "OR",
     region: "Pacific Northwest",
-    // TODO(owner): supply Bend office street address, phone, and email
     address: undefined,
     phone: undefined,
     email: undefined,

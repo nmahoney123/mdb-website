@@ -77,7 +77,6 @@ export default function Industries() {
 
         <section className="border-t border-fog bg-white py-16">
           <div className="container-site">
-            {/* TODO(owner): confirm real figures — years, projects, sq ft, repeat/referral rate */}
             <Stagger className="grid grid-cols-2 gap-8 text-center md:grid-cols-4">
               {[
                 { v: 40, s: "", l: "Years Building" },

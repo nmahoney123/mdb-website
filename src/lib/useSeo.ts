@@ -173,7 +173,6 @@ export function organizationLd(): JsonLd {
       },
     ],
     priceRange: "$$$$",
-    // TODO(owner): add real social profile URLs to SOCIAL_URLS (below) — emitted as sameAs.
     ...(SOCIAL_URLS.length ? { sameAs: SOCIAL_URLS } : {}),
   };
 }

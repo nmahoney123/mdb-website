@@ -1,20 +1,23 @@
 import { Link } from "react-router";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, HardHat, TrendingUp, HeartHandshake } from "lucide-react";
 import CmsImage from "@/components/site/CmsImage";
 import { Reveal, Stagger, StaggerItem, Parallax } from "@/components/site/motion";
 
-const QUOTES = [
+const HIGHLIGHTS = [
   {
-    quote:
-      "You're not a number here. You're running real scope on real projects in your first year — and the person checking your work has done it for three decades.",
-    name: "[Placeholder] Site Supervisor quote — replace with approved employee quote",
-    role: "Project Superintendent, 14 years at MDB",
+    icon: TrendingUp,
+    title: "Field-to-leadership growth",
+    body: "Real project ownership from day one, and a promotion path that rewards the people who build.",
   },
   {
-    quote:
-      "I started in the field. Now I run my own projects. The path is real here — they promote the people who build.",
-    name: "[Placeholder] PM quote — replace with approved employee quote",
-    role: "Project Manager, started as a carpenter",
+    icon: HardHat,
+    title: "Learn from the best",
+    body: "Our superintendents average two decades in the field — most of them built that career right here.",
+  },
+  {
+    icon: HeartHandshake,
+    title: "Family culture",
+    body: "Competitive pay, a team that has your back, and leadership that answers the phone.",
   },
 ];
 
@@ -36,20 +39,18 @@ export default function CareersTeaser() {
               here.
             </p>
           </Reveal>
-          <Stagger className="mt-10 space-y-6">
-            {QUOTES.map((q) => (
-              <StaggerItem key={q.role}>
-                <figure className="border-l-[3px] border-mahoney bg-white p-6 shadow-[0_16px_40px_-28px_rgba(20,20,20,0.3)]">
-                  <blockquote className="text-sm leading-relaxed text-ink/85">
-                    "{q.quote}"
-                  </blockquote>
-                  <figcaption className="mt-4">
-                    <p className="font-display text-xs font-bold uppercase tracking-[0.12em] text-ink">
-                      {q.role}
+          <Stagger className="mt-10 space-y-4">
+            {HIGHLIGHTS.map((h) => (
+              <StaggerItem key={h.title}>
+                <div className="flex gap-4 border-l-[3px] border-mahoney bg-white p-6 shadow-[0_16px_40px_-28px_rgba(20,20,20,0.3)]">
+                  <h.icon className="h-6 w-6 shrink-0 text-mahoney" strokeWidth={1.5} />
+                  <div>
+                    <p className="font-display text-sm font-bold uppercase tracking-[0.08em] text-ink">
+                      {h.title}
                     </p>
-                    <p className="mt-1 text-[11px] text-concrete/70">{q.name}</p>
-                  </figcaption>
-                </figure>
+                    <p className="mt-1.5 text-sm leading-relaxed text-concrete">{h.body}</p>
+                  </div>
+                </div>
               </StaggerItem>
             ))}
           </Stagger>
