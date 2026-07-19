@@ -28,7 +28,14 @@ export default function NewsPage() {
         <Link to="/admin/news/new"><ABtn><Plus className="h-3.5 w-3.5" /> New Article</ABtn></Link>
       </div>
 
-      <div className="mt-8 divide-y divide-fog border border-fog bg-white">
+      <div className="mt-6 border-l-2 border-mahoney bg-bone/70 p-4 text-xs leading-relaxed text-concrete">
+        <span className="font-semibold text-ink">Heads up:</span> the site&apos;s main blog
+        posts are stored as version-controlled markdown files (in <code>content/blog/</code>)
+        and are edited in code, so they don&apos;t appear in this list. Articles you create
+        here are stored in the database and show up on <code>/news</code> alongside them.
+      </div>
+
+      <div className="mt-6 divide-y divide-fog border border-fog bg-white">
         {(data ?? []).map((p) => (
           <div key={p.id} className="flex items-center gap-4 p-4 hover:bg-bone/60">
             <div className="flex h-14 w-20 shrink-0 items-center justify-center overflow-hidden bg-bone">

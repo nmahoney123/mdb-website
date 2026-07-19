@@ -3,6 +3,9 @@
  * Run: npx tsx db/seed.ts
  * Idempotent: skips inserts when tables already have rows.
  */
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { getDb } from "../api/queries/connection";
 import {
   settings,
@@ -15,6 +18,7 @@ import {
   partners,
   offices,
   pageContent,
+  media,
 } from "./schema";
 import {
   INDUSTRIES,
@@ -576,6 +580,46 @@ async function main() {
     }
   } else {
     console.log("Page content already seeded — skipping.");
+  }
+
+  // Media library — register the shipped photos so they're selectable in the
+  // admin image pickers (projects, industries, partners, galleries, settings).
+  const existingMedia = await db.select({ id: media.id }).from(media).limit(1);
+  if (existingMedia.length === 0) {
+    console.log("Seeding media library…");
+    const mediaRoot = path.resolve(
+      path.dirname(fileURLToPath(import.meta.url)),
+      "..",
+      "public",
+      "media"
+    );
+    const dirs = [
+      "gallery/custom-homes",
+      "gallery/self-storage",
+      "gallery/extreme-makeover",
+      "projects",
+    ];
+    const humanize = (f: string) =>
+      f
+        .replace(/\.[^.]+$/, "")
+        .replace(/[-_]/g, " ")
+        .replace(/\b\w/g, (c) => c.toUpperCase());
+    for (const d of dirs) {
+      const abs = path.join(mediaRoot, d);
+      if (!fs.existsSync(abs)) continue;
+      for (const f of fs.readdirSync(abs).sort()) {
+        if (!/\.(webp|jpe?g|png)$/i.test(f)) continue;
+        await db.insert(media).values({
+          url: `/media/${d}/${f}`,
+          filename: f,
+          kind: "image",
+          size: fs.statSync(path.join(abs, f)).size,
+          alt: humanize(f),
+        });
+      }
+    }
+  } else {
+    console.log("Media already seeded — skipping.");
   }
 
   console.log("Seed complete.");
