@@ -79,7 +79,7 @@ export default function LocationsMap() {
         <polyline
           points={linkPath}
           fill="none"
-          stroke="#C8102E"
+          stroke="#7C0302"
           strokeWidth={1.5}
           strokeDasharray="5 6"
           strokeOpacity={0.6}
@@ -93,12 +93,12 @@ export default function LocationsMap() {
           return (
             <g key={o.slug}>
               {/* pulsing ring */}
-              <circle cx={x} cy={y} r={7} fill="none" stroke="#C8102E" strokeWidth={1.5} opacity={0.5}>
+              <circle cx={x} cy={y} r={7} fill="none" stroke="#7C0302" strokeWidth={1.5} opacity={0.5}>
                 <animate attributeName="r" values="7;18;7" dur="3s" begin={`${i * 0.6}s`} repeatCount="indefinite" />
                 <animate attributeName="opacity" values="0.5;0;0.5" dur="3s" begin={`${i * 0.6}s`} repeatCount="indefinite" />
               </circle>
               {/* pin dot */}
-              <circle cx={x} cy={y} r={o.hq ? 7 : 5.5} fill="#C8102E" stroke="#fff" strokeWidth={1.5} />
+              <circle cx={x} cy={y} r={o.hq ? 7 : 5.5} fill="#7C0302" stroke="#fff" strokeWidth={1.5} />
               {/* labels */}
               <text
                 x={x + labelDx}

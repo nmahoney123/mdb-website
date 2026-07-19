@@ -1,0 +1,13 @@
+{
+  "name": "Mahoney Design & Build",
+  "short_name": "Mahoney D&B",
+  "description": "Design-build general contractor — Self Storage, Hospitality, and Multifamily construction since 1985.",
+  "icons": [
+    { "src": "/favicon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/favicon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ],
+  "theme_color": "#141414",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/"
+}

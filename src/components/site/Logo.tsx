@@ -4,11 +4,12 @@ import { useSettings } from "@/hooks/useCms";
 
 export function LogoMark({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 48 48" fill="none" className={className} aria-hidden>
-      <path d="M4 40V24l14-9v25H4Z" fill="#C8102E" />
-      <path d="M20 40V11l9-6v35h-9Z" fill="#8E1B22" />
-      <path d="M31 40V8l13-7v39H31Z" fill="#C8102E" />
-    </svg>
+    <img
+      src="/media/logo-mark.png"
+      alt=""
+      aria-hidden
+      className={cn("object-contain", className)}
+    />
   );
 }
 

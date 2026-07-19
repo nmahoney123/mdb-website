@@ -5,8 +5,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        mahoney: "#C8102E",
-        oxblood: "#8E1B22",
+        mahoney: "#7C0302",
+        oxblood: "#5A0202",
         ink: "#141414",
         charcoal: "#2A2A2D",
         concrete: "#6B6B70",
