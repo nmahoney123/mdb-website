@@ -26,9 +26,9 @@ dist-ssr
 .env
 .env.local
 .env.*.local
-# Database & local runtime data
-data/
-uploads/
+# Database & local runtime data (root only — must NOT match src/data source code)
+/data/
+/uploads/
 *.db
 *.sqlite
 *.sqlite3
