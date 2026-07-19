@@ -5,6 +5,7 @@ import Footer from "@/components/site/Footer";
 import PageHero from "@/components/site/PageHero";
 import { Reveal, Stagger, StaggerItem } from "@/components/site/motion";
 import { COMPANY } from "@/data/content";
+import { useSeo, breadcrumbLd } from "@/lib/useSeo";
 import { trpc } from "@/providers/trpc";
 
 const REQUIREMENTS = [
@@ -34,6 +35,17 @@ const TRADES = [
 export default function Subcontractors() {
   const [sent, setSent] = useState(false);
   const create = trpc.inquiries.create.useMutation();
+
+  useSeo({
+    title: "Subcontractor Prequalification — Join Our Bid List | Mahoney Design & Build",
+    description:
+      "Trade partners: get on the Mahoney Design & Build bid list. Submit your safety record, insurance, licensing, and references to prequalify for commercial projects.",
+    path: "/subcontractors",
+    jsonLd: breadcrumbLd([
+      { name: "Home", path: "/" },
+      { name: "Subcontractors", path: "/subcontractors" },
+    ]),
+  });
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

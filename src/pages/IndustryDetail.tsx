@@ -9,6 +9,7 @@ import Gallery from "@/components/site/Gallery";
 import { Reveal, Stagger, StaggerItem } from "@/components/site/motion";
 import { INDUSTRIES } from "@/data/content";
 import { useProjects, useGallery } from "@/hooks/useCms";
+import { useSeo, breadcrumbLd } from "@/lib/useSeo";
 
 /** Static hero images per industry (real photos where we have them) */
 const INDUSTRY_HEROES: Record<string, string | null> = {
@@ -202,6 +203,21 @@ export default function IndustryDetail() {
   const projects = useProjects();
   const galleryKey = slug ? GALLERY_BY_INDUSTRY[slug] : undefined;
   const gallery = useGallery(galleryKey ?? "__none__");
+
+  useSeo(
+    industry
+      ? {
+          title: `${industry.name} Construction — Design-Build GC | Mahoney Design & Build`,
+          description: industry.blurb,
+          path: `/industries/${industry.slug}`,
+          jsonLd: breadcrumbLd([
+            { name: "Home", path: "/" },
+            { name: "Industries", path: "/industries" },
+            { name: industry.name, path: `/industries/${industry.slug}` },
+          ]),
+        }
+      : { title: "Industries | Mahoney Design & Build", path: "/industries" },
+  );
 
   if (!industry) return <Navigate to="/industries" replace />;
 

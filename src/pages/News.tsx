@@ -8,8 +8,19 @@ import CmsImage from "@/components/site/CmsImage";
 import { Reveal, Stagger, StaggerItem } from "@/components/site/motion";
 import { usePosts } from "@/hooks/useCms";
 import { getAllPosts } from "@/lib/blog";
+import { useSeo, breadcrumbLd } from "@/lib/useSeo";
 
 export default function News() {
+  useSeo({
+    title: "News & Insights — Projects, Market & Cost Intelligence | Mahoney Design & Build",
+    description:
+      "Project milestones, self storage cost outlooks, and market intelligence for storage, hospitality, and multifamily owners from Mahoney Design & Build.",
+    path: "/news",
+    jsonLd: breadcrumbLd([
+      { name: "Home", path: "/" },
+      { name: "News & Insights", path: "/news" },
+    ]),
+  });
   const dbPosts = usePosts();
   const mdPosts = getAllPosts();
   // Markdown (git-committed) posts lead, then DB posts that don't collide by slug.

@@ -1,3 +1,4 @@
+import { useSeo, organizationLd, websiteLd } from "@/lib/useSeo";
 import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
 import Hero from "@/sections/home/Hero";
@@ -14,6 +15,14 @@ import NewsTeaser from "@/sections/home/NewsTeaser";
 import CtaBand from "@/sections/home/CtaBand";
 
 export default function Home() {
+  useSeo({
+    title:
+      "Mahoney Design & Build — Design-Build General Contractor | Self Storage, Hospitality, Multifamily",
+    description:
+      "Family-owned design-build general contractor delivering ground-up Self Storage, Hotel, and Multifamily construction across the Northeast. Building since 1985.",
+    path: "/",
+    jsonLd: [organizationLd(), websiteLd()],
+  });
   return (
     <>
       <Header />

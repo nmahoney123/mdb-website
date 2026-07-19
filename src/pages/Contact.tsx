@@ -7,6 +7,7 @@ import LeadForm from "@/components/site/LeadForm";
 import { Reveal, Stagger, StaggerItem } from "@/components/site/motion";
 import { COMPANY } from "@/data/content";
 import { useSettings } from "@/hooks/useCms";
+import { useSeo, organizationLd, breadcrumbLd } from "@/lib/useSeo";
 
 const PATHS = [
   {
@@ -34,6 +35,19 @@ const PATHS = [
 
 export default function Contact() {
   const s = useSettings();
+  useSeo({
+    title: "Contact — Start a Project | Mahoney Design & Build",
+    description:
+      "Start a self storage, hotel, multifamily, or custom home project, prequalify as a subcontractor, or submit a bid inquiry. Reach a decision-maker within one business day.",
+    path: "/contact",
+    jsonLd: [
+      organizationLd(),
+      breadcrumbLd([
+        { name: "Home", path: "/" },
+        { name: "Contact", path: "/contact" },
+      ]),
+    ],
+  });
   return (
     <>
       <Header />

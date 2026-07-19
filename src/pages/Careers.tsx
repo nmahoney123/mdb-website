@@ -7,6 +7,7 @@ import PageHero from "@/components/site/PageHero";
 import CmsImage from "@/components/site/CmsImage";
 import { Reveal, Stagger, StaggerItem } from "@/components/site/motion";
 import { JOBS } from "@/data/content";
+import { useSeo, breadcrumbLd } from "@/lib/useSeo";
 import { trpc } from "@/providers/trpc";
 
 const BENEFITS = [
@@ -129,6 +130,17 @@ function ApplyModal({ job, onClose }: { job: string; onClose: () => void }) {
 
 export default function Careers() {
   const [applyJob, setApplyJob] = useState<string | null>(null);
+
+  useSeo({
+    title: "Careers — Build With Mahoney Design & Build | Central NY Construction Jobs",
+    description:
+      "Join a design-build general contractor that promotes from the field. Superintendent, project manager, estimator, and intern roles in Central New York. Apply today.",
+    path: "/careers",
+    jsonLd: breadcrumbLd([
+      { name: "Home", path: "/" },
+      { name: "Careers", path: "/careers" },
+    ]),
+  });
 
   return (
     <>
