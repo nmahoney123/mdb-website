@@ -1,73 +1,87 @@
-# React + TypeScript + Vite
+# Mahoney Design & Build — Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Marketing website and content-management system for **Mahoney Design & Build**, a
+family-owned design-build general contractor (Self Storage · Hospitality ·
+Multifamily) operating since 1985 from Oneida, NY, with offices in Chicago, IL and
+Bend, OR.
 
-Currently, two official plugins are available:
+## Tech stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Frontend:** React 19, Vite 7, TypeScript, Tailwind CSS 3 (shadcn-style theme), Framer Motion, React Router 7 (BrowserRouter)
+- **Backend:** Hono + tRPC (type-safe API), served by `@hono/node-server`
+- **Database:** embedded SQLite via better-sqlite3 + Drizzle ORM (file-based, zero external services)
+- **Content:** hybrid CMS — most content is DB-backed and editable in the admin dashboard, with `src/data/content.ts` as the seed/fallback source; the blog is git-committed markdown in `content/blog/`.
 
-## React Compiler
+## Quick start (development)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Requires **Node.js 20+**.
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run db:seed     # one-time: populate the local SQLite DB with launch content
+npm run dev         # http://localhost:3000  (frontend + API, hot reload)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **Website:** http://localhost:3000
+- **Admin dashboard:** http://localhost:3000/admin/login (default dev password `mahoney1985` — override with `ADMIN_PASSWORD`)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Admin dashboard
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+The admin is organized to mirror the site. Log in to edit, per page/section:
+
+- **Site pages** — Home, About, Industries, Portfolio (Projects), Locations (Offices), Careers (Jobs), News
+- **Content** — Testimonials, Partners, Galleries, Media library
+- **Page Content** — arbitrary page copy (headings, hero text) by key
+- **Settings** — company info, logo/favicon, hero video, homepage stats, SEO meta, Google tag (GA4/Ads) + Search Console verification
+
+The **blog** (`/news`) merges git-committed markdown posts (`content/blog/*.md`,
+which take priority on slug collision) with any posts created in the admin.
+
+## Scripts
+
+| Command | Description |
+|---|---|
+| `npm run dev` | Vite dev server (frontend + tRPC API) with HMR |
+| `npm run build` | Generate sitemap → build frontend → bundle the server (`dist/`) |
+| `npm start` | Run the production server (`node dist/boot.js`) |
+| `npm run db:seed` | Seed/refresh the SQLite DB from `src/data/content.ts` (idempotent) |
+| `npm run sitemap` | Regenerate `public/sitemap.xml` from the data + blog files |
+| `npm run check` | Type-check (`tsc -b`) |
+| `npm run lint` / `npm run format` | ESLint / Prettier |
+
+## Configuration
+
+Copy `.env.example` to `.env` and set values. Key variables:
+
+- `ADMIN_PASSWORD` — **required in production** (admin login fails closed if unset)
+- `APP_SECRET` — HMAC key for admin sessions (`openssl rand -hex 32`)
+- `SQLITE_PATH` — optional override for the DB file location
+
+## Deployment notes
+
+Runtime data lives on the local filesystem: the SQLite DB (`data/`) and uploaded
+media (`uploads/`). On hosts with an **ephemeral filesystem (e.g. Render's default)
+these are wiped on every deploy** — attach a persistent disk (and point
+`SQLITE_PATH`/uploads at it) or migrate to a hosted database + object storage.
+
+A fresh deploy starts with an **empty database** — run `npm run db:seed` as part of
+the deploy/release step (the included `Dockerfile` does this automatically). Set
+`ADMIN_PASSWORD` and `APP_SECRET` as host secrets, and ensure HTTPS is enforced.
+
+## Project structure
+
+```
+api/            Hono + tRPC backend (routes, queries, auth, middleware)
+db/             Drizzle schema + seed script
+content/blog/   Git-committed markdown blog posts
+src/
+  pages/        Route pages
+  sections/     Home-page sections
+  components/   Shared UI (site/ + shadcn ui/)
+  admin/        Admin dashboard (CMS editors)
+  hooks/        CMS data hooks (DB with content.ts fallback)
+  lib/          SEO, blog loader, utilities
+  data/         content.ts — seed/fallback content
+scripts/        Build-time sitemap generator
+public/         Static assets (media, favicons, robots.txt, sitemap.xml)
 ```
