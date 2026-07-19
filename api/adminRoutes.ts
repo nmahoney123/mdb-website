@@ -12,8 +12,17 @@ import {
   verifyAdminPassword,
   UPLOADS_DIR,
 } from "./lib/adminAuth";
+import { rateLimit, clientIpFromHeaders } from "./lib/rateLimit";
 
-const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+// Per-kind upload ceilings (the global bodyLimit in boot.ts is the hard cap).
+const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10MB
+const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50MB
+const MAX_DOC_SIZE = 15 * 1024 * 1024; // 15MB (PDF)
+
+// Login brute-force throttle: 10 attempts / 15 min per client IP.
+const LOGIN_MAX_ATTEMPTS = 10;
+const LOGIN_WINDOW_MS = 15 * 60 * 1000;
+
 const ALLOWED = new Set([
   "image/jpeg",
   "image/png",
@@ -27,6 +36,12 @@ const ALLOWED = new Set([
   "video/quicktime",
   "application/pdf",
 ]);
+
+function maxSizeForType(type: string): number {
+  if (type.startsWith("video/")) return MAX_VIDEO_SIZE;
+  if (type === "application/pdf") return MAX_DOC_SIZE;
+  return MAX_IMAGE_SIZE;
+}
 
 function sanitizeFilename(name: string): string {
   const base = name
@@ -51,6 +66,18 @@ export function registerAdminRoutes(app: Hono<{ Bindings: HttpBindings }>) {
 
   // --- Auth ---
   app.post("/api/admin/login", async (c) => {
+    const ip = clientIpFromHeaders(
+      c.req.raw.headers,
+      c.env?.incoming?.socket?.remoteAddress,
+    );
+    const limit = rateLimit(`login:${ip}`, LOGIN_MAX_ATTEMPTS, LOGIN_WINDOW_MS);
+    if (!limit.ok) {
+      c.header("Retry-After", String(limit.retryAfter));
+      return c.json(
+        { ok: false, error: "Too many attempts. Try again later." },
+        429,
+      );
+    }
     const body = await c.req.json().catch(() => ({}));
     const password = typeof body.password === "string" ? body.password : "";
     if (!verifyAdminPassword(password)) {
@@ -72,15 +99,23 @@ export function registerAdminRoutes(app: Hono<{ Bindings: HttpBindings }>) {
     if (!(file instanceof File)) {
       return c.json({ ok: false, error: "No file provided" }, 400);
     }
-    if (file.size > MAX_FILE_SIZE) {
-      return c.json({ ok: false, error: "File exceeds 50MB limit" }, 400);
-    }
     const type = file.type || "application/octet-stream";
     if (!ALLOWED.has(type)) {
       return c.json({ ok: false, error: `File type not allowed: ${type}` }, 400);
     }
+    const maxSize = maxSizeForType(type);
+    if (file.size > maxSize) {
+      return c.json(
+        { ok: false, error: `File exceeds ${Math.round(maxSize / 1024 / 1024)}MB limit` },
+        400,
+      );
+    }
     const safe = `${Date.now()}-${sanitizeFilename(file.name)}`;
     const dest = path.join(UPLOADS_DIR, safe);
+    // Defense in depth: ensure the resolved path stays inside UPLOADS_DIR.
+    if (dest !== path.normalize(dest) || !dest.startsWith(UPLOADS_DIR + path.sep)) {
+      return c.json({ ok: false, error: "Invalid filename" }, 400);
+    }
     fs.writeFileSync(dest, Buffer.from(await file.arrayBuffer()));
 
     const kind = type.startsWith("video/") ? "video" : type.startsWith("image/") ? "image" : "file";

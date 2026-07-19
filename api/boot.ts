@@ -6,9 +6,14 @@ import { appRouter } from "./router";
 import { createContext } from "./context";
 import { env } from "./lib/env";
 import { registerAdminRoutes } from "./adminRoutes";
+import { securityHeaders } from "./lib/securityHeaders";
+import { assertAdminPasswordConfigured } from "./lib/adminAuth";
+
+assertAdminPasswordConfigured();
 
 const app = new Hono<{ Bindings: HttpBindings }>();
 
+app.use(securityHeaders);
 app.use(bodyLimit({ maxSize: 50 * 1024 * 1024 }));
 registerAdminRoutes(app);
 app.use("/api/trpc/*", async (c) => {
