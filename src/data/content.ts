@@ -10,6 +10,70 @@ export const COMPANY = {
   license: "NY GC License #000000 — confirm before publish",
 };
 
+export type Office = {
+  slug: string;
+  city: string;
+  state: string;
+  region: string;
+  hq?: boolean;
+  address?: string;
+  phone?: string;
+  email?: string;
+  serves: string;
+  blurb: string;
+  // Approximate coordinates used to place the office on the locations map.
+  lat: number;
+  lng: number;
+};
+
+export const OFFICES: Office[] = [
+  {
+    slug: "oneida-ny",
+    city: "Oneida",
+    state: "NY",
+    region: "Northeast — Headquarters",
+    hq: true,
+    address: "559 Fitch Street, Oneida, NY 13421",
+    phone: "(315) 697-2829",
+    email: "info@mahoneydesignandbuild.com",
+    serves: "New York & the Northeast",
+    blurb:
+      "Our founding office and headquarters. From Oneida we've delivered ground-up storage, hospitality, and multifamily projects across New York and the Northeast since 1985.",
+    lat: 43.0917,
+    lng: -75.6506,
+  },
+  {
+    slug: "chicago-il",
+    city: "Chicago",
+    state: "IL",
+    region: "Midwest",
+    // TODO(owner): supply Chicago office street address, phone, and email
+    address: undefined,
+    phone: undefined,
+    email: undefined,
+    serves: "Illinois & the greater Midwest",
+    blurb:
+      "Our Midwest hub brings MDB's single-contract design-build delivery to storage, hospitality, and multifamily developers across the region.",
+    lat: 41.8781,
+    lng: -87.6298,
+  },
+  {
+    slug: "bend-or",
+    city: "Bend",
+    state: "OR",
+    region: "Pacific Northwest",
+    // TODO(owner): supply Bend office street address, phone, and email
+    address: undefined,
+    phone: undefined,
+    email: undefined,
+    serves: "Oregon & the Pacific Northwest",
+    blurb:
+      "Our western office extends MDB's ground-up commercial construction and cost-certainty process to Pacific Northwest owners and operators.",
+    lat: 44.0582,
+    lng: -121.3153,
+  },
+];
+
 export type Industry = {
   slug: string;
   name: string;
@@ -430,6 +494,7 @@ export const NAV_LINKS = [
   { label: "Industries", to: "/industries" },
   { label: "Portfolio", to: "/portfolio" },
   { label: "About", to: "/about" },
+  { label: "Locations", to: "/locations" },
   { label: "Careers", to: "/careers" },
   { label: "News", to: "/news" },
   { label: "Contact", to: "/contact" },

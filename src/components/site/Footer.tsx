@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { Facebook, Linkedin, Youtube, Instagram, ArrowRight, MapPin, Phone, Mail } from "lucide-react";
 import Logo from "./Logo";
-import { COMPANY, INDUSTRIES } from "@/data/content";
+import { COMPANY, INDUSTRIES, OFFICES } from "@/data/content";
 import { useSettings } from "@/hooks/useCms";
 
 export default function Footer() {
@@ -19,6 +19,11 @@ export default function Footer() {
           </p>
           <p className="mt-6 font-display text-xs font-semibold uppercase tracking-[0.28em] text-mahoney">
             Building since 1985
+          </p>
+          <p className="mt-4 text-xs leading-relaxed text-white/45">
+            <Link to="/locations" className="transition-colors hover:text-white">
+              {OFFICES.map((o) => `${o.city}, ${o.state}`).join("  ·  ")}
+            </Link>
           </p>
           <div className="mt-6 flex gap-3">
             {[
@@ -71,6 +76,7 @@ export default function Footer() {
           <ul className="mt-5 space-y-3 text-sm">
             {[
               { label: "About MDB", to: "/about" },
+              { label: "Locations", to: "/locations" },
               { label: "Careers", to: "/careers" },
               { label: "News & Insights", to: "/news" },
               { label: "Subcontractors", to: "/subcontractors" },

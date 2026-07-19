@@ -11,6 +11,41 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://mahoneydesignandbuild.com/portfolio</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://mahoneydesignandbuild.com/about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mahoneydesignandbuild.com/locations</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mahoneydesignandbuild.com/careers</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mahoneydesignandbuild.com/news</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mahoneydesignandbuild.com/contact</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mahoneydesignandbuild.com/subcontractors</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://mahoneydesignandbuild.com/industries/self-storage</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -29,11 +64,6 @@
     <loc>https://mahoneydesignandbuild.com/industries/custom-homes</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://mahoneydesignandbuild.com/portfolio</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://mahoneydesignandbuild.com/portfolio/empire-state-storage</loc>
@@ -76,42 +106,67 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mahoneydesignandbuild.com/about</loc>
+    <loc>https://mahoneydesignandbuild.com/locations/oneida-ny</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mahoneydesignandbuild.com/careers</loc>
-    <changefreq>weekly</changefreq>
+    <loc>https://mahoneydesignandbuild.com/locations/chicago-il</loc>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mahoneydesignandbuild.com/news</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://mahoneydesignandbuild.com/locations/bend-or</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://mahoneydesignandbuild.com/news/groundbreaking-empire-storage-phase-2</loc>
+    <loc>https://mahoneydesignandbuild.com/news/cost-certainty-design-build</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mahoneydesignandbuild.com/news/2026-storage-cost-outlook</loc>
+    <loc>https://mahoneydesignandbuild.com/news/design-build-project-timeline</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mahoneydesignandbuild.com/news/mdb-40-years</loc>
+    <loc>https://mahoneydesignandbuild.com/news/design-build-vs-design-bid-build-comparison</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mahoneydesignandbuild.com/contact</loc>
+    <loc>https://mahoneydesignandbuild.com/news/hotel-pip-renovation-occupied-phased</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mahoneydesignandbuild.com/subcontractors</loc>
+    <loc>https://mahoneydesignandbuild.com/news/mdb-expanding-chicago-bend-markets</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://mahoneydesignandbuild.com/news/multifamily-durability-details-noi</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://mahoneydesignandbuild.com/news/preconstruction-estimating-de-risk</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://mahoneydesignandbuild.com/news/selecting-gc-multifamily-ground-up</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://mahoneydesignandbuild.com/news/self-storage-development-site-to-co</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://mahoneydesignandbuild.com/news/winter-construction-cold-climates</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

@@ -28,14 +28,14 @@ Then open your browser:
 | What | Where |
 |---|---|
 | **The website** | http://localhost:3000 |
-| **Admin dashboard** | http://localhost:3000/#/admin/login |
+| **Admin dashboard** | http://localhost:3000/admin/login |
 | **Admin password** | `mahoney1985` |
 
 Close the terminal window (or press Ctrl+C) to stop the site.
 
 ## The admin dashboard
 
-Log in at `/#/admin/login` to:
+Log in at `/admin/login` to:
 
 - **View inquiries** — every contact / subcontractor / job-application form
   submission lands in the Inquiries inbox

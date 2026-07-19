@@ -13,6 +13,8 @@ const News = lazy(() => import("./pages/News"));
 const Article = lazy(() => import("./pages/Article"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Subcontractors = lazy(() => import("./pages/Subcontractors"));
+const Locations = lazy(() => import("./pages/Locations"));
+const LocationDetail = lazy(() => import("./pages/LocationDetail"));
 const AdminLogin = lazy(() => import("./admin/Login"));
 const AdminApp = lazy(() => import("./admin/AdminApp"));
 
@@ -52,6 +54,8 @@ export default function App() {
         <Route path="/news/:slug" element={<Article />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/subcontractors" element={<Subcontractors />} />
+        <Route path="/locations" element={<Locations />} />
+        <Route path="/locations/:slug" element={<LocationDetail />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/*" element={<AdminApp />} />
         <Route path="*" element={<Home />} />

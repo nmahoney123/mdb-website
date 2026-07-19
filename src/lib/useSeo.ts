@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { COMPANY, INDUSTRIES } from "@/data/content";
+import { COMPANY, INDUSTRIES, type Office } from "@/data/content";
 
 /**
  * Lightweight, dependency-free document-head manager.
@@ -205,6 +205,48 @@ export function breadcrumbLd(items: { name: string; path: string }[]): JsonLd {
       name: item.name,
       item: absoluteUrl(item.path),
     })),
+  };
+}
+
+/**
+ * Per-office LocalBusiness / GeneralContractor node. Only emits address fields
+ * for offices where they're known (HQ); expansion offices without a confirmed
+ * street address still get a valid node scoped to their city/region.
+ */
+export function officeLd(office: Office): JsonLd {
+  const parts = office.address?.split(",").map((s) => s.trim());
+  const address = office.address
+    ? {
+        "@type": "PostalAddress",
+        streetAddress: parts?.[0],
+        addressLocality: office.city,
+        addressRegion: office.state,
+        addressCountry: "US",
+      }
+    : {
+        "@type": "PostalAddress",
+        addressLocality: office.city,
+        addressRegion: office.state,
+        addressCountry: "US",
+      };
+  return {
+    "@context": "https://schema.org",
+    "@type": "GeneralContractor",
+    "@id": `${SITE_URL}/locations/${office.slug}#office`,
+    name: `${COMPANY.name} — ${office.city}, ${office.state}`,
+    parentOrganization: { "@id": `${SITE_URL}/#organization` },
+    url: `${SITE_URL}/locations/${office.slug}`,
+    image: DEFAULT_OG_IMAGE,
+    ...(office.phone ? { telephone: office.phone } : {}),
+    ...(office.email ? { email: office.email } : {}),
+    address,
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: office.lat,
+      longitude: office.lng,
+    },
+    areaServed: { "@type": "Place", name: office.serves },
+    priceRange: "$$$$",
   };
 }
 

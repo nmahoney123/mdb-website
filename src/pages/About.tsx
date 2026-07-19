@@ -1,12 +1,15 @@
-import { ShieldCheck, BadgeCheck, HardHat, Users } from "lucide-react";
+import { ShieldCheck, BadgeCheck, HardHat, Users, MapPin, Phone } from "lucide-react";
+import { Link } from "react-router";
 import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
 import PageHero from "@/components/site/PageHero";
 import CtaSection from "@/components/site/CtaSection";
 import CmsImage from "@/components/site/CmsImage";
 import Gallery from "@/components/site/Gallery";
+import LocationsMap from "@/components/site/LocationsMap";
 import { useGallery } from "@/hooks/useCms";
 import { useSeo, breadcrumbLd } from "@/lib/useSeo";
+import { OFFICES } from "@/data/content";
 import { Reveal, Stagger, StaggerItem, CountUp, Parallax } from "@/components/site/motion";
 
 const VALUES = [
@@ -30,15 +33,6 @@ const VALUES = [
     title: "Send Everyone Home",
     body: "Safety is a culture, not a binder. Every worker on our sites can stop work, no questions asked.",
   },
-];
-
-const TEAM = [
-  { name: "[Name] Mahoney", role: "President", shot: "Portrait — company president in office with project drawings, natural window light" },
-  { name: "[Name] Mahoney", role: "Vice President / Operations", shot: "Portrait — VP of operations on a jobsite in a branded hard hat" },
-  { name: "[Name]", role: "Director of Preconstruction", shot: "Portrait — precon director at estimating station with plan sets" },
-  { name: "[Name]", role: "Senior Superintendent", shot: "Portrait — senior superintendent in the field, steel behind" },
-  { name: "[Name]", role: "Senior Project Manager", shot: "Portrait — PM at trailer desk with schedule on screen" },
-  { name: "[Name]", role: "Safety Director", shot: "Portrait — safety director leading a site stand-down meeting" },
 ];
 
 export default function About() {
@@ -221,48 +215,109 @@ export default function About() {
           </div>
         </section>
 
-        {/* Team */}
+        {/* Leadership (no headshots) */}
         <section className="border-t border-fog bg-white py-20 sm:py-28">
-          <div className="container-site">
-            <Reveal className="flex flex-wrap items-end justify-between gap-6">
-              <div>
-                <p className="eyebrow">Leadership</p>
-                <div className="rule-red mt-4" />
-                <h2 className="display-2 mt-6 text-3xl text-ink sm:text-4xl">
-                  The people behind the name.
-                </h2>
+          <div className="container-site grid items-start gap-14 lg:grid-cols-2 lg:gap-20">
+            <Reveal>
+              <p className="eyebrow">Leadership</p>
+              <div className="rule-red mt-4" />
+              <h2 className="display-2 mt-6 text-3xl text-ink sm:text-4xl">
+                Field-grown leadership.
+              </h2>
+              <div className="mt-8 space-y-5 text-base leading-relaxed text-concrete">
+                <p>
+                  Most of our project leads started on the tools — and never lost
+                  the standard. Owners here reach decision-makers, not
+                  gatekeepers: the people who price your project are the people
+                  who build it.
+                </p>
+                <p>
+                  Behind every job is an interdisciplinary team of estimators,
+                  project managers, superintendents, and safety leaders who have
+                  spent careers delivering commercial work across our three core
+                  markets.
+                </p>
               </div>
-              <p className="max-w-sm text-sm leading-relaxed text-concrete">
-                Field-grown leadership. Most of our team leads started on the
-                tools — and never lost the standard.
+              {/* TODO(owner): replace with real GC license number */}
+              <p className="mt-8 text-sm text-concrete">
+                Licensed &amp; insured general contractor. NY GC License #000000
+                — confirm before publish. OSHA-trained field leadership; written
+                safety and quality programs on every project.
               </p>
             </Reveal>
-            <Stagger className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {TEAM.map((t) => (
-                <StaggerItem key={t.role}>
-                  <div className="group">
-                    <div className="aspect-[4/5] overflow-hidden">
-                      <CmsImage url={null} shot={t.shot} dark={false} label="Headshot Slot" className="h-full w-full transition-transform duration-700 group-hover:scale-[1.04]" />
-                    </div>
-                    <h3 className="mt-4 font-display text-base font-bold uppercase tracking-[0.06em] text-ink">
-                      {t.name}
+            <Stagger className="grid gap-px border border-fog bg-fog sm:grid-cols-2">
+              {[
+                { icon: HardHat, label: "Superintendents", body: "Field leaders who own the schedule, the safety culture, and the quality bar." },
+                { icon: BadgeCheck, label: "Preconstruction", body: "Estimators who price scope before it's locked, so budgets hold." },
+                { icon: Users, label: "Project Management", body: "One point of contact from buyout through closeout." },
+                { icon: ShieldCheck, label: "Safety", body: "Written programs and stop-work authority on every site." },
+              ].map((r) => (
+                <StaggerItem key={r.label}>
+                  <div className="h-full bg-white p-7">
+                    <r.icon className="h-6 w-6 text-mahoney" strokeWidth={1.5} />
+                    <h3 className="mt-4 font-display text-sm font-bold uppercase tracking-[0.1em] text-ink">
+                      {r.label}
                     </h3>
-                    <p className="mt-1 font-display text-[11px] font-semibold uppercase tracking-[0.2em] text-mahoney">
-                      {t.role}
-                    </p>
+                    <p className="mt-2 text-sm leading-relaxed text-concrete">{r.body}</p>
                   </div>
                 </StaggerItem>
               ))}
             </Stagger>
-            <Reveal delay={0.2}>
-              <p className="mt-10 text-sm text-concrete">
-                Licensed &amp; insured general contractor. {`NY GC License #000000 — confirm before publish.`} OSHA-trained field leadership; written safety and quality programs on every project.
-              </p>
-            </Reveal>
           </div>
         </section>
 
-        <CtaSection title="Build with a team that answers." sub="Forty years of owners have. Join them." />
+        {/* Locations */}
+        <section className="border-t border-white/10 bg-ink py-20 text-white sm:py-28">
+          <div className="container-site">
+            <Reveal className="max-w-2xl">
+              <p className="eyebrow">Locations</p>
+              <div className="rule-red mt-4" />
+              <h2 className="display-2 mt-6 text-3xl sm:text-4xl">
+                Three offices. One standard.
+              </h2>
+              <p className="mt-6 text-base leading-relaxed text-white/65">
+                From our Oneida, New York headquarters to offices in Chicago and
+                Bend, Oregon, MDB delivers the same design-build discipline
+                coast to coast.
+              </p>
+            </Reveal>
+            <div className="mt-12">
+              <LocationsMap />
+            </div>
+            <Stagger className="mt-10 grid gap-6 md:grid-cols-3">
+              {OFFICES.map((o) => (
+                <StaggerItem key={o.slug}>
+                  <Link
+                    to={`/locations/${o.slug}`}
+                    className="group block h-full border border-white/10 bg-white/[0.03] p-7 transition-colors hover:border-mahoney/60 hover:bg-white/[0.05]"
+                  >
+                    <p className="font-display text-[11px] font-semibold uppercase tracking-[0.2em] text-mahoney">
+                      {o.hq ? "Headquarters" : o.region}
+                    </p>
+                    <h3 className="mt-2 font-display text-xl font-bold text-white">
+                      {o.city}, {o.state}
+                    </h3>
+                    <p className="mt-3 flex items-start gap-2 text-sm leading-relaxed text-white/60">
+                      <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-white/40" strokeWidth={1.5} />
+                      {o.address ?? `Serving ${o.serves}`}
+                    </p>
+                    {o.phone && (
+                      <p className="mt-2 flex items-center gap-2 text-sm text-white/60">
+                        <Phone className="h-4 w-4 shrink-0 text-white/40" strokeWidth={1.5} />
+                        {o.phone}
+                      </p>
+                    )}
+                    <span className="mt-5 inline-block font-display text-[11px] font-semibold uppercase tracking-[0.2em] text-white/70 transition-colors group-hover:text-mahoney">
+                      View office →
+                    </span>
+                  </Link>
+                </StaggerItem>
+              ))}
+            </Stagger>
+          </div>
+        </section>
+
+        <CtaSection title="Build with a team that answers." sub="Four decades of owners have. Join them." />
       </main>
       <Footer />
     </>
