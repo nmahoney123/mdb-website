@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { trpc } from "@/providers/trpc";
-import { ImageIcon, Upload, X, Check, Loader2 } from "lucide-react";
+import { ImageIcon, Upload, X, Check, Loader2, ChevronUp, ChevronDown, Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /* ---------- Upload helper ---------- */
@@ -154,6 +154,81 @@ export function ImagePicker({
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+/* ---------- Reorder helper ----------
+   Move item at `idx` by `dir` (-1 up / +1 down) within `list`, then
+   renumber every item's sortOrder to its new index. Returns the payload
+   for a `reorder` mutation ({ items }), or null if the move is a no-op.
+   Renumbering (rather than swapping) is robust to duplicate/zero sortOrders. */
+export function reorderPayload<T extends { id: number }>(
+  list: T[],
+  idx: number,
+  dir: -1 | 1
+): { items: { id: number; sortOrder: number }[] } | null {
+  const other = idx + dir;
+  if (other < 0 || other >= list.length) return null;
+  const next = [...list];
+  const [moved] = next.splice(idx, 1);
+  next.splice(other, 0, moved);
+  return { items: next.map((it, i) => ({ id: it.id, sortOrder: i })) };
+}
+
+/* ---------- Reusable reorder buttons for table/list rows ---------- */
+export function ReorderButtons({
+  onUp, onDown, isFirst, isLast,
+}: { onUp: () => void; onDown: () => void; isFirst: boolean; isLast: boolean }) {
+  return (
+    <div className="flex flex-col">
+      <button
+        type="button"
+        onClick={onUp}
+        disabled={isFirst}
+        className="text-concrete/50 hover:text-ink disabled:opacity-25 disabled:hover:text-concrete/50"
+        aria-label="Move up"
+      >
+        <ChevronUp className="h-4 w-4" />
+      </button>
+      <button
+        type="button"
+        onClick={onDown}
+        disabled={isLast}
+        className="text-concrete/50 hover:text-ink disabled:opacity-25 disabled:hover:text-concrete/50"
+        aria-label="Move down"
+      >
+        <ChevronDown className="h-4 w-4" />
+      </button>
+    </div>
+  );
+}
+
+/* ---------- Toggle (published / boolean) ---------- */
+export function PublishToggle({
+  published, onToggle,
+}: { published: boolean; onToggle: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-label="Toggle published"
+      className={cn("p-1.5", published ? "text-green-600" : "text-concrete/30 hover:text-concrete")}
+    >
+      {published ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+    </button>
+  );
+}
+
+/* ---------- Empty / error / loading states ---------- */
+export function ALoading() {
+  return <Loader2 className="mt-10 h-6 w-6 animate-spin text-mahoney" />;
+}
+
+export function AError({ message }: { message?: string }) {
+  return (
+    <div className="mt-8 border border-red-200 bg-red-50 p-6 text-sm text-red-700">
+      {message ?? "Something went wrong loading this content. Please refresh and try again."}
     </div>
   );
 }
