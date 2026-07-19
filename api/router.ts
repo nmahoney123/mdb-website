@@ -12,6 +12,12 @@ import {
   galleryImages,
   media,
   inquiries,
+  industries,
+  testimonials,
+  jobs,
+  partners,
+  offices,
+  pageContent,
 } from "@db/schema";
 import fs from "fs";
 import path from "path";
@@ -63,6 +69,79 @@ const inquiryInput = z.object({
   message: z.string().min(1),
   meta: z.record(z.string(), z.string()).optional(),
 });
+
+const industryInput = z.object({
+  id: z.number().optional(),
+  slug: z.string().min(1).max(160),
+  name: z.string().min(1).max(160),
+  short: z.string().min(1).max(80),
+  blurb: z.string().min(1),
+  overview: z.array(z.string()),
+  capabilities: z.array(z.string()),
+  heroImage: z.string().nullable().optional(),
+  cardImage: z.string().nullable().optional(),
+  statValue: z.string().nullable().optional(),
+  statLabel: z.string().nullable().optional(),
+  sortOrder: z.number().int(),
+  published: z.boolean(),
+});
+
+const testimonialInput = z.object({
+  id: z.number().optional(),
+  quote: z.string().min(1),
+  name: z.string().min(1).max(160),
+  role: z.string().min(1).max(200),
+  project: z.string().min(1).max(200),
+  sortOrder: z.number().int(),
+  published: z.boolean(),
+});
+
+const jobInput = z.object({
+  id: z.number().optional(),
+  title: z.string().min(1).max(200),
+  type: z.string().min(1).max(120),
+  location: z.string().min(1).max(200),
+  summary: z.string().min(1),
+  sortOrder: z.number().int(),
+  published: z.boolean(),
+});
+
+const partnerInput = z.object({
+  id: z.number().optional(),
+  name: z.string().min(1).max(200),
+  logo: z.string().nullable().optional(),
+  sortOrder: z.number().int(),
+  published: z.boolean(),
+});
+
+const officeInput = z.object({
+  id: z.number().optional(),
+  slug: z.string().min(1).max(160),
+  city: z.string().min(1).max(120),
+  state: z.string().min(1).max(60),
+  region: z.string().min(1).max(160),
+  hq: z.boolean(),
+  address: z.string().nullable().optional(),
+  phone: z.string().nullable().optional(),
+  email: z.string().nullable().optional(),
+  serves: z.string().min(1).max(300),
+  blurb: z.string().min(1),
+  lat: z.number(),
+  lng: z.number(),
+  sortOrder: z.number().int(),
+});
+
+const reorderInput = z.object({
+  items: z.array(z.object({ id: z.number(), sortOrder: z.number().int() })),
+});
+
+function serializeIndustry(row: typeof industries.$inferSelect) {
+  return {
+    ...row,
+    overview: JSON.parse(row.overview || "[]") as string[],
+    capabilities: JSON.parse(row.capabilities || "[]") as string[],
+  };
+}
 
 function serializeProject(row: typeof projects.$inferSelect) {
   return {
@@ -257,6 +336,235 @@ export const appRouter = createRouter({
       await getDb().delete(galleryImages).where(eq(galleryImages.id, input.id));
       return { ok: true };
     }),
+  }),
+
+  industries: createRouter({
+    list: publicQuery.query(async () => {
+      const rows = await getDb()
+        .select()
+        .from(industries)
+        .where(eq(industries.published, true))
+        .orderBy(asc(industries.sortOrder), asc(industries.id));
+      return rows.map(serializeIndustry);
+    }),
+    listAll: adminQuery.query(async () => {
+      const rows = await getDb()
+        .select()
+        .from(industries)
+        .orderBy(asc(industries.sortOrder), asc(industries.id));
+      return rows.map(serializeIndustry);
+    }),
+    get: publicQuery.input(z.object({ slug: z.string() })).query(async ({ input }) => {
+      const rows = await getDb().select().from(industries).where(eq(industries.slug, input.slug)).limit(1);
+      return rows[0] ? serializeIndustry(rows[0]) : null;
+    }),
+    upsert: adminQuery.input(industryInput).mutation(async ({ input }) => {
+      const { id, overview, capabilities, ...rest } = input;
+      const values = {
+        ...rest,
+        heroImage: rest.heroImage ?? null,
+        cardImage: rest.cardImage ?? null,
+        statValue: rest.statValue ?? null,
+        statLabel: rest.statLabel ?? null,
+        overview: JSON.stringify(overview),
+        capabilities: JSON.stringify(capabilities),
+      };
+      const db = getDb();
+      if (id) {
+        await db.update(industries).set(values).where(eq(industries.id, id));
+        return { id };
+      }
+      const [r] = await db.insert(industries).values(values).returning({ id: industries.id });
+      return { id: r.id };
+    }),
+    delete: adminQuery.input(z.object({ id: z.number() })).mutation(async ({ input }) => {
+      await getDb().delete(industries).where(eq(industries.id, input.id));
+      return { ok: true };
+    }),
+    reorder: adminQuery.input(reorderInput).mutation(async ({ input }) => {
+      const db = getDb();
+      for (const it of input.items) {
+        await db.update(industries).set({ sortOrder: it.sortOrder }).where(eq(industries.id, it.id));
+      }
+      return { ok: true };
+    }),
+  }),
+
+  testimonials: createRouter({
+    list: publicQuery.query(async () => {
+      return getDb()
+        .select()
+        .from(testimonials)
+        .where(eq(testimonials.published, true))
+        .orderBy(asc(testimonials.sortOrder), asc(testimonials.id));
+    }),
+    listAll: adminQuery.query(async () => {
+      return getDb().select().from(testimonials).orderBy(asc(testimonials.sortOrder), asc(testimonials.id));
+    }),
+    get: publicQuery.input(z.object({ id: z.number() })).query(async ({ input }) => {
+      const rows = await getDb().select().from(testimonials).where(eq(testimonials.id, input.id)).limit(1);
+      return rows[0] ?? null;
+    }),
+    upsert: adminQuery.input(testimonialInput).mutation(async ({ input }) => {
+      const { id, ...values } = input;
+      const db = getDb();
+      if (id) {
+        await db.update(testimonials).set(values).where(eq(testimonials.id, id));
+        return { id };
+      }
+      const [r] = await db.insert(testimonials).values(values).returning({ id: testimonials.id });
+      return { id: r.id };
+    }),
+    delete: adminQuery.input(z.object({ id: z.number() })).mutation(async ({ input }) => {
+      await getDb().delete(testimonials).where(eq(testimonials.id, input.id));
+      return { ok: true };
+    }),
+    reorder: adminQuery.input(reorderInput).mutation(async ({ input }) => {
+      const db = getDb();
+      for (const it of input.items) {
+        await db.update(testimonials).set({ sortOrder: it.sortOrder }).where(eq(testimonials.id, it.id));
+      }
+      return { ok: true };
+    }),
+  }),
+
+  jobs: createRouter({
+    list: publicQuery.query(async () => {
+      return getDb()
+        .select()
+        .from(jobs)
+        .where(eq(jobs.published, true))
+        .orderBy(asc(jobs.sortOrder), asc(jobs.id));
+    }),
+    listAll: adminQuery.query(async () => {
+      return getDb().select().from(jobs).orderBy(asc(jobs.sortOrder), asc(jobs.id));
+    }),
+    get: publicQuery.input(z.object({ id: z.number() })).query(async ({ input }) => {
+      const rows = await getDb().select().from(jobs).where(eq(jobs.id, input.id)).limit(1);
+      return rows[0] ?? null;
+    }),
+    upsert: adminQuery.input(jobInput).mutation(async ({ input }) => {
+      const { id, ...values } = input;
+      const db = getDb();
+      if (id) {
+        await db.update(jobs).set(values).where(eq(jobs.id, id));
+        return { id };
+      }
+      const [r] = await db.insert(jobs).values(values).returning({ id: jobs.id });
+      return { id: r.id };
+    }),
+    delete: adminQuery.input(z.object({ id: z.number() })).mutation(async ({ input }) => {
+      await getDb().delete(jobs).where(eq(jobs.id, input.id));
+      return { ok: true };
+    }),
+    reorder: adminQuery.input(reorderInput).mutation(async ({ input }) => {
+      const db = getDb();
+      for (const it of input.items) {
+        await db.update(jobs).set({ sortOrder: it.sortOrder }).where(eq(jobs.id, it.id));
+      }
+      return { ok: true };
+    }),
+  }),
+
+  partners: createRouter({
+    list: publicQuery.query(async () => {
+      return getDb()
+        .select()
+        .from(partners)
+        .where(eq(partners.published, true))
+        .orderBy(asc(partners.sortOrder), asc(partners.id));
+    }),
+    listAll: adminQuery.query(async () => {
+      return getDb().select().from(partners).orderBy(asc(partners.sortOrder), asc(partners.id));
+    }),
+    get: publicQuery.input(z.object({ id: z.number() })).query(async ({ input }) => {
+      const rows = await getDb().select().from(partners).where(eq(partners.id, input.id)).limit(1);
+      return rows[0] ?? null;
+    }),
+    upsert: adminQuery.input(partnerInput).mutation(async ({ input }) => {
+      const { id, ...rest } = input;
+      const values = { ...rest, logo: rest.logo ?? null };
+      const db = getDb();
+      if (id) {
+        await db.update(partners).set(values).where(eq(partners.id, id));
+        return { id };
+      }
+      const [r] = await db.insert(partners).values(values).returning({ id: partners.id });
+      return { id: r.id };
+    }),
+    delete: adminQuery.input(z.object({ id: z.number() })).mutation(async ({ input }) => {
+      await getDb().delete(partners).where(eq(partners.id, input.id));
+      return { ok: true };
+    }),
+    reorder: adminQuery.input(reorderInput).mutation(async ({ input }) => {
+      const db = getDb();
+      for (const it of input.items) {
+        await db.update(partners).set({ sortOrder: it.sortOrder }).where(eq(partners.id, it.id));
+      }
+      return { ok: true };
+    }),
+  }),
+
+  offices: createRouter({
+    list: publicQuery.query(async () => {
+      return getDb().select().from(offices).orderBy(asc(offices.sortOrder), asc(offices.id));
+    }),
+    listAll: adminQuery.query(async () => {
+      return getDb().select().from(offices).orderBy(asc(offices.sortOrder), asc(offices.id));
+    }),
+    get: publicQuery.input(z.object({ slug: z.string() })).query(async ({ input }) => {
+      const rows = await getDb().select().from(offices).where(eq(offices.slug, input.slug)).limit(1);
+      return rows[0] ?? null;
+    }),
+    upsert: adminQuery.input(officeInput).mutation(async ({ input }) => {
+      const { id, ...rest } = input;
+      const values = {
+        ...rest,
+        address: rest.address ?? null,
+        phone: rest.phone ?? null,
+        email: rest.email ?? null,
+      };
+      const db = getDb();
+      if (id) {
+        await db.update(offices).set(values).where(eq(offices.id, id));
+        return { id };
+      }
+      const [r] = await db.insert(offices).values(values).returning({ id: offices.id });
+      return { id: r.id };
+    }),
+    delete: adminQuery.input(z.object({ id: z.number() })).mutation(async ({ input }) => {
+      await getDb().delete(offices).where(eq(offices.id, input.id));
+      return { ok: true };
+    }),
+    reorder: adminQuery.input(reorderInput).mutation(async ({ input }) => {
+      const db = getDb();
+      for (const it of input.items) {
+        await db.update(offices).set({ sortOrder: it.sortOrder }).where(eq(offices.id, it.id));
+      }
+      return { ok: true };
+    }),
+  }),
+
+  pageContent: createRouter({
+    getByPage: publicQuery.input(z.object({ page: z.string() })).query(async ({ input }) => {
+      const rows = await getDb()
+        .select()
+        .from(pageContent)
+        .where(eq(pageContent.page, input.page));
+      return Object.fromEntries(rows.map((r) => [r.key, r.value ?? ""]));
+    }),
+    set: adminQuery
+      .input(z.object({ page: z.string().min(1).max(80), key: z.string().min(1).max(160), value: z.string() }))
+      .mutation(async ({ input }) => {
+        await getDb()
+          .insert(pageContent)
+          .values({ page: input.page, key: input.key, value: input.value })
+          .onConflictDoUpdate({
+            target: [pageContent.page, pageContent.key],
+            set: { value: input.value },
+          });
+        return { ok: true };
+      }),
   }),
 
   media: createRouter({

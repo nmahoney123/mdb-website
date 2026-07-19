@@ -88,6 +88,80 @@ CREATE TABLE IF NOT EXISTS admin_sessions (
   created_at INTEGER NOT NULL DEFAULT (unixepoch()),
   expires_at INTEGER NOT NULL
 );
+CREATE TABLE IF NOT EXISTS industries (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  slug TEXT NOT NULL UNIQUE,
+  name TEXT NOT NULL,
+  short TEXT NOT NULL,
+  blurb TEXT NOT NULL,
+  overview TEXT NOT NULL,
+  capabilities TEXT NOT NULL,
+  hero_image TEXT,
+  card_image TEXT,
+  stat_value TEXT,
+  stat_label TEXT,
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  published INTEGER NOT NULL DEFAULT 1,
+  created_at INTEGER NOT NULL DEFAULT (unixepoch()),
+  updated_at INTEGER NOT NULL DEFAULT (unixepoch())
+);
+CREATE TABLE IF NOT EXISTS testimonials (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  quote TEXT NOT NULL,
+  name TEXT NOT NULL,
+  role TEXT NOT NULL,
+  project TEXT NOT NULL,
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  published INTEGER NOT NULL DEFAULT 1,
+  created_at INTEGER NOT NULL DEFAULT (unixepoch()),
+  updated_at INTEGER NOT NULL DEFAULT (unixepoch())
+);
+CREATE TABLE IF NOT EXISTS jobs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  type TEXT NOT NULL,
+  location TEXT NOT NULL,
+  summary TEXT NOT NULL,
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  published INTEGER NOT NULL DEFAULT 1,
+  created_at INTEGER NOT NULL DEFAULT (unixepoch()),
+  updated_at INTEGER NOT NULL DEFAULT (unixepoch())
+);
+CREATE TABLE IF NOT EXISTS partners (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  logo TEXT,
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  published INTEGER NOT NULL DEFAULT 1,
+  created_at INTEGER NOT NULL DEFAULT (unixepoch()),
+  updated_at INTEGER NOT NULL DEFAULT (unixepoch())
+);
+CREATE TABLE IF NOT EXISTS offices (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  slug TEXT NOT NULL UNIQUE,
+  city TEXT NOT NULL,
+  state TEXT NOT NULL,
+  region TEXT NOT NULL,
+  hq INTEGER NOT NULL DEFAULT 0,
+  address TEXT,
+  phone TEXT,
+  email TEXT,
+  serves TEXT NOT NULL,
+  blurb TEXT NOT NULL,
+  lat REAL NOT NULL,
+  lng REAL NOT NULL,
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  created_at INTEGER NOT NULL DEFAULT (unixepoch()),
+  updated_at INTEGER NOT NULL DEFAULT (unixepoch())
+);
+CREATE TABLE IF NOT EXISTS page_content (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  page TEXT NOT NULL,
+  key TEXT NOT NULL,
+  value TEXT,
+  updated_at INTEGER NOT NULL DEFAULT (unixepoch()),
+  UNIQUE(page, key)
+);
 `;
 
 let instance: ReturnType<typeof drizzle<typeof schema>>;

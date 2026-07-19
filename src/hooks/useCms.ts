@@ -1,6 +1,21 @@
 import { useEffect } from "react";
 import { trpc } from "@/providers/trpc";
-import { PROJECTS, NEWS, COMPANY, type Project, type NewsItem } from "@/data/content";
+import {
+  PROJECTS,
+  NEWS,
+  COMPANY,
+  INDUSTRIES,
+  TESTIMONIALS,
+  JOBS,
+  PARTNERS,
+  OFFICES,
+  type Project,
+  type NewsItem,
+  type Industry,
+  type Job,
+  type Office,
+  type Partner,
+} from "@/data/content";
 
 /**
  * CMS hooks — read from the database with instant static fallback,
@@ -119,6 +134,203 @@ export function usePosts(): CmsPost[] {
 export function useGallery(key: string) {
   const { data } = trpc.galleries.list.useQuery({ key });
   return data ?? [];
+}
+
+export type CmsIndustry = {
+  id?: number;
+  slug: string;
+  name: string;
+  short: string;
+  blurb: string;
+  overview: string[];
+  capabilities: string[];
+  /** Real image URL (from CMS) or null → placeholder slot shows */
+  heroImage: string | null;
+  cardImage: string | null;
+  /** Placeholder shot descriptions (static fallback text) */
+  heroShot: string;
+  cardShot: string;
+  stat: { value: string; label: string };
+};
+
+const staticIndustries: CmsIndustry[] = INDUSTRIES.map((i: Industry) => ({
+  slug: i.slug,
+  name: i.name,
+  short: i.short,
+  blurb: i.blurb,
+  overview: i.overview,
+  capabilities: i.capabilities,
+  heroImage: null,
+  cardImage: null,
+  heroShot: i.heroShot,
+  cardShot: i.cardShot,
+  stat: i.stat,
+}));
+
+export function useIndustries(): CmsIndustry[] {
+  const { data } = trpc.industries.list.useQuery();
+  if (!data) return staticIndustries;
+  return data.map((i) => {
+    const fallback = staticIndustries.find((s) => s.slug === i.slug);
+    return {
+      id: i.id,
+      slug: i.slug,
+      name: i.name,
+      short: i.short,
+      blurb: i.blurb,
+      overview: i.overview,
+      capabilities: i.capabilities,
+      heroImage: i.heroImage ?? null,
+      cardImage: i.cardImage ?? null,
+      heroShot: fallback?.heroShot ?? `${i.name} — hero photograph`,
+      cardShot: fallback?.cardShot ?? `${i.name} — card photograph`,
+      stat: {
+        value: i.statValue ?? fallback?.stat.value ?? "",
+        label: i.statLabel ?? fallback?.stat.label ?? "",
+      },
+    };
+  });
+}
+
+export type CmsTestimonial = {
+  id?: number;
+  quote: string;
+  name: string;
+  role: string;
+  project: string;
+};
+
+const staticTestimonials: CmsTestimonial[] = TESTIMONIALS.map((t) => ({
+  quote: t.quote,
+  name: t.name,
+  role: t.role,
+  project: t.project,
+}));
+
+export function useTestimonials(): CmsTestimonial[] {
+  const { data } = trpc.testimonials.list.useQuery();
+  if (!data) return staticTestimonials;
+  return data.map((t) => ({
+    id: t.id,
+    quote: t.quote,
+    name: t.name,
+    role: t.role,
+    project: t.project,
+  }));
+}
+
+export type CmsJob = {
+  id?: number;
+  title: string;
+  type: string;
+  location: string;
+  summary: string;
+};
+
+const staticJobs: CmsJob[] = JOBS.map((j: Job) => ({
+  title: j.title,
+  type: j.type,
+  location: j.location,
+  summary: j.summary,
+}));
+
+export function useJobs(): CmsJob[] {
+  const { data } = trpc.jobs.list.useQuery();
+  if (!data) return staticJobs;
+  return data.map((j) => ({
+    id: j.id,
+    title: j.title,
+    type: j.type,
+    location: j.location,
+    summary: j.summary,
+  }));
+}
+
+export type CmsPartner = {
+  id?: number;
+  name: string;
+  logo: string | null;
+};
+
+const staticPartners: CmsPartner[] = PARTNERS.map((p: Partner) => ({
+  name: p.name,
+  logo: p.logo ?? null,
+}));
+
+export function usePartners(): CmsPartner[] {
+  const { data } = trpc.partners.list.useQuery();
+  if (!data) return staticPartners;
+  return data.map((p) => ({
+    id: p.id,
+    name: p.name,
+    logo: p.logo ?? null,
+  }));
+}
+
+export type CmsOffice = {
+  id?: number;
+  slug: string;
+  city: string;
+  state: string;
+  region: string;
+  hq: boolean;
+  address: string | null;
+  phone: string | null;
+  email: string | null;
+  serves: string;
+  blurb: string;
+  lat: number;
+  lng: number;
+};
+
+const staticOffices: CmsOffice[] = OFFICES.map((o: Office) => ({
+  slug: o.slug,
+  city: o.city,
+  state: o.state,
+  region: o.region,
+  hq: !!o.hq,
+  address: o.address ?? null,
+  phone: o.phone ?? null,
+  email: o.email ?? null,
+  serves: o.serves,
+  blurb: o.blurb,
+  lat: o.lat,
+  lng: o.lng,
+}));
+
+export function useOffices(): CmsOffice[] {
+  const { data } = trpc.offices.list.useQuery();
+  if (!data || data.length === 0) return staticOffices;
+  return data.map((o) => ({
+    id: o.id,
+    slug: o.slug,
+    city: o.city,
+    state: o.state,
+    region: o.region,
+    hq: o.hq,
+    address: o.address ?? null,
+    phone: o.phone ?? null,
+    email: o.email ?? null,
+    serves: o.serves,
+    blurb: o.blurb,
+    lat: o.lat,
+    lng: o.lng,
+  }));
+}
+
+/**
+ * Page-level editable copy. Returns a getter `(key, fallback) => string`:
+ * while the query is loading or a key is unset/empty, the caller's static
+ * fallback string is returned — so public pages render fully before the API
+ * responds and never show a blank string. Keys follow the seed's dotted
+ * scheme, e.g. usePageContent("home")("hero.title", "A Better").
+ */
+export function usePageContent(page: string): (key: string, fallback: string) => string {
+  const { data } = trpc.pageContent.getByPage.useQuery({ page });
+  return (key: string, fallback: string) => {
+    const value = data?.[key];
+    return value != null && value !== "" ? value : fallback;
+  };
 }
 
 export const DEFAULT_SETTINGS: Record<string, string> = {

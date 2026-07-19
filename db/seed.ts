@@ -4,7 +4,25 @@
  * Idempotent: skips inserts when tables already have rows.
  */
 import { getDb } from "../api/queries/connection";
-import { settings, projects, posts, galleryImages } from "./schema";
+import {
+  settings,
+  projects,
+  posts,
+  galleryImages,
+  industries,
+  testimonials,
+  jobs,
+  partners,
+  offices,
+  pageContent,
+} from "./schema";
+import {
+  INDUSTRIES,
+  TESTIMONIALS,
+  JOBS,
+  PARTNERS,
+  OFFICES,
+} from "@/data/content";
 
 const db = getDb();
 
@@ -287,6 +305,131 @@ const GALLERIES: { key: string; images: { url: string; caption: string }[] }[] =
   },
 ];
 
+/**
+ * Starter page-level copy that should be editable in the admin.
+ * Key scheme: rows are grouped by `page` (the route/page id) and addressed by a
+ * dotted `key` (section.field). PageHero copy uses `hero.eyebrow|title|sub`.
+ * The Home hero is bespoke, so it carries extra keys (title lines + CTAs).
+ * Public pages read a value with usePageContent(page)(key, <static fallback>),
+ * so any key left unseeded simply falls back to the hardcoded string.
+ */
+const PAGE_CONTENT: { page: string; key: string; value: string }[] = [
+  // Home — bespoke hero (src/sections/home/Hero.tsx)
+  { page: "home", key: "hero.eyebrow", value: "General Contracting · Design-Build · Since 1985" },
+  { page: "home", key: "hero.title.line1", value: "A Better" },
+  { page: "home", key: "hero.title.line2", value: "Way to Build." },
+  {
+    page: "home",
+    key: "hero.sub",
+    value:
+      "Ground-up commercial construction for Self Storage, Hospitality, and Multifamily — delivered with the precision of a national firm and the accountability of a family business.",
+  },
+  { page: "home", key: "hero.ctaPrimary.label", value: "Explore Our Work" },
+  { page: "home", key: "hero.ctaPrimary.to", value: "/portfolio" },
+  { page: "home", key: "hero.ctaSecondary.label", value: "Start a Project" },
+  { page: "home", key: "hero.ctaSecondary.to", value: "/contact" },
+
+  // About — PageHero + "Our Story" section (src/pages/About.tsx)
+  { page: "about", key: "hero.eyebrow", value: "About MDB" },
+  { page: "about", key: "hero.title", value: "Four decades. Family-built." },
+  {
+    page: "about",
+    key: "hero.sub",
+    value:
+      "Founded in Oneida, New York in 1985. Grown from a family homebuilder into a regional commercial general contractor — without losing what made clients call in the first place.",
+  },
+  { page: "about", key: "story.eyebrow", value: "Our Story" },
+  { page: "about", key: "story.heading", value: "From Oneida to the Northeast — the name stayed the same." },
+  {
+    page: "about",
+    key: "story.p1",
+    value:
+      "Mahoney Design & Build started in 1985 as a family homebuilding company in Central New York. The reputation was simple: precise work, honest numbers, and a phone that always got answered.",
+  },
+  {
+    page: "about",
+    key: "story.p2",
+    value:
+      "Clients grew, and asked us to grow with them — first into renovations and small commercial work, then into ground-up Self Storage, Hospitality, and Multifamily projects across the Northeast. Today MDB operates as a design-build general contractor with the systems of a national firm and the accountability of the family business we still are.",
+  },
+  {
+    page: "about",
+    key: "story.p3",
+    value:
+      "More than 90% of our work comes from repeat and referral clients. That number is the whole strategy.",
+  },
+
+  // Industries index PageHero (src/pages/Industries.tsx)
+  { page: "industries", key: "hero.eyebrow", value: "Industries" },
+  { page: "industries", key: "hero.title", value: "What we build." },
+  {
+    page: "industries",
+    key: "hero.sub",
+    value:
+      "Ground-up commercial construction across three core markets — plus select custom homes for longstanding clients. Each one gets the same discipline: scope early, budgets locked, execution without excuses.",
+  },
+
+  // Portfolio PageHero (src/pages/Portfolio.tsx)
+  { page: "portfolio", key: "hero.eyebrow", value: "Portfolio" },
+  { page: "portfolio", key: "hero.title", value: "Built to last. Delivered to spec." },
+  {
+    page: "portfolio",
+    key: "hero.sub",
+    value:
+      "A selection of ground-up and renovation work across Self Storage, Hospitality, Multifamily, and select custom homes.",
+  },
+
+  // Locations index PageHero (src/pages/Locations.tsx)
+  { page: "locations", key: "hero.eyebrow", value: "Locations" },
+  { page: "locations", key: "hero.title", value: "Three offices. One standard." },
+  {
+    page: "locations",
+    key: "hero.sub",
+    value:
+      "From our Oneida, New York headquarters to offices in Chicago and Bend, Oregon, MDB delivers the same design-build discipline coast to coast.",
+  },
+
+  // Careers PageHero (src/pages/Careers.tsx)
+  { page: "careers", key: "hero.eyebrow", value: "Careers" },
+  { page: "careers", key: "hero.title", value: "Exceptional work. Exceptional people." },
+  {
+    page: "careers",
+    key: "hero.sub",
+    value:
+      "Build ground-up commercial projects with a team that promotes from the field. Competitive pay, real ownership, and a path that actually leads somewhere.",
+  },
+
+  // News PageHero (src/pages/News.tsx)
+  { page: "news", key: "hero.eyebrow", value: "News & Insights" },
+  { page: "news", key: "hero.title", value: "From the field & the market." },
+  {
+    page: "news",
+    key: "hero.sub",
+    value:
+      "Project milestones, market and cost intelligence, and company news from Mahoney Design & Build.",
+  },
+
+  // Contact PageHero (src/pages/Contact.tsx)
+  { page: "contact", key: "hero.eyebrow", value: "Contact" },
+  { page: "contact", key: "hero.title", value: "Let's build it." },
+  {
+    page: "contact",
+    key: "hero.sub",
+    value:
+      "New projects, subcontractor prequalification, or bid inquiries — three clear paths, one team that answers.",
+  },
+
+  // Subcontractors PageHero (src/pages/Subcontractors.tsx)
+  { page: "subcontractors", key: "hero.eyebrow", value: "Subcontractors" },
+  { page: "subcontractors", key: "hero.title", value: "Build with MDB." },
+  {
+    page: "subcontractors",
+    key: "hero.sub",
+    value:
+      "We keep a short list of trade partners we trust — and we trust them completely. If you run a safe operation and stand behind your work, we want to hear from you.",
+  },
+];
+
 async function main() {
   console.log("Seeding settings…");
   for (const [key, value] of Object.entries(SETTINGS)) {
@@ -320,6 +463,117 @@ async function main() {
     }
   } else {
     console.log("Galleries already seeded — skipping.");
+  }
+
+  const existingIndustries = await db.select({ id: industries.id }).from(industries).limit(1);
+  if (existingIndustries.length === 0) {
+    console.log("Seeding industries…");
+    let i = 0;
+    for (const ind of INDUSTRIES) {
+      await db.insert(industries).values({
+        slug: ind.slug,
+        name: ind.name,
+        short: ind.short,
+        blurb: ind.blurb,
+        overview: JSON.stringify(ind.overview),
+        capabilities: JSON.stringify(ind.capabilities),
+        heroImage: null,
+        cardImage: null,
+        statValue: ind.stat.value,
+        statLabel: ind.stat.label,
+        sortOrder: i++,
+        published: true,
+      });
+    }
+  } else {
+    console.log("Industries already seeded — skipping.");
+  }
+
+  const existingTestimonials = await db.select({ id: testimonials.id }).from(testimonials).limit(1);
+  if (existingTestimonials.length === 0) {
+    console.log("Seeding testimonials…");
+    let i = 0;
+    for (const t of TESTIMONIALS) {
+      await db.insert(testimonials).values({
+        quote: t.quote,
+        name: t.name,
+        role: t.role,
+        project: t.project,
+        sortOrder: i++,
+        published: true,
+      });
+    }
+  } else {
+    console.log("Testimonials already seeded — skipping.");
+  }
+
+  const existingJobs = await db.select({ id: jobs.id }).from(jobs).limit(1);
+  if (existingJobs.length === 0) {
+    console.log("Seeding jobs…");
+    let i = 0;
+    for (const j of JOBS) {
+      await db.insert(jobs).values({
+        title: j.title,
+        type: j.type,
+        location: j.location,
+        summary: j.summary,
+        sortOrder: i++,
+        published: true,
+      });
+    }
+  } else {
+    console.log("Jobs already seeded — skipping.");
+  }
+
+  const existingPartners = await db.select({ id: partners.id }).from(partners).limit(1);
+  if (existingPartners.length === 0) {
+    console.log("Seeding partners…");
+    let i = 0;
+    for (const p of PARTNERS) {
+      await db.insert(partners).values({
+        name: p.name,
+        logo: p.logo ?? null,
+        sortOrder: i++,
+        published: true,
+      });
+    }
+  } else {
+    console.log("Partners already seeded — skipping.");
+  }
+
+  const existingOffices = await db.select({ id: offices.id }).from(offices).limit(1);
+  if (existingOffices.length === 0) {
+    console.log("Seeding offices…");
+    let i = 0;
+    for (const o of OFFICES) {
+      await db.insert(offices).values({
+        slug: o.slug,
+        city: o.city,
+        state: o.state,
+        region: o.region,
+        hq: !!o.hq,
+        address: o.address ?? null,
+        phone: o.phone ?? null,
+        email: o.email ?? null,
+        serves: o.serves,
+        blurb: o.blurb,
+        lat: o.lat,
+        lng: o.lng,
+        sortOrder: i++,
+      });
+    }
+  } else {
+    console.log("Offices already seeded — skipping.");
+  }
+
+  const existingPageContent = await db.select({ id: pageContent.id }).from(pageContent).limit(1);
+  if (existingPageContent.length === 0) {
+    console.log("Seeding page content…");
+    for (const row of PAGE_CONTENT) {
+      await db.insert(pageContent).values(row);
+    }
+  } else {
+    console.log("Page content already seeded — skipping.");
   }
 
   console.log("Seed complete.");
