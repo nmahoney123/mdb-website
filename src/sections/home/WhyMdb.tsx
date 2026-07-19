@@ -1,16 +1,17 @@
 import { useState } from "react";
 import { Marquee, Reveal } from "@/components/site/motion";
-import { CAPABILITIES_MARQUEE, PARTNERS, type Partner } from "@/data/content";
+import { CAPABILITIES_MARQUEE } from "@/data/content";
+import { usePartners, type CmsPartner } from "@/hooks/useCms";
 
 /** Renders a partner's logo image, falling back to their name if the file is absent. */
-function PartnerLogo({ partner }: { partner: Partner }) {
+function PartnerLogo({ partner }: { partner: CmsPartner }) {
   const [failed, setFailed] = useState(false);
   const showImage = partner.logo && !failed;
   return (
     <div className="mx-4 flex h-20 w-56 shrink-0 items-center justify-center border border-white/10 bg-white/[0.03] px-6">
       {showImage ? (
         <img
-          src={partner.logo}
+          src={partner.logo ?? undefined}
           alt={partner.name}
           loading="lazy"
           decoding="async"
@@ -27,6 +28,7 @@ function PartnerLogo({ partner }: { partner: Partner }) {
 }
 
 export default function WhyMdb() {
+  const partners = usePartners();
   return (
     <section className="overflow-hidden border-y border-white/10 bg-ink py-24 text-white sm:py-28">
       <div className="container-site">
@@ -67,8 +69,8 @@ export default function WhyMdb() {
         </Reveal>
         <Reveal delay={0.15} className="mt-8">
           <Marquee>
-            {PARTNERS.map((partner) => (
-              <PartnerLogo key={partner.name} partner={partner} />
+            {partners.map((partner) => (
+              <PartnerLogo key={partner.id ?? partner.name} partner={partner} />
             ))}
           </Marquee>
         </Reveal>

@@ -8,7 +8,7 @@ import PageHero from "@/components/site/PageHero";
 import CtaSection from "@/components/site/CtaSection";
 import CmsImage from "@/components/site/CmsImage";
 import { Reveal } from "@/components/site/motion";
-import { useProjects } from "@/hooks/useCms";
+import { useProjects, usePageContent } from "@/hooks/useCms";
 import { useSeo, breadcrumbLd } from "@/lib/useSeo";
 import { cn } from "@/lib/utils";
 
@@ -16,6 +16,7 @@ const INDUSTRY_FILTERS = ["All Industries", "Self Storage", "Hotels & Hospitalit
 
 export default function Portfolio() {
   const projects = useProjects();
+  const t = usePageContent("portfolio");
   const [industry, setIndustry] = useState(INDUSTRY_FILTERS[0]);
   const [location, setLocation] = useState("All Locations");
   const reduce = useReducedMotion();
@@ -47,9 +48,12 @@ export default function Portfolio() {
       <Header />
       <main>
         <PageHero
-          eyebrow="Portfolio"
-          title="Built to last. Delivered to spec."
-          sub="A selection of ground-up and renovation work across Self Storage, Hospitality, Multifamily, and select custom homes."
+          eyebrow={t("hero.eyebrow", "Portfolio")}
+          title={t("hero.title", "Built to last. Delivered to spec.")}
+          sub={t(
+            "hero.sub",
+            "A selection of ground-up and renovation work across Self Storage, Hospitality, Multifamily, and select custom homes."
+          )}
           shot="Cinematic aerial montage of completed MDB projects — storage facility, hotel, and apartment community exteriors at dusk"
         />
 

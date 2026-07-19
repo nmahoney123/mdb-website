@@ -7,8 +7,7 @@ import CtaSection from "@/components/site/CtaSection";
 import CmsImage from "@/components/site/CmsImage";
 import Gallery from "@/components/site/Gallery";
 import { Reveal, Stagger, StaggerItem } from "@/components/site/motion";
-import { INDUSTRIES } from "@/data/content";
-import { useProjects, useGallery } from "@/hooks/useCms";
+import { useProjects, useGallery, useIndustries } from "@/hooks/useCms";
 import { useSeo, breadcrumbLd } from "@/lib/useSeo";
 
 /** Static hero images per industry (real photos where we have them) */
@@ -199,7 +198,8 @@ function StorageDeepDive() {
 
 export default function IndustryDetail() {
   const { slug } = useParams();
-  const industry = INDUSTRIES.find((i) => i.slug === slug);
+  const industries = useIndustries();
+  const industry = industries.find((i) => i.slug === slug);
   const projects = useProjects();
   const galleryKey = slug ? GALLERY_BY_INDUSTRY[slug] : undefined;
   const gallery = useGallery(galleryKey ?? "__none__");
@@ -222,7 +222,7 @@ export default function IndustryDetail() {
   if (!industry) return <Navigate to="/industries" replace />;
 
   const relevant = projects.filter((p) => p.industrySlug === industry.slug);
-  const heroImage = INDUSTRY_HEROES[industry.slug] ?? null;
+  const heroImage = industry.heroImage ?? INDUSTRY_HEROES[industry.slug] ?? null;
 
   return (
     <>

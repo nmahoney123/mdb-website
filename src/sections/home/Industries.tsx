@@ -1,12 +1,12 @@
 import { Link } from "react-router";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import CmsImage from "@/components/site/CmsImage";
-import { useProjects } from "@/hooks/useCms";
+import { useProjects, useIndustries } from "@/hooks/useCms";
 import { Reveal, Stagger, StaggerItem } from "@/components/site/motion";
-import { INDUSTRIES } from "@/data/content";
 
 export default function Industries() {
   const projects = useProjects();
+  const industries = useIndustries();
   const industryImage = (slug: string) =>
     projects.find((p) => p.industrySlug === slug && p.cardImage)?.cardImage ?? null;
   return (
@@ -28,7 +28,7 @@ export default function Industries() {
         </div>
 
         <Stagger className="mt-16 grid gap-6 md:grid-cols-2">
-          {INDUSTRIES.map((ind, i) => (
+          {industries.map((ind, i) => (
             <StaggerItem key={ind.slug}>
               <Link
                 to={`/industries/${ind.slug}`}
@@ -36,7 +36,7 @@ export default function Industries() {
               >
                 <div className="relative aspect-[16/9] overflow-hidden">
                   <div className="h-full w-full transition-transform duration-700 ease-out group-hover:scale-[1.05]">
-                    <CmsImage url={industryImage(ind.slug)} shot={ind.cardShot} alt={ind.name} className="h-full w-full" />
+                    <CmsImage url={ind.cardImage ?? industryImage(ind.slug)} shot={ind.cardShot} alt={ind.name} className="h-full w-full" />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent" />
                   <span className="absolute right-5 top-5 flex h-11 w-11 items-center justify-center border border-white/25 bg-ink/50 text-white backdrop-blur-sm transition-all duration-300 group-hover:border-mahoney group-hover:bg-mahoney">

@@ -2,11 +2,13 @@ import { Link } from "react-router";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import { AnimatedWords } from "@/components/site/motion";
-import { useSettings } from "@/hooks/useCms";
+import { useSettings, usePageContent } from "@/hooks/useCms";
 
 export default function Hero() {
   const reduce = useReducedMotion();
   const settings = useSettings();
+  const t = usePageContent("home");
+  const line2 = t("hero.title.line2", "Way to Build.");
 
   return (
     <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-ink">
@@ -46,20 +48,26 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="eyebrow"
         >
-          General Contracting · Design-Build · Since 1985
+          {t("hero.eyebrow", "General Contracting · Design-Build · Since 1985")}
         </motion.p>
 
         <h1 className="mt-6 font-anton text-[13vw] uppercase leading-[0.92] tracking-[0.005em] text-white sm:text-[10.5vw] lg:text-[7rem]">
-          <AnimatedWords text="A Better" delay={0.25} />
+          <AnimatedWords text={t("hero.title.line1", "A Better")} delay={0.25} />
           <br />
-          <span className="block overflow-hidden pb-[0.08em] -mb-[0.08em]" aria-label="Way to Build.">
+          <span className="block overflow-hidden pb-[0.08em] -mb-[0.08em]" aria-label={line2}>
             <motion.span
               className="block"
               initial={reduce ? false : { y: "110%", opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.75, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
             >
-              <span className="text-mahoney">Way to</span> Build.
+              {line2 === "Way to Build." ? (
+                <>
+                  <span className="text-mahoney">Way to</span> Build.
+                </>
+              ) : (
+                line2
+              )}
             </motion.span>
           </span>
         </h1>
@@ -70,9 +78,10 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.95 }}
           className="mt-8 max-w-xl text-base leading-relaxed text-white/70 sm:text-lg"
         >
-          Ground-up commercial construction for Self Storage, Hospitality, and
-          Multifamily — delivered with the precision of a national firm and the
-          accountability of a family business.
+          {t(
+            "hero.sub",
+            "Ground-up commercial construction for Self Storage, Hospitality, and Multifamily — delivered with the precision of a national firm and the accountability of a family business."
+          )}
         </motion.p>
 
         <motion.div
@@ -81,11 +90,11 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 1.1 }}
           className="mt-10 flex flex-wrap gap-4"
         >
-          <Link to="/portfolio" className="btn-primary">
-            Explore Our Work <ArrowRight className="arrow h-4 w-4" />
+          <Link to={t("hero.ctaPrimary.to", "/portfolio")} className="btn-primary">
+            {t("hero.ctaPrimary.label", "Explore Our Work")} <ArrowRight className="arrow h-4 w-4" />
           </Link>
-          <Link to="/contact" className="btn-outline-light">
-            Start a Project <ArrowRight className="arrow h-4 w-4" />
+          <Link to={t("hero.ctaSecondary.to", "/contact")} className="btn-outline-light">
+            {t("hero.ctaSecondary.label", "Start a Project")} <ArrowRight className="arrow h-4 w-4" />
           </Link>
         </motion.div>
       </div>

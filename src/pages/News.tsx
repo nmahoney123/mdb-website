@@ -6,11 +6,12 @@ import PageHero from "@/components/site/PageHero";
 import CtaSection from "@/components/site/CtaSection";
 import CmsImage from "@/components/site/CmsImage";
 import { Reveal, Stagger, StaggerItem } from "@/components/site/motion";
-import { usePosts } from "@/hooks/useCms";
+import { usePosts, usePageContent } from "@/hooks/useCms";
 import { getAllPosts } from "@/lib/blog";
 import { useSeo, breadcrumbLd } from "@/lib/useSeo";
 
 export default function News() {
+  const t = usePageContent("news");
   useSeo({
     title: "News & Insights — Projects, Market & Cost Intelligence | Mahoney Design & Build",
     description:
@@ -42,9 +43,12 @@ export default function News() {
       <Header />
       <main>
         <PageHero
-          eyebrow="News & Insights"
-          title="From the field & the market."
-          sub="Project milestones, market and cost intelligence, and company news from Mahoney Design & Build."
+          eyebrow={t("hero.eyebrow", "News & Insights")}
+          title={t("hero.title", "From the field & the market.")}
+          sub={t(
+            "hero.sub",
+            "Project milestones, market and cost intelligence, and company news from Mahoney Design & Build."
+          )}
           shot="Editorial-style photo of an MDB jobsite meeting — drawings on a tailgate, team reviewing progress, golden hour"
         />
         <section className="bg-bone py-20 sm:py-28">

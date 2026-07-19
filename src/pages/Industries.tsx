@@ -5,11 +5,13 @@ import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
 import PageHero from "@/components/site/PageHero";
 import CtaSection from "@/components/site/CtaSection";
-import ImageSlot from "@/components/site/ImageSlot";
+import CmsImage from "@/components/site/CmsImage";
 import { Reveal, Stagger, StaggerItem, CountUp } from "@/components/site/motion";
-import { INDUSTRIES } from "@/data/content";
+import { useIndustries, usePageContent } from "@/hooks/useCms";
 
 export default function Industries() {
+  const industries = useIndustries();
+  const t = usePageContent("industries");
   useSeo({
     title: "Industries We Build — Self Storage, Hospitality & Multifamily | Mahoney Design & Build",
     description:
@@ -25,14 +27,17 @@ export default function Industries() {
       <Header />
       <main>
         <PageHero
-          eyebrow="Industries"
-          title="What we build."
-          sub="Ground-up commercial construction across three core markets — plus select custom homes for longstanding clients. Each one gets the same discipline: scope early, budgets locked, execution without excuses."
+          eyebrow={t("hero.eyebrow", "Industries")}
+          title={t("hero.title", "What we build.")}
+          sub={t(
+            "hero.sub",
+            "Ground-up commercial construction across three core markets — plus select custom homes for longstanding clients. Each one gets the same discipline: scope early, budgets locked, execution without excuses."
+          )}
           shot="Split-frame aerial of three MDB project types — storage facility, hotel, apartment community — shot from a drone at golden hour"
         />
         <section className="bg-bone py-20 sm:py-28">
           <div className="container-site space-y-8">
-            {INDUSTRIES.map((ind, i) => (
+            {industries.map((ind, i) => (
               <Reveal key={ind.slug} delay={i * 0.05}>
                 <Link
                   to={`/industries/${ind.slug}`}
@@ -40,7 +45,7 @@ export default function Industries() {
                 >
                   <div className="relative aspect-[16/10] overflow-hidden md:aspect-auto md:min-h-[280px]">
                     <div className="h-full w-full transition-transform duration-700 group-hover:scale-[1.06]">
-                      <ImageSlot shot={ind.cardShot} className="h-full w-full" />
+                      <CmsImage url={ind.cardImage} shot={ind.cardShot} alt={ind.name} className="h-full w-full" />
                     </div>
                     <span className="absolute left-5 top-5 font-display text-[11px] font-bold uppercase tracking-[0.3em] text-white/60">
                       0{i + 1}

@@ -6,7 +6,7 @@ import PageHero from "@/components/site/PageHero";
 import LeadForm from "@/components/site/LeadForm";
 import { Reveal, Stagger, StaggerItem } from "@/components/site/motion";
 import { COMPANY } from "@/data/content";
-import { useSettings } from "@/hooks/useCms";
+import { useSettings, usePageContent } from "@/hooks/useCms";
 import { useSeo, organizationLd, breadcrumbLd } from "@/lib/useSeo";
 
 const PATHS = [
@@ -35,6 +35,7 @@ const PATHS = [
 
 export default function Contact() {
   const s = useSettings();
+  const t = usePageContent("contact");
   useSeo({
     title: "Contact — Start a Project | Mahoney Design & Build",
     description:
@@ -53,9 +54,12 @@ export default function Contact() {
       <Header />
       <main>
         <PageHero
-          eyebrow="Contact"
-          title="Let's build it."
-          sub="New projects, subcontractor prequalification, or bid inquiries — three clear paths, one team that answers."
+          eyebrow={t("hero.eyebrow", "Contact")}
+          title={t("hero.title", "Let's build it.")}
+          sub={t(
+            "hero.sub",
+            "New projects, subcontractor prequalification, or bid inquiries — three clear paths, one team that answers."
+          )}
           shot="MDB office exterior in Oneida, NY — signage, flag, and project trailers; or team member answering the phone at a plan table"
         />
 

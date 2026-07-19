@@ -5,13 +5,16 @@ import Footer from "@/components/site/Footer";
 import PageHero from "@/components/site/PageHero";
 import CtaSection from "@/components/site/CtaSection";
 import LocationsMap from "@/components/site/LocationsMap";
-import { OFFICES, INDUSTRIES, COMPANY } from "@/data/content";
+import { COMPANY } from "@/data/content";
+import { useOffices, useIndustries } from "@/hooks/useCms";
 import { useSeo, breadcrumbLd, officeLd } from "@/lib/useSeo";
 import { Reveal, Stagger, StaggerItem } from "@/components/site/motion";
 
 export default function LocationDetail() {
   const { slug } = useParams();
-  const office = OFFICES.find((o) => o.slug === slug);
+  const offices = useOffices();
+  const industries = useIndustries();
+  const office = offices.find((o) => o.slug === slug);
 
   useSeo(
     office
@@ -20,7 +23,12 @@ export default function LocationDetail() {
           description: `Mahoney Design & Build in ${office.city}, ${office.state} — ground-up design-build construction for self storage, hospitality, and multifamily across ${office.serves}.`,
           path: `/locations/${office.slug}`,
           jsonLd: [
-            officeLd(office),
+            officeLd({
+              ...office,
+              address: office.address ?? undefined,
+              phone: office.phone ?? undefined,
+              email: office.email ?? undefined,
+            }),
             breadcrumbLd([
               { name: "Home", path: "/" },
               { name: "Locations", path: "/locations" },
@@ -75,7 +83,7 @@ export default function LocationDetail() {
                   Markets we build here
                 </p>
                 <Stagger className="mt-4 grid gap-3 sm:grid-cols-2">
-                  {INDUSTRIES.map((ind) => (
+                  {industries.map((ind) => (
                     <StaggerItem key={ind.slug}>
                       <Link
                         to={`/industries/${ind.slug}`}

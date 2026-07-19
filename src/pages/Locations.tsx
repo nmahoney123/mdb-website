@@ -5,11 +5,13 @@ import Footer from "@/components/site/Footer";
 import PageHero from "@/components/site/PageHero";
 import CtaSection from "@/components/site/CtaSection";
 import LocationsMap from "@/components/site/LocationsMap";
-import { OFFICES } from "@/data/content";
+import { useOffices, usePageContent } from "@/hooks/useCms";
 import { useSeo, breadcrumbLd, organizationLd } from "@/lib/useSeo";
 import { Stagger, StaggerItem } from "@/components/site/motion";
 
 export default function Locations() {
+  const offices = useOffices();
+  const t = usePageContent("locations");
   useSeo({
     title: "Locations — Oneida NY, Chicago IL & Bend OR | Mahoney Design & Build",
     description:
@@ -29,9 +31,12 @@ export default function Locations() {
       <Header />
       <main>
         <PageHero
-          eyebrow="Locations"
-          title="Three offices. One standard."
-          sub="From our Oneida, New York headquarters to offices in Chicago and Bend, Oregon, MDB delivers the same design-build discipline coast to coast."
+          eyebrow={t("hero.eyebrow", "Locations")}
+          title={t("hero.title", "Three offices. One standard.")}
+          sub={t(
+            "hero.sub",
+            "From our Oneida, New York headquarters to offices in Chicago and Bend, Oregon, MDB delivers the same design-build discipline coast to coast."
+          )}
           shot="Map-style graphic of the United States with three highlighted office markers connected by a line"
         />
 
@@ -44,7 +49,7 @@ export default function Locations() {
         <section className="bg-bone py-20 sm:py-28">
           <div className="container-site">
             <Stagger className="grid gap-6 md:grid-cols-3">
-              {OFFICES.map((o) => (
+              {offices.map((o) => (
                 <StaggerItem key={o.slug}>
                   <Link
                     to={`/locations/${o.slug}`}

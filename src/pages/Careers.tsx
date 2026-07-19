@@ -6,7 +6,7 @@ import Footer from "@/components/site/Footer";
 import PageHero from "@/components/site/PageHero";
 import CmsImage from "@/components/site/CmsImage";
 import { Reveal, Stagger, StaggerItem } from "@/components/site/motion";
-import { JOBS } from "@/data/content";
+import { useJobs, usePageContent } from "@/hooks/useCms";
 import { useSeo, breadcrumbLd } from "@/lib/useSeo";
 import { trpc } from "@/providers/trpc";
 
@@ -130,6 +130,8 @@ function ApplyModal({ job, onClose }: { job: string; onClose: () => void }) {
 
 export default function Careers() {
   const [applyJob, setApplyJob] = useState<string | null>(null);
+  const jobs = useJobs();
+  const t = usePageContent("careers");
 
   useSeo({
     title: "Careers — Build With Mahoney Design & Build | Central NY Construction Jobs",
@@ -147,9 +149,12 @@ export default function Careers() {
       <Header />
       <main>
         <PageHero
-          eyebrow="Careers"
-          title="Exceptional work. Exceptional people."
-          sub="Build ground-up commercial projects with a team that promotes from the field. Competitive pay, real ownership, and a path that actually leads somewhere."
+          eyebrow={t("hero.eyebrow", "Careers")}
+          title={t("hero.title", "Exceptional work. Exceptional people.")}
+          sub={t(
+            "hero.sub",
+            "Build ground-up commercial projects with a team that promotes from the field. Competitive pay, real ownership, and a path that actually leads somewhere."
+          )}
           shot="MDB crew huddle at sunrise on an active jobsite — superintendent with drawings, crew in branded gear, crane overhead"
           imageUrl="/media/gallery/self-storage/concrete-pump-pour.webp"
         />
@@ -218,8 +223,8 @@ export default function Careers() {
               </h2>
             </Reveal>
             <Stagger className="mt-12 space-y-4">
-              {JOBS.map((j) => (
-                <StaggerItem key={j.title}>
+              {jobs.map((j) => (
+                <StaggerItem key={j.id ?? j.title}>
                   <div className="group grid gap-6 border border-fog bg-bone p-7 transition-all hover:border-ink/20 sm:p-8 lg:grid-cols-[1.4fr_1fr_auto] lg:items-center">
                     <div>
                       <h3 className="font-display text-lg font-bold uppercase tracking-[0.05em] text-ink">

@@ -1,8 +1,9 @@
 import { Quote } from "lucide-react";
 import { Reveal, Stagger, StaggerItem } from "@/components/site/motion";
-import { TESTIMONIALS } from "@/data/content";
+import { useTestimonials } from "@/hooks/useCms";
 
 export default function Testimonials() {
+  const testimonials = useTestimonials();
   return (
     <section className="bg-fog/60 py-24 sm:py-32">
       <div className="container-site">
@@ -14,8 +15,8 @@ export default function Testimonials() {
           </h2>
         </Reveal>
         <Stagger className="mt-14 grid gap-6 md:grid-cols-3">
-          {TESTIMONIALS.map((t) => (
-            <StaggerItem key={t.name}>
+          {testimonials.map((t) => (
+            <StaggerItem key={t.id ?? t.name}>
               <figure className="flex h-full flex-col border border-fog bg-white p-8 shadow-[0_20px_50px_-30px_rgba(20,20,20,0.25)] sm:p-9">
                 <Quote className="h-7 w-7 text-mahoney" strokeWidth={1.5} />
                 <blockquote className="mt-5 flex-1 text-[15px] leading-relaxed text-ink/85">

@@ -7,9 +7,9 @@ import CtaSection from "@/components/site/CtaSection";
 import CmsImage from "@/components/site/CmsImage";
 import Gallery from "@/components/site/Gallery";
 import LocationsMap from "@/components/site/LocationsMap";
-import { useGallery } from "@/hooks/useCms";
+import { useGallery, useOffices, usePageContent } from "@/hooks/useCms";
 import { useSeo, breadcrumbLd } from "@/lib/useSeo";
-import { OFFICES, COMPANY } from "@/data/content";
+import { COMPANY } from "@/data/content";
 import { Reveal, Stagger, StaggerItem, CountUp, Parallax } from "@/components/site/motion";
 
 const VALUES = [
@@ -37,6 +37,8 @@ const VALUES = [
 
 export default function About() {
   const emGallery = useGallery("extreme-makeover");
+  const offices = useOffices();
+  const t = usePageContent("about");
   useSeo({
     title: "About — Family-Built Since 1985 | Mahoney Design & Build",
     description:
@@ -52,9 +54,12 @@ export default function About() {
       <Header />
       <main>
         <PageHero
-          eyebrow="About MDB"
-          title="Four decades. Family-built."
-          sub="Founded in Oneida, New York in 1985. Grown from a family homebuilder into a regional commercial general contractor — without losing what made clients call in the first place."
+          eyebrow={t("hero.eyebrow", "About MDB")}
+          title={t("hero.title", "Four decades. Family-built.")}
+          sub={t(
+            "hero.sub",
+            "Founded in Oneida, New York in 1985. Grown from a family homebuilder into a regional commercial general contractor — without losing what made clients call in the first place."
+          )}
           shot="The Mahoney family and leadership team on an active jobsite — three generations, branded hard hats, steel structure behind"
         />
 
@@ -62,30 +67,30 @@ export default function About() {
         <section className="bg-bone py-20 sm:py-28">
           <div className="container-site grid items-start gap-14 lg:grid-cols-2 lg:gap-20">
             <Reveal>
-              <p className="eyebrow">Our Story</p>
+              <p className="eyebrow">{t("story.eyebrow", "Our Story")}</p>
               <div className="rule-red mt-4" />
               <h2 className="display-2 mt-6 text-3xl text-ink sm:text-4xl">
-                From Oneida to the Northeast — the name stayed the same.
+                {t("story.heading", "From Oneida to the Northeast — the name stayed the same.")}
               </h2>
               <div className="mt-8 space-y-5 text-base leading-relaxed text-concrete">
                 <p>
-                  Mahoney Design &amp; Build started in 1985 as a family
-                  homebuilding company in Central New York. The reputation was
-                  simple: precise work, honest numbers, and a phone that always
-                  got answered.
+                  {t(
+                    "story.p1",
+                    "Mahoney Design & Build started in 1985 as a family homebuilding company in Central New York. The reputation was simple: precise work, honest numbers, and a phone that always got answered."
+                  )}
                 </p>
                 <p>
-                  Clients grew, and asked us to grow with them — first into
-                  renovations and small commercial work, then into ground-up
-                  Self Storage, Hospitality, and Multifamily projects across the
-                  Northeast. Today MDB operates as a design-build general
-                  contractor with the systems of a national firm and the
-                  accountability of the family business we still are.
+                  {t(
+                    "story.p2",
+                    "Clients grew, and asked us to grow with them — first into renovations and small commercial work, then into ground-up Self Storage, Hospitality, and Multifamily projects across the Northeast. Today MDB operates as a design-build general contractor with the systems of a national firm and the accountability of the family business we still are."
+                  )}
                 </p>
                 {/* TODO(owner): confirm real figure — repeat/referral share of work */}
                 <p>
-                  More than 90% of our work comes from repeat and referral
-                  clients. That number is the whole strategy.
+                  {t(
+                    "story.p3",
+                    "More than 90% of our work comes from repeat and referral clients. That number is the whole strategy."
+                  )}
                 </p>
               </div>
               {/* TODO(owner): confirm real figures — founding year, years building, repeat/referral rate */}
@@ -286,7 +291,7 @@ export default function About() {
               <LocationsMap />
             </div>
             <Stagger className="mt-10 grid gap-6 md:grid-cols-3">
-              {OFFICES.map((o) => (
+              {offices.map((o) => (
                 <StaggerItem key={o.slug}>
                   <Link
                     to={`/locations/${o.slug}`}

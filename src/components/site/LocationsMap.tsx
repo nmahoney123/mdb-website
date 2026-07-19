@@ -1,4 +1,4 @@
-import { OFFICES } from "@/data/content";
+import { useOffices } from "@/hooks/useCms";
 
 /**
  * Self-contained locations map — no external tiles, API keys, or network calls.
@@ -41,22 +41,22 @@ const US_OUTLINE: [number, number][] = [
 
 const outlinePoints = US_OUTLINE.map(([lng, lat]) => project(lng, lat).join(",")).join(" ");
 
-// Offices plotted, then sorted west→east so the connecting line reads across the country.
-const plotted = OFFICES.map((o) => ({ ...o, xy: project(o.lng, o.lat) })).sort(
-  (a, b) => a.xy[0] - b.xy[0],
-);
-const linkPath = plotted.map((o) => o.xy.join(",")).join(" ");
-
 export default function LocationsMap() {
+  const offices = useOffices();
+  // Offices plotted, then sorted west→east so the connecting line reads across the country.
+  const plotted = offices
+    .map((o) => ({ ...o, xy: project(o.lng, o.lat) }))
+    .sort((a, b) => a.xy[0] - b.xy[0]);
+  const linkPath = plotted.map((o) => o.xy.join(",")).join(" ");
   return (
     <div className="relative w-full overflow-hidden rounded-sm bg-ink ring-1 ring-white/10">
       <svg
         viewBox={`0 0 ${W} ${H}`}
         className="h-auto w-full"
         role="img"
-        aria-label={`Mahoney Design & Build office locations: ${OFFICES.map(
-          (o) => `${o.city}, ${o.state}`,
-        ).join("; ")}`}
+        aria-label={`Mahoney Design & Build office locations: ${offices
+          .map((o) => `${o.city}, ${o.state}`)
+          .join("; ")}`}
       >
         {/* faint dot grid */}
         <defs>

@@ -5,6 +5,7 @@ import Footer from "@/components/site/Footer";
 import PageHero from "@/components/site/PageHero";
 import { Reveal, Stagger, StaggerItem } from "@/components/site/motion";
 import { COMPANY } from "@/data/content";
+import { usePageContent } from "@/hooks/useCms";
 import { useSeo, breadcrumbLd } from "@/lib/useSeo";
 import { trpc } from "@/providers/trpc";
 
@@ -35,6 +36,7 @@ const TRADES = [
 export default function Subcontractors() {
   const [sent, setSent] = useState(false);
   const create = trpc.inquiries.create.useMutation();
+  const t = usePageContent("subcontractors");
 
   useSeo({
     title: "Subcontractor Prequalification — Join Our Bid List | Mahoney Design & Build",
@@ -75,9 +77,12 @@ export default function Subcontractors() {
       <Header />
       <main>
         <PageHero
-          eyebrow="Subcontractors"
-          title="Build with MDB."
-          sub="We keep a short list of trade partners we trust — and we trust them completely. If you run a safe operation and stand behind your work, we want to hear from you."
+          eyebrow={t("hero.eyebrow", "Subcontractors")}
+          title={t("hero.title", "Build with MDB.")}
+          sub={t(
+            "hero.sub",
+            "We keep a short list of trade partners we trust — and we trust them completely. If you run a safe operation and stand behind your work, we want to hear from you."
+          )}
           shot="Subcontractor crew coordinating with an MDB superintendent on an active site — lift in background, morning light"
         />
 
