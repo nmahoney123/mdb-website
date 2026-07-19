@@ -445,29 +445,15 @@ export const JOBS: Job[] = [
   },
 ];
 
-export const TESTIMONIALS = [
-  {
-    quote:
-      "MDB brought us in sixty days ahead of our lease-up model. In storage, that's not a nice-to-have — that's the whole investment thesis. They understood the math better than most developers do.",
-    name: "[Placeholder] Daniel R.",
-    role: "Principal, Northeast Storage Development Group",
-    project: "Self Storage · 640 units",
-  },
-  {
-    quote:
-      "Franchise inspections, PIP review, winter construction — nothing slipped. Our Microtel opened on the date we signed for. I've built with nationals; I'd call Mahoney first.",
-    name: "[Placeholder] Priya S.",
-    role: "Owner-Operator, Hospitality Ventures LLC",
-    project: "Select-Service Hotel · 83 keys",
-  },
-  {
-    quote:
-      "They treated our 96-unit community like it was their own capital on the line. Phased turnover, near-zero warranty calls, and a super who answered the phone on the first ring — every time.",
-    name: "[Placeholder] Michael T.",
-    role: "Managing Partner, Creekside Development",
-    project: "Multifamily · 96 units",
-  },
-];
+// Real, approved client testimonials only. Add them in admin → Testimonials
+// (or here as the seed). The homepage section stays hidden while this is empty,
+// so no fabricated endorsements ship. Shape: { quote, name, role, project }.
+export const TESTIMONIALS: {
+  quote: string;
+  name: string;
+  role: string;
+  project: string;
+}[] = [];
 
 export const CAPABILITIES_MARQUEE = [
   "Ground-Up Construction",

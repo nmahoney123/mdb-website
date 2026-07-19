@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router";
-import { Menu, X, Phone, ArrowRight, Lock, HardHat, ChevronDown } from "lucide-react";
+import { Menu, X, Phone, ArrowRight, HardHat, ChevronDown } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import Logo from "./Logo";
 import { NAV_LINKS, COMPANY } from "@/data/content";
@@ -51,9 +51,6 @@ export default function Header() {
               className="flex items-center gap-1.5 transition-colors hover:text-white"
             >
               <Phone className="h-3 w-3" /> {PHONE}
-            </a>
-            <a href="#client-portal" className="flex items-center gap-1.5 transition-colors hover:text-white">
-              <Lock className="h-3 w-3" /> Client Portal
             </a>
             <Link
               to="/subcontractors"

@@ -4,6 +4,9 @@ import { useTestimonials } from "@/hooks/useCms";
 
 export default function Testimonials() {
   const testimonials = useTestimonials();
+  // Don't render the section until real, approved client quotes exist (managed in
+  // admin → Testimonials). Avoids shipping fabricated endorsements.
+  if (!testimonials.length) return null;
   return (
     <section className="bg-fog/60 py-24 sm:py-32">
       <div className="container-site">
@@ -35,11 +38,6 @@ export default function Testimonials() {
             </StaggerItem>
           ))}
         </Stagger>
-        <Reveal delay={0.2}>
-          <p className="mt-8 text-[11px] tracking-wide text-concrete/70">
-            * Testimonials are authentic-sounding placeholders — replace with approved client quotes before publish.
-          </p>
-        </Reveal>
       </div>
     </section>
   );

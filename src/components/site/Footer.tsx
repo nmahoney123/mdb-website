@@ -80,7 +80,6 @@ export default function Footer() {
               { label: "Careers", to: "/careers" },
               { label: "News & Insights", to: "/news" },
               { label: "Subcontractors", to: "/subcontractors" },
-              { label: "Client Portal", to: "#client-portal" },
               { label: "Contact", to: "/contact" },
             ].map((l) => (
               <li key={l.label}>

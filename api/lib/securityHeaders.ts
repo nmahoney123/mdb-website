@@ -24,12 +24,32 @@ export const securityHeaders = secureHeaders({
     fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
     formAction: ["'self'"],
     frameAncestors: ["'none'"],
-    imgSrc: ["'self'", "data:", "blob:"],
+    // Google-tag domains below are allow-listed so the optional GA4/Google Ads
+    // tag (enabled via the `gaId` setting) works; no requests occur until it loads.
+    imgSrc: [
+      "'self'",
+      "data:",
+      "blob:",
+      "https://www.google-analytics.com",
+      "https://www.googletagmanager.com",
+      "https://www.google.com",
+      "https://googleads.g.doubleclick.net",
+    ],
     mediaSrc: ["'self'", "blob:"],
     objectSrc: ["'none'"],
-    scriptSrc: ["'self'"],
+    scriptSrc: [
+      "'self'",
+      "https://www.googletagmanager.com",
+      "https://www.googleadservices.com",
+    ],
     styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-    connectSrc: ["'self'"],
+    connectSrc: [
+      "'self'",
+      "https://*.google-analytics.com",
+      "https://*.analytics.google.com",
+      "https://www.googletagmanager.com",
+      "https://www.google.com",
+    ],
   },
   // Redundant with frame-ancestors 'none' but kept for legacy browsers.
   xFrameOptions: "DENY",

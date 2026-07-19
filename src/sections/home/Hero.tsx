@@ -46,7 +46,7 @@ export default function Hero() {
           initial={reduce ? false : { opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="eyebrow"
+          className="eyebrow !text-mahoney-light"
         >
           {t("hero.eyebrow", "General Contracting · Design-Build · Since 1985")}
         </motion.p>
@@ -63,7 +63,7 @@ export default function Hero() {
             >
               {line2 === "Way to Build." ? (
                 <>
-                  <span className="text-mahoney">Way to</span> Build.
+                  <span className="text-mahoney-light">Way to</span> Build.
                 </>
               ) : (
                 line2
