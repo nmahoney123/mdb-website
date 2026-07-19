@@ -44,6 +44,12 @@ export default function Advantage() {
               progress in real time until the keys change hands. Four decades of
               owners have come back for exactly that.
             </p>
+            <p>
+              We contract on standard{" "}
+              <span className="font-semibold text-ink">AIA contract documents</span>
+              , so the terms are familiar to owners, lenders, and architects
+              alike — no surprises in the paperwork, either.
+            </p>
           </Reveal>
         </div>
 

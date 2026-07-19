@@ -149,6 +149,7 @@ export default function Footer() {
           <div className="flex gap-5">
             {/* TODO(owner): add a Privacy Policy page, then link it here */}
             <a href="/sitemap.xml" className="hover:text-white/70">Sitemap</a>
+            <Link to="/admin/login" className="hover:text-white/70">Admin</Link>
           </div>
         </div>
       </div>

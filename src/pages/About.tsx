@@ -246,9 +246,9 @@ export default function About() {
               {/* TODO(owner): set COMPANY.license (src/data/content.ts) to show the license number */}
               <p className="mt-8 text-sm text-concrete">
                 Licensed &amp; insured general contractor.
-                {COMPANY.license ? ` ${COMPANY.license}.` : ""} OSHA-trained
-                field leadership; written safety and quality programs on every
-                project.
+                {COMPANY.license ? ` ${COMPANY.license}.` : ""} We contract on
+                standard AIA documents. OSHA-trained field leadership; written
+                safety and quality programs on every project.
               </p>
             </Reveal>
             <Stagger className="grid gap-px border border-fog bg-fog sm:grid-cols-2">
