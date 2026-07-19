@@ -1,0 +1,175 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.625rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+/* ============ MDB brand layer ============ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-bone text-ink font-body antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: #c8102e;
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid #c8102e;
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-site px-5 sm:px-8 lg:px-10;
+  }
+  .eyebrow {
+    @apply font-display text-[11px] sm:text-xs font-semibold uppercase tracking-[0.28em] text-mahoney;
+  }
+  .eyebrow-light {
+    @apply font-display text-[11px] sm:text-xs font-semibold uppercase tracking-[0.28em] text-fog/70;
+  }
+  .rule-red {
+    @apply h-px w-14 bg-mahoney;
+  }
+  .display-1 {
+    @apply font-display font-extrabold uppercase leading-[0.95] tracking-[-0.01em];
+    font-stretch: 110%;
+  }
+  .display-2 {
+    @apply font-display font-bold uppercase leading-[1.02] tracking-[-0.005em];
+    font-stretch: 108%;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-3 px-7 py-4 font-display text-xs font-bold uppercase tracking-[0.18em] transition-all duration-300 rounded-[2px];
+  }
+  .btn .arrow {
+    @apply inline-block transition-transform duration-300;
+  }
+  .btn:hover .arrow {
+    transform: translateX(6px);
+  }
+  .btn-primary {
+    @apply btn bg-mahoney text-white hover:bg-oxblood hover:-translate-y-0.5 shadow-[0_10px_30px_-12px_rgba(200,16,46,0.6)];
+  }
+  .btn-outline-light {
+    @apply btn border border-white/40 text-white hover:border-white hover:bg-white hover:text-ink hover:-translate-y-0.5;
+  }
+  .btn-outline-ink {
+    @apply btn border border-ink/30 text-ink hover:border-ink hover:bg-ink hover:text-white hover:-translate-y-0.5;
+  }
+  .field-label {
+    @apply block font-display text-[11px] font-semibold uppercase tracking-[0.22em] text-concrete mb-2;
+  }
+  .field-input {
+    @apply w-full bg-white border border-fog px-4 py-3.5 text-[15px] text-ink placeholder:text-concrete/60 rounded-[2px] transition-colors focus:border-mahoney focus:outline-none;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  /* labeled placeholder surface */
+  .slot-hatch {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.045) 0px,
+      rgba(255, 255, 255, 0.045) 1px,
+      transparent 1px,
+      transparent 12px
+    );
+  }
+  .slot-hatch-light {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      rgba(20, 20, 20, 0.05) 0px,
+      rgba(20, 20, 20, 0.05) 1px,
+      transparent 1px,
+      transparent 12px
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-marquee,
+  .animate-marquee-slow {
+    animation: none !important;
+  }
+}
