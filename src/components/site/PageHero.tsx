@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import CmsImage from "./CmsImage";
 import { AnimatedWords } from "./motion";
+import { useSettings } from "@/hooks/useCms";
 
 export default function PageHero({
   eyebrow,
@@ -19,11 +20,40 @@ export default function PageHero({
   children?: ReactNode;
 }) {
   const reduce = useReducedMotion();
+  const settings = useSettings();
   return (
     <section className="relative flex min-h-[62vh] items-end overflow-hidden bg-ink pt-40 pb-16 sm:pb-20">
       <div className="absolute inset-0">
-        <CmsImage url={imageUrl} shot={shot} label="Hero Image Slot" className="h-full w-full opacity-60" loading="eager" />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/30" />
+        {imageUrl ? (
+          // Page provided a specific image — use it.
+          <CmsImage url={imageUrl} shot={shot} className="h-full w-full opacity-55" loading="eager" />
+        ) : reduce ? (
+          // Reduced motion — the hero poster still (no autoplay video).
+          <img
+            src={settings.heroPosterUrl}
+            alt=""
+            aria-hidden
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+            className="h-full w-full object-cover opacity-45"
+          />
+        ) : (
+          // Default — the shared construction hero video plays on every page.
+          <video
+            className="h-full w-full object-cover opacity-45"
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster={settings.heroPosterUrl}
+            aria-hidden
+          >
+            <source src={settings.heroVideoMobileUrl} type="video/mp4" media="(max-width: 768px)" />
+            <source src={settings.heroVideoUrl} type="video/mp4" />
+          </video>
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/70 to-ink/40" />
       </div>
       <div className="container-site relative z-10">
         <motion.p

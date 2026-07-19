@@ -1,14 +1,55 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import { ArrowRight, ChevronDown } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { AnimatedWords } from "@/components/site/motion";
 import { useSettings, usePageContent } from "@/hooks/useCms";
+
+/** Words the hero headline cycles through: "A Better Way to __" */
+const ROTATING_WORDS = ["Build.", "Design.", "Construct.", "Plan.", "Deliver."];
+
+/** Vertical carousel that rotates through ROTATING_WORDS on its own line. */
+function RotatingWord() {
+  const reduce = useReducedMotion();
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    if (reduce) return;
+    const id = window.setInterval(
+      () => setI((v) => (v + 1) % ROTATING_WORDS.length),
+      2200
+    );
+    return () => window.clearInterval(id);
+  }, [reduce]);
+
+  if (reduce) {
+    return <span className="text-mahoney-light">{ROTATING_WORDS[0]}</span>;
+  }
+  return (
+    <span
+      className="relative inline-block overflow-hidden align-bottom"
+      style={{ height: "1em" }}
+      aria-label={ROTATING_WORDS[i]}
+    >
+      <AnimatePresence mode="popLayout" initial={false}>
+        <motion.span
+          key={i}
+          className="inline-block text-mahoney-light"
+          initial={{ y: "100%" }}
+          animate={{ y: 0 }}
+          exit={{ y: "-100%" }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {ROTATING_WORDS[i]}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
 
 export default function Hero() {
   const reduce = useReducedMotion();
   const settings = useSettings();
   const t = usePageContent("home");
-  const line2 = t("hero.title.line2", "Way to Build.");
 
   return (
     <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-ink">
@@ -51,24 +92,20 @@ export default function Hero() {
           {t("hero.eyebrow", "General Contracting · Design-Build · Since 1985")}
         </motion.p>
 
-        <h1 className="mt-6 font-anton text-[13vw] uppercase leading-[0.92] tracking-[0.005em] text-white sm:text-[10.5vw] lg:text-[7rem]">
+        <h1 className="mt-6 font-anton text-[13vw] uppercase leading-[0.95] tracking-[0.005em] text-white sm:text-[10.5vw] lg:text-[6.5rem]">
           <AnimatedWords text={t("hero.title.line1", "A Better")} delay={0.25} />
-          <br />
-          <span className="block overflow-hidden pb-[0.08em] -mb-[0.08em]" aria-label={line2}>
+          <span className="block overflow-hidden pb-[0.08em] -mb-[0.08em]">
             <motion.span
               className="block"
               initial={reduce ? false : { y: "110%", opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.75, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
             >
-              {line2 === "Way to Build." ? (
-                <>
-                  <span className="text-mahoney-light">Way to</span> Build.
-                </>
-              ) : (
-                line2
-              )}
+              Way to
             </motion.span>
+          </span>
+          <span className="block">
+            <RotatingWord />
           </span>
         </h1>
 
