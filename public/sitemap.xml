@@ -46,7 +46,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mahoneydesignandbuild.com/industries/self-storage</loc>
+    <loc>https://mahoneydesignandbuild.com/industries/multifamily</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -56,12 +56,22 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mahoneydesignandbuild.com/industries/multifamily</loc>
+    <loc>https://mahoneydesignandbuild.com/industries/custom-homes</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mahoneydesignandbuild.com/industries/custom-homes</loc>
+    <loc>https://mahoneydesignandbuild.com/industries/self-storage</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mahoneydesignandbuild.com/industries/industrial</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mahoneydesignandbuild.com/industries/specialty-commercial</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

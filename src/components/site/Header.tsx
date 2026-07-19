@@ -3,13 +3,28 @@ import { Link, NavLink, useLocation } from "react-router";
 import { Menu, X, Phone, ArrowRight, HardHat, ChevronDown } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import Logo from "./Logo";
-import { NAV_LINKS, COMPANY } from "@/data/content";
-import { useSettings } from "@/hooks/useCms";
+import { NAV_LINKS, COMPANY, type NavItem } from "@/data/content";
+import { useSettings, useIndustries } from "@/hooks/useCms";
 import { cn } from "@/lib/utils";
 
 export default function Header() {
   const settings = useSettings();
+  const industries = useIndustries();
   const PHONE = settings.phone || COMPANY.phone;
+
+  // The "Industries" nav item becomes a dropdown of the live CMS industries.
+  const navItems: NavItem[] = NAV_LINKS.map((l) =>
+    l.label === "Industries"
+      ? {
+          label: "Industries",
+          to: "/industries",
+          children: [
+            { label: "All Industries", to: "/industries" },
+            ...industries.map((i) => ({ label: i.name, to: `/industries/${i.slug}` })),
+          ],
+        }
+      : l
+  );
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const location = useLocation();
@@ -74,7 +89,7 @@ export default function Header() {
         <div className="container-site flex h-[72px] items-center justify-between">
           <Logo light />
           <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex">
-            {NAV_LINKS.map((l) =>
+            {navItems.map((l) =>
               l.children ? (
                 <div key={l.label} className="group relative">
                   <button
@@ -163,7 +178,7 @@ export default function Header() {
             className="fixed inset-0 top-[72px] z-40 bg-ink lg:hidden"
           >
             <nav aria-label="Mobile" className="container-site flex flex-col gap-1 py-8">
-              {NAV_LINKS.map((l, i) => (
+              {navItems.map((l, i) => (
                 <motion.div
                   key={l.to ?? l.label}
                   initial={{ opacity: 0, x: -20 }}

@@ -17,7 +17,7 @@ export default function Industries() {
             <p className="eyebrow">What We Build</p>
             <div className="rule-red mt-4" />
             <h2 className="display-2 mt-6 max-w-2xl text-3xl sm:text-5xl">
-              Three core markets. One standard of delivery.
+              Six markets. One standard of delivery.
             </h2>
           </Reveal>
           <Reveal delay={0.2}>

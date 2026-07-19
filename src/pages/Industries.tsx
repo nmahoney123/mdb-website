@@ -13,9 +13,9 @@ export default function Industries() {
   const industries = useIndustries();
   const t = usePageContent("industries");
   useSeo({
-    title: "Industries We Build — Self Storage, Hospitality & Multifamily | Mahoney Design & Build",
+    title: "Industries We Build — Multifamily, Hotels, Self Storage, Industrial & More | Mahoney Design & Build",
     description:
-      "Ground-up commercial construction across self storage, hotels & hospitality, and multifamily — plus select custom homes. Design-build delivery from a family-owned GC.",
+      "Ground-up commercial construction across multifamily, hotels, residential, self storage, industrial, and specialty commercial. Design-build delivery from a family-owned GC.",
     path: "/industries",
     jsonLd: breadcrumbLd([
       { name: "Home", path: "/" },

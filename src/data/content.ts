@@ -89,54 +89,6 @@ export type Industry = {
 
 export const INDUSTRIES: Industry[] = [
   {
-    slug: "self-storage",
-    name: "Self Storage",
-    short: "Storage",
-    blurb:
-      "Climate-controlled and drive-up facilities engineered for fast lease-up and low operating cost — ground-up storage for owner-operators and institutional developers.",
-    overview: [
-      "Self storage is a speed-to-market business. Every week of schedule is a week of lost lease-up. We plan MDB storage projects around that math — sitework, structure, and climate systems sequenced so certificates of occupancy arrive early, not on time.",
-      "We build single-story drive-up, multi-story climate-controlled, and conversion projects for owner-operators and institutional developers. Unit mixes, gate systems, office packages, and climate zones are coordinated in preconstruction — not value-engineered in the field.",
-    ],
-    capabilities: [
-      "Ground-up climate-controlled facilities",
-      "Single-story drive-up complexes",
-      "Building conversions & adaptive reuse",
-      "Sitework, stormwater & utilities",
-      "Gate, security & office fit-out",
-      "Multi-site program rollouts",
-    ],
-    heroShot:
-      "Aerial drone shot of a completed multi-building self-storage facility at golden hour — rows of drive-up units with red doors, fresh asphalt striping",
-    cardShot:
-      "Exterior of a modern climate-controlled self-storage building — standing-seam metal facade, glass office corner, branded red unit doors",
-    stat: { value: "1.2M+", label: "Storage sq ft delivered" },
-  },
-  {
-    slug: "hotels-hospitality",
-    name: "Hotels & Hospitality",
-    short: "Hotels",
-    blurb:
-      "Flagged and boutique builds — from select-service brands like Microtel to full renovations — delivered on brand standard, on schedule.",
-    overview: [
-      "Hotel work lives and dies on two things: brand standards and the opening date. Miss either and the owner's pro forma suffers. We build flagged select-service properties — including Microtel by Wyndham — and boutique hospitality projects with PIP and brand review built into the schedule from day one.",
-      "From franchise approval through punch list, our team manages prototype compliance, FF&E coordination, and the inspections that gate a flag's opening authorization. Renovation work is phased to keep properties in revenue wherever possible.",
-    ],
-    capabilities: [
-      "Select-service & extended-stay flags",
-      "Boutique & independent hotels",
-      "PIP renovations & repositioning",
-      "FF&E procurement coordination",
-      "Brand-standard & prototype compliance",
-      "Occupied-phased renovations",
-    ],
-    heroShot:
-      "Dusk exterior of a newly completed select-service hotel — porte-cochère lit, flag signage glowing, guests arriving",
-    cardShot:
-      "Hotel guestroom corridor and lobby under final punch — warm lighting, brand-standard finishes, construction nearly complete",
-    stat: { value: "20+", label: "Hotel projects completed" },
-  },
-  {
     slug: "multifamily",
     name: "Multifamily",
     short: "Multifamily",
@@ -161,28 +113,124 @@ export const INDUSTRIES: Industry[] = [
     stat: { value: "800+", label: "Residential units built" },
   },
   {
-    slug: "custom-homes",
-    name: "Custom Homes (Select)",
-    short: "Homes",
+    slug: "hotels-hospitality",
+    name: "Hotels",
+    short: "Hotels",
     blurb:
-      "For valued, longstanding clients, we still build extraordinary one-of-a-kind homes — including a 3,200 sq ft home raised in under five days for ABC's Extreme Makeover: Home Edition with 2,000+ volunteers.",
+      "Flagged and boutique builds — from select-service brands like Microtel to full renovations — delivered on brand standard, on schedule.",
     overview: [
-      "MDB began as a homebuilder in 1985, and craft at that scale is still in our DNA. Today we take on a small number of custom homes each year — exclusively for longstanding clients and referrals who want the same precision we bring to commercial work.",
+      "Hotel work lives and dies on two things: brand standards and the opening date. Miss either and the owner's pro forma suffers. We build flagged select-service properties — including Microtel by Wyndham — and boutique hospitality projects with PIP and brand review built into the schedule from day one.",
+      "From franchise approval through punch list, our team manages prototype compliance, FF&E coordination, and the inspections that gate a flag's opening authorization. Renovation work is phased to keep properties in revenue wherever possible.",
+    ],
+    capabilities: [
+      "Select-service & extended-stay flags",
+      "Boutique & independent hotels",
+      "PIP renovations & repositioning",
+      "FF&E procurement coordination",
+      "Brand-standard & prototype compliance",
+      "Occupied-phased renovations",
+    ],
+    heroShot:
+      "Dusk exterior of a newly completed select-service hotel — porte-cochère lit, flag signage glowing, guests arriving",
+    cardShot:
+      "Hotel guestroom corridor and lobby under final punch — warm lighting, brand-standard finishes, construction nearly complete",
+    stat: { value: "20+", label: "Hotel projects completed" },
+  },
+  {
+    slug: "custom-homes",
+    name: "Residential",
+    short: "Residential",
+    blurb:
+      "Single-family and custom residential — from luxury one-of-a-kind homes to the 3,200 sq ft house we raised in under five days for ABC's Extreme Makeover: Home Edition with 2,000+ volunteers.",
+    overview: [
+      "MDB began as a homebuilder in 1985, and craft at that scale is still in our DNA. On the residential side we build luxury custom homes and select single-family work for longstanding clients and referrals who want the same precision we bring to commercial construction.",
       "Our signature credential: a 3,200 sq ft custom home raised in under five days for ABC's Extreme Makeover: Home Edition, coordinating more than 2,000 volunteers. It remains the clearest demonstration of what MDB planning and field leadership can do.",
     ],
     capabilities: [
-      "One-of-a-kind custom residences",
+      "Luxury custom homes",
+      "Single-family residential",
       "Design-build from concept to keys",
       "Historic renovation & restoration",
       "High-performance envelopes",
       "Client-direct project management",
-      "Legacy clients & referrals only",
     ],
     heroShot:
       "Finished custom lakefront home at twilight — warm interior light through large windows, natural stone and timber exterior",
     cardShot:
-      "The Extreme Makeover: Home Edition build — thousands of volunteers surrounding a framed house, MDB supers coordinating lifts",
+      "Finished custom home exterior at golden hour — stone, timber, and glass",
     stat: { value: "106 hrs", label: "Extreme Makeover build" },
+  },
+  {
+    slug: "self-storage",
+    name: "Self Storage",
+    short: "Storage",
+    blurb:
+      "Climate-controlled and drive-up facilities engineered for fast lease-up and low operating cost — ground-up storage for owner-operators and institutional developers.",
+    overview: [
+      "Self storage is a speed-to-market business. Every week of schedule is a week of lost lease-up. We plan MDB storage projects around that math — sitework, structure, and climate systems sequenced so certificates of occupancy arrive early, not on time.",
+      "We build single-story drive-up, multi-story climate-controlled, and conversion projects for owner-operators and institutional developers. Unit mixes, gate systems, office packages, and climate zones are coordinated in preconstruction — not value-engineered in the field.",
+    ],
+    capabilities: [
+      "Ground-up climate-controlled facilities",
+      "Single-story drive-up complexes",
+      "Building conversions & adaptive reuse",
+      "Sitework, stormwater & utilities",
+      "Gate, security & office fit-out",
+      "Multi-site program rollouts",
+    ],
+    heroShot:
+      "Aerial drone shot of a completed multi-building self-storage facility at golden hour — rows of drive-up units with red doors, fresh asphalt striping",
+    cardShot:
+      "Exterior of a modern climate-controlled self-storage building — standing-seam metal facade, glass office corner, branded red unit doors",
+    stat: { value: "1.2M+", label: "Storage sq ft delivered" },
+  },
+  {
+    slug: "industrial",
+    name: "Industrial",
+    short: "Industrial",
+    blurb:
+      "Warehouses, distribution, flex, and light-manufacturing facilities — tilt-up and structural-steel builds engineered for throughput, power, and expansion.",
+    overview: [
+      "Industrial owners build for throughput: clear heights, dock counts, column spacing, and power that match how goods actually move. MDB plans industrial projects around those operational drivers — not a generic shell — so the building works the day it opens.",
+      "We deliver tilt-up and structural-steel warehouses, distribution and fulfillment centers, flex buildings, and light-manufacturing space, coordinating heavy sitework, utilities, and phasing so operations can scale without a second mobilization.",
+    ],
+    capabilities: [
+      "Tilt-up & structural-steel warehouses",
+      "Distribution & fulfillment centers",
+      "Flex & light-manufacturing space",
+      "Loading docks, drive aisles & truck courts",
+      "Heavy power, HVAC & process utilities",
+      "Site development & stormwater",
+    ],
+    heroShot:
+      "Aerial of a completed distribution warehouse — rows of loading docks, truck court, and a large parking field at dusk",
+    cardShot:
+      "Exterior of a tilt-up industrial warehouse with dock doors, truck bays, and clean sitework",
+    stat: { value: "Tilt-Up", label: "& structural steel" },
+  },
+  {
+    slug: "specialty-commercial",
+    name: "Specialty Commercial",
+    short: "Specialty",
+    blurb:
+      "Retail, office, medical, and mixed-use — ground-up and tenant fit-out delivered to brand and code with the schedule certainty a hard opening date demands.",
+    overview: [
+      "Specialty commercial covers the projects that don't fit a single mold — retail centers, offices, medical and dental suites, restaurants, and mixed-use developments. What they share is an exacting finish standard and an opening date that can't move.",
+      "MDB delivers these ground-up and as tenant fit-outs, managing landlord coordination, permitting, brand standards, and the inspections that gate a certificate of occupancy — so tenants open on schedule and on budget.",
+    ],
+    capabilities: [
+      "Retail & restaurant construction",
+      "Office & medical / dental fit-out",
+      "Mixed-use developments",
+      "Tenant improvements",
+      "Landlord & brand coordination",
+      "Permitting & certificate-of-occupancy management",
+    ],
+    heroShot:
+      "Completed multi-tenant retail and office building at dusk — lit storefronts, clean parking field, monument signage",
+    cardShot:
+      "Modern multi-tenant commercial storefront with a glass facade and brick detailing",
+    stat: { value: "Fit-Out", label: "to ground-up" },
   },
 ];
 
