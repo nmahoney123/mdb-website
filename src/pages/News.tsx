@@ -7,9 +7,25 @@ import CtaSection from "@/components/site/CtaSection";
 import CmsImage from "@/components/site/CmsImage";
 import { Reveal, Stagger, StaggerItem } from "@/components/site/motion";
 import { usePosts } from "@/hooks/useCms";
+import { getAllPosts } from "@/lib/blog";
 
 export default function News() {
-  const NEWS = usePosts();
+  const dbPosts = usePosts();
+  const mdPosts = getAllPosts();
+  // Markdown (git-committed) posts lead, then DB posts that don't collide by slug.
+  const mdSlugs = new Set(mdPosts.map((p) => p.slug));
+  const NEWS = [
+    ...mdPosts.map((p) => ({
+      slug: p.slug,
+      title: p.title,
+      category: p.category,
+      excerpt: p.excerpt,
+      coverImage: p.coverImage,
+      shot: p.shot,
+      date: p.date,
+    })),
+    ...dbPosts.filter((p) => !mdSlugs.has(p.slug)),
+  ];
   return (
     <>
       <Header />

@@ -6,16 +6,29 @@ import CtaSection from "@/components/site/CtaSection";
 import CmsImage from "@/components/site/CmsImage";
 import { Reveal, AnimatedWords } from "@/components/site/motion";
 import { usePosts } from "@/hooks/useCms";
+import { getAllPosts, getPostBySlug } from "@/lib/blog";
 import { motion, useReducedMotion } from "framer-motion";
 
 export default function Article() {
   const { slug } = useParams();
-  const NEWS = usePosts();
-  const article = NEWS.find((n) => n.slug === slug);
+  const dbPosts = usePosts();
   const reduce = useReducedMotion();
+
+  // Markdown (git-committed) posts take priority over DB posts on slug match.
+  const mdPost = getPostBySlug(slug);
+  const dbPost = dbPosts.find((n) => n.slug === slug);
+  const article = mdPost ?? dbPost;
   if (!article) return <Navigate to="/news" replace />;
 
-  const others = NEWS.filter((n) => n.slug !== slug).slice(0, 2);
+  // "Keep reading" — markdown + DB posts combined, current excluded, deduped.
+  const seen = new Set<string>([slug ?? ""]);
+  const others = [...getAllPosts(), ...dbPosts]
+    .filter((n) => {
+      if (seen.has(n.slug)) return false;
+      seen.add(n.slug);
+      return true;
+    })
+    .slice(0, 2);
 
   return (
     <>
@@ -44,13 +57,23 @@ export default function Article() {
               </div>
             </Reveal>
             <Reveal delay={0.1}>
-              <div className="prose-mdb mt-12 space-y-6 text-lg leading-relaxed text-ink/85">
-                {article.body.map((p, i) => (
-                  <p key={i} className={i === 0 ? "text-xl font-medium text-ink" : ""}>
-                    {p}
-                  </p>
-                ))}
-              </div>
+              {mdPost ? (
+                <div
+                  className="mt-12 text-lg leading-relaxed text-ink/85 [&>*:first-child]:mt-0 [&_a]:text-mahoney [&_a]:underline [&_a]:underline-offset-2 [&_code]:rounded [&_code]:bg-fog/60 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[0.9em] [&_em]:italic [&_h2]:mt-12 [&_h2]:font-display [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-ink [&_h3]:mt-8 [&_h3]:font-display [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-ink [&_li]:mt-2 [&_ol]:mt-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:mt-6 [&_strong]:font-semibold [&_strong]:text-ink [&_ul]:mt-6 [&_ul]:list-disc [&_ul]:pl-6"
+                  // Body HTML is produced by src/lib/blog.ts, which HTML-escapes
+                  // all source text before applying a fixed set of tags and
+                  // scheme-restricts link URLs — so this is XSS-safe.
+                  dangerouslySetInnerHTML={{ __html: mdPost.html }}
+                />
+              ) : (
+                <div className="prose-mdb mt-12 space-y-6 text-lg leading-relaxed text-ink/85">
+                  {dbPost!.body.map((p, i) => (
+                    <p key={i} className={i === 0 ? "text-xl font-medium text-ink" : ""}>
+                      {p}
+                    </p>
+                  ))}
+                </div>
+              )}
             </Reveal>
             <Reveal delay={0.15}>
               <div className="mt-14 border-t border-fog pt-8">
