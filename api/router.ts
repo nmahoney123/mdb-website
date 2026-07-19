@@ -1,7 +1,9 @@
 import { z } from "zod";
+import { TRPCError } from "@trpc/server";
 import { asc, desc, eq } from "drizzle-orm";
 import { createRouter, publicQuery } from "./middleware";
 import { requireAdminTrpc, isValidToken } from "./lib/adminAuth";
+import { rateLimit, clientIpFromHeaders } from "./lib/rateLimit";
 import { getDb } from "./queries/connection";
 import {
   settings,
@@ -248,9 +250,14 @@ export const appRouter = createRouter({
       const rows = await db.select().from(media).where(eq(media.id, input.id)).limit(1);
       const row = rows[0];
       if (row) {
-        const name = row.url.replace(/^\/api\/uploads\//, "");
+        const name = path.basename(row.url.replace(/^\/api\/uploads\//, ""));
         const filePath = path.join(UPLOADS_DIR, name);
-        if (row.url.startsWith("/api/uploads/") && fs.existsSync(filePath)) {
+        // Only unlink files that resolve inside the uploads directory.
+        if (
+          row.url.startsWith("/api/uploads/") &&
+          filePath.startsWith(UPLOADS_DIR + path.sep) &&
+          fs.existsSync(filePath)
+        ) {
           fs.unlinkSync(filePath);
         }
         await db.delete(media).where(eq(media.id, input.id));
@@ -260,7 +267,16 @@ export const appRouter = createRouter({
   }),
 
   inquiries: createRouter({
-    create: publicQuery.input(inquiryInput).mutation(async ({ input }) => {
+    create: publicQuery.input(inquiryInput).mutation(async ({ input, ctx }) => {
+      // Spam / abuse throttle: 5 submissions / 10 min per client IP.
+      const ip = clientIpFromHeaders(ctx.req.headers);
+      const limit = rateLimit(`inquiry:${ip}`, 5, 10 * 60 * 1000);
+      if (!limit.ok) {
+        throw new TRPCError({
+          code: "TOO_MANY_REQUESTS",
+          message: "Too many submissions. Please try again later.",
+        });
+      }
       const { meta, ...rest } = input;
       await getDb()
         .insert(inquiries)
