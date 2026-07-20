@@ -1,4 +1,4 @@
-import { ArrowRight, ShieldCheck, BadgeCheck, Leaf } from "lucide-react";
+import { ShieldCheck, BadgeCheck, Leaf } from "lucide-react";
 import { Reveal, Stagger, StaggerItem } from "@/components/site/motion";
 
 const BLOCKS = [
@@ -39,13 +39,6 @@ export default function Credibility() {
                   {b.title}
                 </h3>
                 <p className="mt-3 flex-1 text-sm leading-relaxed text-concrete">{b.body}</p>
-                <a
-                  href={`#${b.title.toLowerCase()}`}
-                  className="group/l mt-6 inline-flex items-center gap-2 font-display text-[11px] font-bold uppercase tracking-[0.22em] text-ink transition-colors hover:text-mahoney"
-                >
-                  Learn More
-                  <ArrowRight className="h-3.5 w-3.5 text-mahoney transition-transform duration-300 group-hover/l:translate-x-1.5" />
-                </a>
               </div>
             </StaggerItem>
           ))}

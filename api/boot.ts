@@ -23,6 +23,19 @@ await seedDatabase().catch((err) => {
 const app = new Hono<{ Bindings: HttpBindings }>();
 
 app.use(securityHeaders);
+
+// The canonical/OG/sitemap URLs point at the real domain (mahoneydesignandbuild.com).
+// Until that domain is connected, keep the temporary *.onrender.com host out of
+// search indexes so it can't be indexed as a throwaway/duplicate. Once the real
+// domain serves the app, this header simply stops applying.
+app.use(async (c, next) => {
+  await next();
+  const host = (c.req.header("host") || "").toLowerCase();
+  if (host.endsWith(".onrender.com")) {
+    c.header("X-Robots-Tag", "noindex, nofollow");
+  }
+});
+
 app.use(bodyLimit({ maxSize: 50 * 1024 * 1024 }));
 registerAdminRoutes(app);
 app.use("/api/trpc/*", async (c) => {

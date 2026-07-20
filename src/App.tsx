@@ -18,6 +18,7 @@ const Locations = lazy(() => import("./pages/Locations"));
 const LocationDetail = lazy(() => import("./pages/LocationDetail"));
 const AdminLogin = lazy(() => import("./admin/Login"));
 const AdminApp = lazy(() => import("./admin/AdminApp"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 /** Lightweight route fallback — avoids a jarring blank flash on chunk load. */
 function RouteFallback() {
@@ -60,7 +61,7 @@ export default function App() {
         <Route path="/locations/:slug" element={<LocationDetail />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/*" element={<AdminApp />} />
-        <Route path="*" element={<Home />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       </Suspense>
     </>

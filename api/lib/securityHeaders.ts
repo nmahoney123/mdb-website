@@ -24,6 +24,8 @@ export const securityHeaders = secureHeaders({
     fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
     formAction: ["'self'"],
     frameAncestors: ["'none'"],
+    // The Contact page embeds a Google Maps iframe for the HQ address.
+    frameSrc: ["https://www.google.com"],
     // Google-tag domains below are allow-listed so the optional GA4/Google Ads
     // tag (enabled via the `gaId` setting) works; no requests occur until it loads.
     imgSrc: [

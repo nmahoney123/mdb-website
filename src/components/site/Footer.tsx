@@ -1,8 +1,16 @@
 import { Link } from "react-router";
 import { Facebook, Linkedin, Youtube, Instagram, ArrowRight, MapPin, Phone, Mail } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import Logo from "./Logo";
-import { COMPANY, INDUSTRIES, OFFICES } from "@/data/content";
+import { COMPANY, INDUSTRIES, OFFICES, SOCIAL_LINKS, type SocialLabel } from "@/data/content";
 import { useSettings } from "@/hooks/useCms";
+
+const SOCIAL_ICONS: Record<SocialLabel, LucideIcon> = {
+  Facebook,
+  LinkedIn: Linkedin,
+  YouTube: Youtube,
+  Instagram,
+};
 
 export default function Footer() {
   const s = useSettings();
@@ -25,23 +33,25 @@ export default function Footer() {
               {OFFICES.map((o) => `${o.city}, ${o.state}`).join("  ·  ")}
             </Link>
           </p>
-          <div className="mt-6 flex gap-3">
-            {[
-              { icon: Facebook, label: "Facebook" },
-              { icon: Linkedin, label: "LinkedIn" },
-              { icon: Youtube, label: "YouTube" },
-              { icon: Instagram, label: "Instagram" },
-            ].map(({ icon: Icon, label }) => (
-              <a
-                key={label}
-                href={`#${label.toLowerCase()}`}
-                aria-label={label}
-                className="flex h-10 w-10 items-center justify-center border border-white/15 text-white/60 transition-all hover:border-mahoney hover:bg-mahoney hover:text-white"
-              >
-                <Icon className="h-4 w-4" />
-              </a>
-            ))}
-          </div>
+          {SOCIAL_LINKS.length > 0 && (
+            <div className="mt-6 flex gap-3">
+              {SOCIAL_LINKS.map(({ label, href }) => {
+                const Icon = SOCIAL_ICONS[label];
+                return (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="flex h-10 w-10 items-center justify-center border border-white/15 text-white/60 transition-all hover:border-mahoney hover:bg-mahoney hover:text-white"
+                  >
+                    <Icon className="h-4 w-4" />
+                  </a>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* Industries */}

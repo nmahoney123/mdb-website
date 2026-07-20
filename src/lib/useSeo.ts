@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { COMPANY, INDUSTRIES, type Office } from "@/data/content";
+import { COMPANY, INDUSTRIES, SOCIAL_LINKS, type Office } from "@/data/content";
 
 /**
  * Lightweight, dependency-free document-head manager.
@@ -36,6 +36,8 @@ export interface SeoInput {
   type?: "website" | "article";
   /** One or more JSON-LD structured-data objects. */
   jsonLd?: JsonLd | JsonLd[];
+  /** When true, emit <meta name="robots" content="noindex,nofollow"> (e.g. 404). */
+  noindex?: boolean;
 }
 
 function upsertMeta(
@@ -65,6 +67,7 @@ export function useSeo({
   image,
   type = "website",
   jsonLd,
+  noindex = false,
 }: SeoInput): void {
   useEffect(() => {
     const url = absoluteUrl(path);
@@ -75,6 +78,8 @@ export function useSeo({
     if (description) {
       upsertMeta("name", "description", description);
     }
+
+    upsertMeta("name", "robots", noindex ? "noindex, nofollow" : "index, follow");
 
     // Canonical link (single instance).
     let canonical = document.head.querySelector<HTMLLinkElement>(
@@ -116,7 +121,7 @@ export function useSeo({
     };
     // jsonLd is compared by value; primitives cover the rest.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [title, description, path, image, type, JSON.stringify(jsonLd)]);
+  }, [title, description, path, image, type, noindex, JSON.stringify(jsonLd)]);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -136,7 +141,8 @@ export function organizationLd(): JsonLd {
     name: COMPANY.name,
     alternateName: COMPANY.short,
     url: `${SITE_URL}/`,
-    logo: DEFAULT_OG_IMAGE,
+    // Google's logo guidance prefers a square, dedicated logo (not the wide OG image).
+    logo: `${SITE_URL}/favicon-512.png`,
     image: DEFAULT_OG_IMAGE,
     slogan: COMPANY.tagline,
     description:
@@ -178,7 +184,8 @@ export function organizationLd(): JsonLd {
 }
 
 /** Real, public social profile URLs. Empty until the owner supplies them. */
-const SOCIAL_URLS: string[] = [];
+// Single source of truth: the footer's social profiles feed `sameAs`.
+const SOCIAL_URLS: string[] = SOCIAL_LINKS.map((s) => s.href);
 
 /** WebSite node for the site root. */
 export function websiteLd(): JsonLd {

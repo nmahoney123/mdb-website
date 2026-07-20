@@ -532,6 +532,14 @@ export const PARTNERS: Partner[] = [
   { name: "GAIL Technology", logo: "/media/partners/gale-technology.png" },
 ];
 
+/**
+ * Social profiles shown in the footer. Only entries with a real URL render —
+ * add MDB's actual profile links here (e.g.
+ * { label: "LinkedIn", href: "https://www.linkedin.com/company/..." }).
+ */
+export type SocialLabel = "Facebook" | "LinkedIn" | "YouTube" | "Instagram";
+export const SOCIAL_LINKS: { label: SocialLabel; href: string }[] = [];
+
 export type NavItem = {
   label: string;
   to?: string;
