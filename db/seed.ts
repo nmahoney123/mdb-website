@@ -30,6 +30,39 @@ import {
 
 const db = getDb();
 
+/**
+ * Hero/card imagery per industry. Real project photography where the market
+ * has finished-project photos (self storage, hotels, residential); the other
+ * three markets use representative MDB construction photography as stand-ins
+ * until market-specific photos are supplied.
+ */
+const INDUSTRY_IMAGES: Record<string, { heroImage: string | null; cardImage: string | null }> = {
+  "self-storage": {
+    heroImage: "/media/gallery/self-storage/climate-controlled-complete.webp",
+    cardImage: "/media/gallery/self-storage/storage-facility-aerial-front.webp",
+  },
+  "hotels-hospitality": {
+    heroImage: "/media/projects/microtel-inn-suites.webp",
+    cardImage: "/media/projects/microtel-inn-suites.webp",
+  },
+  "custom-homes": {
+    heroImage: "/media/gallery/custom-homes/custom-home-evening-exterior.webp",
+    cardImage: "/media/gallery/custom-homes/custom-home-estate-exterior.webp",
+  },
+  multifamily: {
+    heroImage: "/media/gallery/custom-homes/custom-home-modern-farmhouse.webp",
+    cardImage: "/media/gallery/custom-homes/custom-home-front-drive.webp",
+  },
+  industrial: {
+    heroImage: "/media/gallery/self-storage/storage-site-foundations.webp",
+    cardImage: "/media/gallery/self-storage/storage-building-exterior.webp",
+  },
+  "specialty-commercial": {
+    heroImage: "/media/gallery/self-storage/storage-sheathing-telehandler.webp",
+    cardImage: "/media/gallery/self-storage/concrete-pump-pour.webp",
+  },
+};
+
 const SETTINGS: Record<string, string> = {
   companyName: "Mahoney Design & Build",
   tagline: "A Better Way to Build.",
@@ -436,7 +469,7 @@ const PAGE_CONTENT: { page: string; key: string; value: string }[] = [
   },
 ];
 
-async function main() {
+export async function seedDatabase() {
   console.log("Seeding settings…");
   for (const [key, value] of Object.entries(SETTINGS)) {
     await db.insert(settings).values({ key, value }).onConflictDoUpdate({ target: settings.key, set: { value } });
@@ -483,8 +516,8 @@ async function main() {
         blurb: ind.blurb,
         overview: JSON.stringify(ind.overview),
         capabilities: JSON.stringify(ind.capabilities),
-        heroImage: null,
-        cardImage: null,
+        heroImage: INDUSTRY_IMAGES[ind.slug]?.heroImage ?? null,
+        cardImage: INDUSTRY_IMAGES[ind.slug]?.cardImage ?? null,
         statValue: ind.stat.value,
         statLabel: ind.stat.label,
         sortOrder: i++,
@@ -623,10 +656,15 @@ async function main() {
   }
 
   console.log("Seed complete.");
-  process.exit(0);
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+// Run directly (npm run db:seed) — but not when imported by the server at boot.
+const invokedDirectly = !!process.argv[1] && /seed\.(ts|js)$/.test(process.argv[1]);
+if (invokedDirectly) {
+  seedDatabase()
+    .then(() => process.exit(0))
+    .catch((e) => {
+      console.error(e);
+      process.exit(1);
+    });
+}

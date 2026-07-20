@@ -63,7 +63,7 @@ const staticProjects: CmsProject[] = PROJECTS.map((p: Project) => ({
 
 export function useProjects(): CmsProject[] {
   const { data } = trpc.projects.list.useQuery();
-  if (!data) return staticProjects;
+  if (!data || data.length === 0) return staticProjects;
   return data.map((p) => {
     const fallback = staticProjects.find((s) => s.slug === p.slug);
     return {
@@ -169,7 +169,7 @@ const staticIndustries: CmsIndustry[] = INDUSTRIES.map((i: Industry) => ({
 
 export function useIndustries(): CmsIndustry[] {
   const { data } = trpc.industries.list.useQuery();
-  if (!data) return staticIndustries;
+  if (!data || data.length === 0) return staticIndustries;
   return data.map((i) => {
     const fallback = staticIndustries.find((s) => s.slug === i.slug);
     return {
@@ -259,7 +259,7 @@ const staticPartners: CmsPartner[] = PARTNERS.map((p: Partner) => ({
 
 export function usePartners(): CmsPartner[] {
   const { data } = trpc.partners.list.useQuery();
-  if (!data) return staticPartners;
+  if (!data || data.length === 0) return staticPartners;
   return data.map((p) => ({
     id: p.id,
     name: p.name,

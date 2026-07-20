@@ -524,11 +524,9 @@ export type Partner = {
 };
 
 export const PARTNERS: Partner[] = [
-  { name: "Microtel Inn & Suites", logo: "/media/partners/microtel.png" },
   { name: "Extra Space Storage", logo: "/media/partners/extra-space-storage.png" },
   { name: "Life Storage", logo: "/media/partners/life-storage.png" },
   { name: "Store America", logo: "/media/partners/store-america.png" },
-  { name: "Forge Building Company", logo: "/media/partners/forge-building.png" },
   { name: "Extreme Makeover: Home Edition", logo: "/media/partners/extreme-home-makeover.png" },
   { name: "Fort Drum · U.S. Army", logo: "/media/partners/fort-drum.svg" },
   { name: "GAIL Technology", logo: "/media/partners/gale-technology.png" },

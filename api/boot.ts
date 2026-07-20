@@ -8,8 +8,17 @@ import { env } from "./lib/env";
 import { registerAdminRoutes } from "./adminRoutes";
 import { securityHeaders } from "./lib/securityHeaders";
 import { assertAdminPasswordConfigured } from "./lib/adminAuth";
+import { seedDatabase } from "@db/seed";
 
 assertAdminPasswordConfigured();
+
+// Seed the CMS in-process on startup. Runs against the same SQLITE_PATH the
+// server reads (a persistent disk in production), so content always populates —
+// unlike a pre-deploy step, which runs on a separate instance/disk. Idempotent:
+// it inserts only when a table is empty. Non-fatal so the server always boots.
+await seedDatabase().catch((err) => {
+  console.error("[seed] startup seeding failed:", err);
+});
 
 const app = new Hono<{ Bindings: HttpBindings }>();
 
