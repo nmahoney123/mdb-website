@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
@@ -46,6 +46,83 @@ function RotatingWord() {
   );
 }
 
+/**
+ * Background hero video. Mobile browsers autoplay a video only when it is muted,
+ * inline, and has an actually-selected source. Two things break that with plain
+ * markup: (1) the `media` attribute on <source> is unreliable inside <video>
+ * (Chrome dropped it, so responsive source selection silently fails), and (2)
+ * React's `muted` prop doesn't always satisfy the browser's muted check at the
+ * moment autoplay is evaluated. So we pick the source and drive playback
+ * imperatively, re-asserting muted/inline and retrying as the video becomes
+ * ready and on first touch. If autoplay is still blocked (e.g. iOS Low Power
+ * Mode), the poster remains — no error.
+ */
+function HeroVideo({
+  desktopSrc,
+  mobileSrc,
+  poster,
+}: {
+  desktopSrc: string;
+  mobileSrc: string;
+  poster: string;
+}) {
+  const ref = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = ref.current;
+    if (!video) return;
+    const mq = window.matchMedia("(max-width: 768px)");
+
+    const applySource = () => {
+      const next = mq.matches ? mobileSrc || desktopSrc : desktopSrc || mobileSrc;
+      if (next && video.getAttribute("src") !== next) {
+        video.src = next;
+        video.load();
+      }
+    };
+    const play = () => {
+      video.muted = true;
+      video.defaultMuted = true;
+      video.playsInline = true;
+      const p = video.play();
+      if (p && typeof p.catch === "function") p.catch(() => {});
+    };
+    const onChange = () => {
+      applySource();
+      play();
+    };
+    const onFirstTouch = () => play();
+
+    applySource();
+    play();
+    video.addEventListener("loadeddata", play);
+    video.addEventListener("canplay", play);
+    mq.addEventListener("change", onChange);
+    window.addEventListener("touchstart", onFirstTouch, { once: true, passive: true });
+
+    return () => {
+      video.removeEventListener("loadeddata", play);
+      video.removeEventListener("canplay", play);
+      mq.removeEventListener("change", onChange);
+      window.removeEventListener("touchstart", onFirstTouch);
+    };
+  }, [desktopSrc, mobileSrc]);
+
+  return (
+    <video
+      ref={ref}
+      className="h-full w-full object-cover"
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="auto"
+      poster={poster}
+      aria-label="Background video: construction montage — tower cranes, concrete pump trucks, foundation pours, self-storage buildings and a completed hotel"
+    />
+  );
+}
+
 export default function Hero() {
   const reduce = useReducedMotion();
   const settings = useSettings();
@@ -65,18 +142,11 @@ export default function Hero() {
             className="h-full w-full object-cover"
           />
         ) : (
-          <video
-            className="h-full w-full object-cover"
-            autoPlay
-            muted
-            loop
-            playsInline
+          <HeroVideo
+            desktopSrc={settings.heroVideoUrl}
+            mobileSrc={settings.heroVideoMobileUrl}
             poster={settings.heroPosterUrl}
-            aria-label="Background video: construction montage — tower cranes, concrete pump trucks, foundation pours, self-storage buildings and a completed hotel"
-          >
-            <source src={settings.heroVideoMobileUrl} type="video/mp4" media="(max-width: 768px)" />
-            <source src={settings.heroVideoUrl} type="video/mp4" />
-          </video>
+          />
         )}
         <div className="absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/85 to-ink/60" />
         <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-ink to-transparent" />
