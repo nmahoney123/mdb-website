@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { Facebook, Linkedin, Youtube, Instagram, ArrowRight, MapPin, Phone, Mail } from "lucide-react";
+import { Facebook, Linkedin, Youtube, ArrowRight, MapPin, Phone, Mail } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Logo from "./Logo";
 import { COMPANY, INDUSTRIES, OFFICES, SOCIAL_LINKS, type SocialLabel } from "@/data/content";
@@ -9,7 +9,6 @@ const SOCIAL_ICONS: Record<SocialLabel, LucideIcon> = {
   Facebook,
   LinkedIn: Linkedin,
   YouTube: Youtube,
-  Instagram,
 };
 
 export default function Footer() {

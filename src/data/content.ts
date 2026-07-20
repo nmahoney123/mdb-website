@@ -537,8 +537,10 @@ export const PARTNERS: Partner[] = [
  * add MDB's actual profile links here (e.g.
  * { label: "LinkedIn", href: "https://www.linkedin.com/company/..." }).
  */
-export type SocialLabel = "Facebook" | "LinkedIn" | "YouTube" | "Instagram";
-export const SOCIAL_LINKS: { label: SocialLabel; href: string }[] = [];
+export type SocialLabel = "Facebook" | "LinkedIn" | "YouTube";
+export const SOCIAL_LINKS: { label: SocialLabel; href: string }[] = [
+  { label: "Facebook", href: "https://www.facebook.com/MahoneyBuilding1/" },
+];
 
 export type NavItem = {
   label: string;
