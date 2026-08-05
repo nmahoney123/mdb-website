@@ -6,6 +6,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { eq } from "drizzle-orm";
 import { getDb } from "../api/queries/connection";
 import {
   settings,
@@ -87,66 +88,89 @@ const SETTINGS: Record<string, string> = {
 };
 
 const PROJECTS = [
+  // ── Self Storage (featured) ───────────────────────────────────────────────
   {
-    slug: "microtel-inn-suites",
-    name: "Microtel Inn & Suites",
-    industry: "Hotels & Hospitality",
-    industrySlug: "hotels-hospitality",
-    location: "Oneida, NY",
-    year: "2023",
-    size: "4 stories · 83 keys",
-    scope: "Ground-up select-service hotel built to Wyndham prototype standards",
-    services: JSON.stringify(["Design-Build", "Prototype Compliance", "FF&E Coordination"]),
+    slug: "manlius-self-storage",
+    name: "Manlius Self Storage",
+    industry: "Self Storage",
+    industrySlug: "self-storage",
+    location: "Manlius, NY",
+    year: "Class A",
+    size: "60,000 sq ft · fully climate-controlled",
+    scope: "Ground-up Class A, fully climate-controlled self-storage facility",
+    services: JSON.stringify(["Design-Build", "Preconstruction", "General Contracting"]),
     narrative: JSON.stringify([
-      "Ground-up construction of an 83-key Microtel by Wyndham on brand prototype, delivered through franchise approval, PIP review, and opening authorization without a single standards exception.",
-      "Winter construction in Central New York demanded tight enclosure sequencing; the hotel opened on its contracted date.",
+      "A 60,000-square-foot, fully climate-controlled Class A self-storage facility built ground-up in Manlius, New York. Every unit sits inside a conditioned, secured envelope — the premium product today's operators and their customers expect.",
+      "MDB delivered the building complete: structure, climate systems, security infrastructure, and a retail-ready office — engineered for durability, low operating cost, and fast lease-up.",
     ]),
-    heroImage: "/media/projects/microtel-inn-suites.webp",
-    cardImage: "/media/projects/microtel-inn-suites.webp",
+    heroImage: "/media/gallery/self-storage/climate-controlled-complete.webp",
+    cardImage: "/media/gallery/self-storage/storage-facility-aerial-front.webp",
     featured: true,
     published: true,
     sortOrder: 1,
   },
   {
-    slug: "empire-state-storage",
-    name: "Empire State Storage",
+    slug: "bannockburn-self-storage",
+    name: "Bannockburn Self Storage",
     industry: "Self Storage",
     industrySlug: "self-storage",
-    location: "Syracuse, NY",
-    year: "2025",
-    size: "92,000 sq ft · 640 units",
-    scope: "Ground-up, three-story climate-controlled facility with drive-up annex",
-    services: JSON.stringify(["Design-Build", "Preconstruction", "Sitework", "General Contracting"]),
+    location: "Bannockburn, IL",
+    year: "Class A · Conversion",
+    size: "110,000 sq ft · fully climate-controlled",
+    scope: "Adaptive-reuse conversion to a Class A, fully climate-controlled facility; operated by Store America",
+    services: JSON.stringify(["Adaptive Reuse / Conversion", "Design-Build", "General Contracting"]),
     narrative: JSON.stringify([
-      "A three-story climate-controlled flagship with a single-story drive-up annex on a constrained infill site. MDB value-planned the structural system in preconstruction, cutting six weeks from the steel package.",
-      "Delivered two months ahead of the developer's lease-up model; the facility reached 60% occupancy within its first quarter.",
+      "A 110,000-square-foot Class A, fully climate-controlled self-storage facility created through the adaptive-reuse conversion of an existing building — a fast, capital-efficient path to premium storage inventory in a supply-constrained market.",
+      "Built for local developer Anthony Donato and operated by Store America, the project showcases MDB's conversion expertise: reworking an existing structure into a modern, climate-controlled, security-hardened facility that performs like new construction. At 110,000 square feet, it is one of the largest storage conversions in our portfolio.",
     ]),
-    heroImage: "/media/gallery/self-storage/climate-controlled-complete.webp",
-    cardImage: "/media/gallery/self-storage/climate-controlled-complete.webp",
+    heroImage: "/media/gallery/self-storage/storage-campus-aerial.webp",
+    cardImage: "/media/gallery/self-storage/storage-building-exterior.webp",
     featured: true,
     published: true,
     sortOrder: 2,
   },
   {
-    slug: "green-leaf-station",
-    name: "Green Leaf Station",
-    industry: "Multifamily",
-    industrySlug: "multifamily",
-    location: "Cazenovia, NY",
-    year: "2022",
-    size: "3 buildings · 96 units",
-    scope: "Garden-style residential community with clubhouse and amenity spaces",
-    services: JSON.stringify(["General Contracting", "Sitework", "Phased Turnover"]),
+    slug: "brunswick-self-storage",
+    name: "Brunswick Self Storage",
+    industry: "Self Storage",
+    industrySlug: "self-storage",
+    location: "Brunswick, ME",
+    year: "Class A",
+    size: "70,000 sq ft · fully climate-controlled",
+    scope: "Ground-up Class A, fully climate-controlled self-storage facility",
+    services: JSON.stringify(["Design-Build", "Sitework", "General Contracting"]),
     narrative: JSON.stringify([
-      "A 96-unit garden-style community in the Village of Cazenovia, phased so the first building leased while the third was still in drywall.",
-      "Durable assemblies and quiet party walls were the brief; warranty callbacks in the first year were near zero.",
+      "A 70,000-square-foot Class A, fully climate-controlled self-storage facility in Brunswick, Maine — MDB's design-build discipline extended into northern New England.",
+      "Conditioned throughout and built to the same Class A standard as our New York storage work: a durable envelope, modern security, and an efficient unit mix engineered for year-round performance in a demanding climate.",
     ]),
-    heroImage: "/media/gallery/custom-homes/custom-home-estate-exterior.webp",
-    cardImage: "/media/gallery/custom-homes/custom-home-front-drive.webp",
+    heroImage: "/media/gallery/self-storage/drive-up-units.webp",
+    cardImage: "/media/gallery/self-storage/climate-controlled-structure.webp",
     featured: true,
     published: true,
     sortOrder: 3,
   },
+  // ── Hospitality (featured) ────────────────────────────────────────────────
+  {
+    slug: "microtel-inn-suites",
+    name: "Microtel Inn & Suites",
+    industry: "Hotels & Hospitality",
+    industrySlug: "hotels-hospitality",
+    location: "Verona, NY",
+    year: "2008",
+    size: "3 stories · 81 keys",
+    scope: "Ground-up select-service hotel at Turning Stone Resort Casino, built on Microtel by Wyndham's next-generation prototype",
+    services: JSON.stringify(["Design-Build", "Prototype Compliance", "FF&E Coordination"]),
+    narrative: JSON.stringify([
+      "An 81-key Microtel Inn & Suites by Wyndham built steps from the Turning Stone Resort Casino in Verona, New York — one of the first hotels in the country to open on Microtel's then-new prototype, the brand's “hotel of the future” design.",
+      "MDB delivered the three-story, ground-up build to full brand standards on a high-visibility casino-corridor site, coordinating franchise approval, PIP compliance, and FF&E. The property has anchored the Turning Stone lodging market for more than 15 years.",
+    ]),
+    heroImage: "/media/projects/microtel-inn-suites.webp",
+    cardImage: "/media/projects/microtel-inn-suites.webp",
+    featured: true,
+    published: true,
+    sortOrder: 4,
+  },
+  // ── Signature (featured) ──────────────────────────────────────────────────
   {
     slug: "extreme-makeover-home",
     name: "Extreme Makeover Build",
@@ -165,64 +189,45 @@ const PROJECTS = [
     cardImage: "/media/gallery/extreme-makeover/extreme-makeover-move-that-bus.webp",
     featured: true,
     published: true,
-    sortOrder: 4,
-  },
-  {
-    slug: "harborview-storage",
-    name: "Harborview Storage",
-    industry: "Self Storage",
-    industrySlug: "self-storage",
-    location: "Oswego, NY",
-    year: "2024",
-    size: "68,000 sq ft · 510 units",
-    scope: "Drive-up storage campus with climate-controlled building and RV canopy",
-    services: JSON.stringify(["General Contracting", "Sitework", "Design-Build"]),
-    narrative: JSON.stringify([
-      "A seven-building drive-up campus with a climate-controlled core and covered RV storage, built on a former industrial parcel requiring full environmental sitework.",
-      "Phased turnover let the operator open the first three buildings while the RV canopy was still in steel.",
-    ]),
-    heroImage: "/media/gallery/self-storage/drive-up-units.webp",
-    cardImage: "/media/gallery/self-storage/drive-up-units.webp",
-    featured: false,
-    published: true,
     sortOrder: 5,
   },
+  // ── Residential developments (listed, lower profile) ──────────────────────
   {
-    slug: "the-lander-hotel",
-    name: "The Lander Hotel Renovation",
-    industry: "Hotels & Hospitality",
-    industrySlug: "hotels-hospitality",
-    location: "Utica, NY",
-    year: "2024",
-    size: "6 floors · 120 keys",
-    scope: "Full PIP renovation and repositioning of an occupied select-service hotel",
-    services: JSON.stringify(["Renovation", "Occupied Phasing", "FF&E Coordination"]),
+    slug: "green-leaf-station",
+    name: "Green Leaf Station",
+    industry: "Custom Homes",
+    industrySlug: "custom-homes",
+    location: "Cazenovia, NY",
+    year: "Development",
+    size: "24-lot residential subdivision",
+    scope: "Full residential land development and custom home construction — infrastructure, roads, utilities, and homes",
+    services: JSON.stringify(["Land Development", "Site Infrastructure", "Custom Home Construction"]),
     narrative: JSON.stringify([
-      "A floor-by-floor PIP renovation of a 120-key property that never closed. MDB sequenced guest floors in eight-day cycles with negative-air containment and day-shift quiet hours.",
-      "Brand inspectors signed each floor on first pass; the owner's RevPAR rose double digits post-renovation.",
+      "Green Leaf Station is a 24-lot custom-home community that MDB developed and built end to end — from raw land through finished homes. We engineered and installed the full site infrastructure — roads, drainage, water, sewer, and utilities — and then designed and constructed the homes on it.",
+      "Lots range from roughly 10,000 to 31,000 square feet, each home built to order for its buyer. It is the clearest expression of our range: we don't just build houses, we create the neighborhoods they sit in.",
     ]),
-    heroImage: "/media/projects/microtel-inn-suites.webp",
-    cardImage: "/media/projects/microtel-inn-suites.webp",
+    heroImage: "/media/gallery/custom-homes/custom-home-estate-exterior.webp",
+    cardImage: "/media/gallery/custom-homes/custom-home-front-drive.webp",
     featured: false,
     published: true,
     sortOrder: 6,
   },
   {
-    slug: "creekside-commons",
-    name: "Creekside Commons",
-    industry: "Multifamily",
-    industrySlug: "multifamily",
-    location: "New Hartford, NY",
-    year: "2023",
-    size: "2 buildings · 64 units",
-    scope: "Townhome and apartment community with trail-connected site plan",
-    services: JSON.stringify(["Design-Build", "Sitework", "General Contracting"]),
+    slug: "timber-ridge",
+    name: "Timber Ridge",
+    industry: "Custom Homes",
+    industrySlug: "custom-homes",
+    location: "Manlius, NY",
+    year: "Development",
+    size: "20-lot residential subdivision",
+    scope: "Residential subdivision development and custom home construction on wooded walkout lots",
+    services: JSON.stringify(["Land Development", "Site Infrastructure", "Custom Home Construction"]),
     narrative: JSON.stringify([
-      "Sixty-four townhomes and flats arranged along a restored creek corridor, with sitework that turned a drainage constraint into the community's central amenity.",
-      "Delivered on a 14-month schedule with first units leasing at month eleven.",
+      "Timber Ridge is a wooded custom-home subdivision in the Village of Manlius, New York, developed and built by MDB. We handled the land development and infrastructure, then built custom homes across the community's roughly twenty lots — many sited as full- or side-walkout designs to work with the site's natural grade.",
+      "Lots run from about 22,000 to 48,000 square feet, giving each home generous, wooded privacy. Like Green Leaf Station, Timber Ridge shows MDB delivering the whole picture — the streets, the utilities, and the homes.",
     ]),
     heroImage: "/media/gallery/custom-homes/custom-home-modern-farmhouse.webp",
-    cardImage: "/media/gallery/custom-homes/custom-home-colonial-porch.webp",
+    cardImage: "/media/gallery/custom-homes/custom-home-timber-craftsman.webp",
     featured: false,
     published: true,
     sortOrder: 7,
@@ -233,15 +238,15 @@ const PROJECTS = [
     industry: "Custom Homes",
     industrySlug: "custom-homes",
     location: "Cazenovia, NY",
-    year: "2021",
-    size: "5,400 sq ft · lakefront",
-    scope: "One-of-a-kind lakefront residence for a longstanding MDB client",
+    year: "Custom Home",
+    size: "Lakefront custom residence",
+    scope: "One-of-a-kind lakefront custom home",
     services: JSON.stringify(["Design-Build", "Custom Millwork", "High-Performance Envelope"]),
     narrative: JSON.stringify([
-      "A 5,400 sq ft lakefront residence built for a client whose first MDB home we delivered in 1998. Stone, timber, and glass detailed to commercial tolerances.",
-      "Third-generation client relationships are the point of our custom homes practice — this is what that looks like.",
+      "A lakefront custom residence in Cazenovia — stone, timber, and glass detailed to commercial tolerances.",
+      "Multi-generation client relationships are the point of our custom homes practice — this is what that looks like.",
     ]),
-    heroImage: "/media/gallery/custom-homes/custom-home-estate-exterior.webp",
+    heroImage: "/media/gallery/custom-homes/custom-home-evening-exterior.webp",
     cardImage: "/media/gallery/custom-homes/custom-home-estate-exterior.webp",
     featured: false,
     published: true,
@@ -475,12 +480,23 @@ export async function seedDatabase() {
     await db.insert(settings).values({ key, value }).onConflictDoUpdate({ target: settings.key, set: { value } });
   }
 
-  const existingProjects = await db.select({ id: projects.id }).from(projects).limit(1);
-  if (existingProjects.length === 0) {
-    console.log("Seeding projects…");
-    for (const p of PROJECTS) await db.insert(projects).values(p);
-  } else {
-    console.log("Projects already seeded — skipping.");
+  // Projects are code-managed: upsert by slug so edits/additions here sync on
+  // every deploy (unlike insert-if-empty). Admin edits to these slugs are
+  // overwritten by deploys - manage project content here, not in the admin.
+  console.log("Syncing projects...");
+  for (const p of PROJECTS) {
+    await db.insert(projects).values(p).onConflictDoUpdate({ target: projects.slug, set: p });
+  }
+  // Hide earlier placeholder projects that predate the real portfolio
+  // (reversible - set published back to true, or delete to remove for good).
+  const RETIRED_PROJECT_SLUGS = [
+    "empire-state-storage",
+    "harborview-storage",
+    "the-lander-hotel",
+    "creekside-commons",
+  ];
+  for (const slug of RETIRED_PROJECT_SLUGS) {
+    await db.update(projects).set({ published: false }).where(eq(projects.slug, slug));
   }
 
   const existingPosts = await db.select({ id: posts.id }).from(posts).limit(1);
