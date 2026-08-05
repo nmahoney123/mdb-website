@@ -5,11 +5,19 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        mahoney: "#7C0302",
-        oxblood: "#5A0202",
-        ink: "#141414",
-        charcoal: "#2A2A2D",
-        concrete: "#6B6B70",
+        // ── Mahoney brand palette (2026 Brand Style Guide) ──
+        // Primary
+        mahoney: "#7D0302",   // Dark Crimson
+        black: "#000000",     // Black
+        ink: "#000000",       // primary dark surface = brand Black
+        white: "#FFFFFF",     // White
+        // Secondary
+        charcoal: "#2E2E2E",  // Deep Charcoal (elevated dark surfaces)
+        gold: "#F4B400",      // Safety Gold (accent / CTAs / highlights)
+        steel: "#B8BDC3",     // Concrete Gray (muted text on dark, borders)
+        // Functional shades (not brand swatches, kept for hovers/legibility)
+        oxblood: "#5A0202",   // darker crimson for hover states
+        concrete: "#6B6B70",  // readable body gray on light backgrounds
         fog: "#E8E6E3",
         bone: "#F7F6F4",
         border: "hsl(var(--border))",
@@ -67,9 +75,11 @@ module.exports = {
         xs: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
       },
       fontFamily: {
-        display: ["Archivo", "system-ui", "sans-serif"],
-        body: ["Inter", "system-ui", "sans-serif"],
-        anton: ["Anton", "Archivo", "sans-serif"],
+        // Brand type system: Clesmont (Headline 01) + Montserrat (everything else)
+        headline: ["Clesmont", "Montserrat", "system-ui", "sans-serif"], // big display statements
+        display: ["Montserrat", "system-ui", "sans-serif"],              // headings, labels, buttons
+        body: ["Montserrat", "system-ui", "sans-serif"],                 // body copy
+        anton: ["Clesmont", "Montserrat", "sans-serif"],                 // back-compat alias → Clesmont
       },
       maxWidth: {
         site: "1280px",

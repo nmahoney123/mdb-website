@@ -5,16 +5,20 @@ const BLOCKS = [
   {
     icon: ShieldCheck,
     title: "Safety",
+    // Safety Gold (brand accent) — used purposefully on the safety value.
+    accent: "text-gold",
     body: "A proactive, incident-free culture — every worker on an MDB site is empowered to stop work, no questions asked.",
   },
   {
     icon: BadgeCheck,
     title: "Quality",
+    accent: "text-mahoney",
     body: "A written quality plan tied to each owner's expectations — inspected, documented, and verified at every milestone.",
   },
   {
     icon: Leaf,
     title: "Sustainability",
+    accent: "text-mahoney",
     body: "Responsible building that lasts — durable assets, efficient envelopes, lower operating cost for decades.",
   },
 ];
@@ -34,7 +38,7 @@ export default function Credibility() {
           {BLOCKS.map((b) => (
             <StaggerItem key={b.title}>
               <div className="group flex h-full flex-col bg-white p-8 sm:p-10">
-                <b.icon className="h-8 w-8 text-mahoney" strokeWidth={1.5} />
+                <b.icon className={`h-8 w-8 ${b.accent}`} strokeWidth={1.5} />
                 <h3 className="mt-6 font-display text-lg font-bold uppercase tracking-[0.08em] text-ink">
                   {b.title}
                 </h3>

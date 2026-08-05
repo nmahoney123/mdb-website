@@ -36,7 +36,7 @@ export default function Logo({
       <span className="leading-none">
         <span
           className={cn(
-            "block font-display text-lg font-extrabold uppercase tracking-[0.06em] sm:text-xl",
+            "block font-headline text-lg uppercase tracking-[0.04em] sm:text-xl",
             light ? "text-white" : "text-ink"
           )}
         >

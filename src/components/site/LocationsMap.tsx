@@ -104,7 +104,7 @@ export default function LocationsMap() {
         <polyline
           points={linkPath}
           fill="none"
-          stroke="#7C0302"
+          stroke="#7D0302"
           strokeWidth={1.75}
           strokeDasharray="5 6"
           strokeOpacity={0.7}
@@ -117,20 +117,20 @@ export default function LocationsMap() {
           return (
             <g key={o.slug}>
               {/* pulsing ring */}
-              <circle cx={o.x} cy={o.y} r={7} fill="none" stroke="#7C0302" strokeWidth={1.5} opacity={0.5}>
+              <circle cx={o.x} cy={o.y} r={7} fill="none" stroke="#7D0302" strokeWidth={1.5} opacity={0.5}>
                 <animate attributeName="r" values="7;18;7" dur="3s" begin={`${i * 0.6}s`} repeatCount="indefinite" />
                 <animate attributeName="opacity" values="0.5;0;0.5" dur="3s" begin={`${i * 0.6}s`} repeatCount="indefinite" />
               </circle>
               {/* pin dot */}
-              <circle cx={o.x} cy={o.y} r={o.hq ? 7 : 5.5} fill="#7C0302" stroke="#fff" strokeWidth={1.5} />
+              <circle cx={o.x} cy={o.y} r={o.hq ? 7 : 5.5} fill="#7D0302" stroke="#fff" strokeWidth={1.5} />
               {/* labels */}
               <text
                 x={o.x + labelDx}
                 y={o.y - 16}
                 textAnchor={anchor}
                 fill="#ffffff"
-                style={{ paintOrder: "stroke", fontFamily: "Archivo, system-ui, sans-serif" }}
-                stroke="#141414"
+                style={{ paintOrder: "stroke", fontFamily: "Montserrat, system-ui, sans-serif" }}
+                stroke="#000000"
                 strokeWidth={4}
                 fontSize={22}
                 fontWeight={800}
@@ -142,8 +142,8 @@ export default function LocationsMap() {
                 y={o.y + 30}
                 textAnchor={anchor}
                 fill="rgba(255,255,255,0.6)"
-                style={{ paintOrder: "stroke", fontFamily: "Archivo, system-ui, sans-serif", letterSpacing: "0.12em" }}
-                stroke="#141414"
+                style={{ paintOrder: "stroke", fontFamily: "Montserrat, system-ui, sans-serif", letterSpacing: "0.12em" }}
+                stroke="#000000"
                 strokeWidth={3}
                 fontSize={12}
                 fontWeight={600}

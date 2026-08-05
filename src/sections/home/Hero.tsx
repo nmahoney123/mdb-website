@@ -162,7 +162,7 @@ export default function Hero() {
           {t("hero.eyebrow", "General Contracting · Design-Build · Since 1985")}
         </motion.p>
 
-        <h1 className="mt-6 font-anton text-[13vw] uppercase leading-[0.95] tracking-[0.005em] text-white sm:text-[10.5vw] lg:text-[6.5rem]">
+        <h1 className="mt-6 font-headline text-[10vw] uppercase leading-[1.0] tracking-[0.01em] text-white sm:text-[7.5vw] lg:text-[4.5rem]">
           <AnimatedWords text={t("hero.title.line1", "A Better")} delay={0.25} />
           <span className="block overflow-hidden pb-[0.08em] -mb-[0.08em]">
             <motion.span
