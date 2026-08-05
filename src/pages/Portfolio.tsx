@@ -34,7 +34,7 @@ export default function Portfolio() {
 
   const locations = useMemo(
     () => ["All Locations", ...Array.from(new Set(projects.map((p) => p.location)))],
-    []
+    [projects]
   );
 
   const list = projects.filter(
