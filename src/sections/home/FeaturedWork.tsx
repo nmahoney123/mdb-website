@@ -90,6 +90,19 @@ export default function FeaturedWork() {
             ))}
           </AnimatePresence>
         </motion.div>
+
+        <Reveal className="mt-16 flex flex-col items-center gap-5 border-t border-ink/10 pt-12 text-center">
+          <p className="max-w-xl text-base text-concrete sm:text-lg">
+            This is a selection. See the full range of ground-up and conversion
+            projects we've delivered across storage, hospitality, and residential.
+          </p>
+          <Link
+            to="/portfolio"
+            className="btn-primary px-9 py-5 text-sm tracking-[0.16em]"
+          >
+            View Full Portfolio <ArrowRight className="arrow h-4 w-4" />
+          </Link>
+        </Reveal>
       </div>
     </section>
   );

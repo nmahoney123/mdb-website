@@ -118,7 +118,7 @@
     @apply font-headline uppercase leading-[0.98] tracking-[0.01em];
   }
   .display-2 {
-    @apply font-display font-bold uppercase leading-[1.02] tracking-[-0.005em];
+    @apply font-display font-bold leading-[1.06] tracking-[-0.01em];
   }
   .btn {
     @apply inline-flex items-center justify-center gap-3 px-7 py-4 font-display text-xs font-bold uppercase tracking-[0.18em] transition-all duration-300 rounded-[2px];

@@ -53,7 +53,7 @@ export default function WhyMdb() {
               <span className="whitespace-nowrap px-8 font-display text-2xl font-extrabold uppercase tracking-[0.06em] text-white/85 sm:text-4xl">
                 {c}
               </span>
-              <span className="h-2 w-2 rotate-45 bg-mahoney" aria-hidden />
+              <span className="h-2 w-2 rotate-45 bg-gold" aria-hidden />
             </span>
           ))}
         </Marquee>
