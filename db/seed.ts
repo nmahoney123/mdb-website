@@ -149,6 +149,26 @@ const PROJECTS = [
     published: true,
     sortOrder: 3,
   },
+  {
+    slug: "topsham-self-storage",
+    name: "Topsham Self Storage",
+    industry: "Self Storage",
+    industrySlug: "self-storage",
+    location: "Topsham, ME",
+    year: "Class A",
+    size: "75,000 sq ft · fully climate-controlled",
+    scope: "Ground-up Class A, fully climate-controlled self-storage facility built for Extra Space Storage",
+    services: JSON.stringify(["Design-Build", "Sitework", "General Contracting"]),
+    narrative: JSON.stringify([
+      "A 75,000-square-foot Class A, fully climate-controlled self-storage facility in Topsham, Maine, built for Extra Space Storage — one of the largest self-storage operators in the country.",
+      "MDB delivered the ground-up building to Extra Space's operating standard: a fully conditioned envelope, modern security and access systems, and an efficient unit mix engineered for durable, low-cost performance and fast lease-up.",
+    ]),
+    heroImage: "/media/gallery/self-storage/storage-facility-aerial-front.webp",
+    cardImage: "/media/gallery/self-storage/storage-building-exterior.webp",
+    featured: true,
+    published: true,
+    sortOrder: 4,
+  },
   // ── Hospitality (featured) ────────────────────────────────────────────────
   {
     slug: "microtel-inn-suites",
@@ -168,7 +188,7 @@ const PROJECTS = [
     cardImage: "/media/projects/microtel-inn-suites.webp",
     featured: true,
     published: true,
-    sortOrder: 4,
+    sortOrder: 5,
   },
   // ── Signature (featured) ──────────────────────────────────────────────────
   {
@@ -189,7 +209,7 @@ const PROJECTS = [
     cardImage: "/media/gallery/extreme-makeover/extreme-makeover-move-that-bus.webp",
     featured: true,
     published: true,
-    sortOrder: 5,
+    sortOrder: 6,
   },
   // ── Residential developments (listed, lower profile) ──────────────────────
   {
@@ -210,7 +230,7 @@ const PROJECTS = [
     cardImage: "/media/gallery/custom-homes/custom-home-front-drive.webp",
     featured: false,
     published: true,
-    sortOrder: 6,
+    sortOrder: 7,
   },
   {
     slug: "timber-ridge",
@@ -230,7 +250,7 @@ const PROJECTS = [
     cardImage: "/media/gallery/custom-homes/custom-home-timber-craftsman.webp",
     featured: false,
     published: true,
-    sortOrder: 7,
+    sortOrder: 8,
   },
   {
     slug: "cazenovia-lake-house",
@@ -250,7 +270,7 @@ const PROJECTS = [
     cardImage: "/media/gallery/custom-homes/custom-home-estate-exterior.webp",
     featured: false,
     published: true,
-    sortOrder: 8,
+    sortOrder: 9,
   },
 ];
 

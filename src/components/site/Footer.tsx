@@ -118,7 +118,10 @@ export default function Footer() {
             </li>
             <li className="flex items-center gap-2.5">
               <Mail className="h-4 w-4 shrink-0 text-mahoney" />
-              <a href={`mailto:${s.email || COMPANY.email}`} className="break-all hover:text-white">
+              <a
+                href={`mailto:${s.email || COMPANY.email}`}
+                className="whitespace-nowrap text-[13px] hover:text-white"
+              >
                 {s.email || COMPANY.email}
               </a>
             </li>
