@@ -19,6 +19,7 @@ const LocationDetail = lazy(() => import("./pages/LocationDetail"));
 const AdminLogin = lazy(() => import("./admin/Login"));
 const AdminApp = lazy(() => import("./admin/AdminApp"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const IntroReveal = lazy(() => import("./components/site/IntroReveal"));
 
 /** Lightweight route fallback — avoids a jarring blank flash on chunk load. */
 function RouteFallback() {
@@ -40,10 +41,17 @@ function ScrollToTop() {
 
 export default function App() {
   useSettingsSideEffects();
+  const { pathname } = useLocation();
+  const isAdmin = pathname.startsWith("/admin");
   return (
     <>
       <ScrollToTop />
       <Analytics />
+      {!isAdmin && (
+        <Suspense fallback={null}>
+          <IntroReveal />
+        </Suspense>
+      )}
       <Suspense fallback={<RouteFallback />}>
       <Routes>
         <Route path="/" element={<Home />} />
