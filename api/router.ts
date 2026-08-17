@@ -4,6 +4,7 @@ import { asc, desc, eq } from "drizzle-orm";
 import { createRouter, publicQuery } from "./middleware";
 import { requireAdminTrpc, isValidToken } from "./lib/adminAuth";
 import { rateLimit, clientIpFromHeaders } from "./lib/rateLimit";
+import { notifyInquiry } from "./lib/notify";
 import { getDb } from "./queries/connection";
 import {
   settings,
@@ -616,6 +617,11 @@ export const appRouter = createRouter({
       await getDb()
         .insert(inquiries)
         .values({ ...rest, meta: meta ? JSON.stringify(meta) : null });
+      // Email the business (no-op until RESEND_API_KEY is set; never throws).
+      // Skip newsletter signups — those are captured in the admin inbox only.
+      if (rest.type !== "newsletter") {
+        await notifyInquiry(rest);
+      }
       return { ok: true };
     }),
     list: adminQuery
