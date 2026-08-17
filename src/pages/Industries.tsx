@@ -47,7 +47,7 @@ export default function Industries() {
                     <div className="h-full w-full transition-transform duration-700 group-hover:scale-[1.06]">
                       <CmsImage url={ind.cardImage} shot={ind.cardShot} alt={ind.name} className="h-full w-full" />
                     </div>
-                    <span className="absolute left-5 top-5 font-display text-[11px] font-bold uppercase tracking-[0.3em] text-white/60">
+                    <span className="absolute left-5 top-5 font-display text-[11px] font-bold uppercase tracking-[0.3em] text-gold">
                       0{i + 1}
                     </span>
                   </div>

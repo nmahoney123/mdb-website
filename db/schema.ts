@@ -87,7 +87,7 @@ export const media = sqliteTable("media", {
 /** Inquiries from all site forms */
 export const inquiries = sqliteTable("inquiries", {
   id: integer("id").primaryKey({ autoIncrement: true }),
-  type: text("type", { enum: ["project", "subcontractor", "career", "general"] })
+  type: text("type", { enum: ["project", "subcontractor", "career", "general", "newsletter"] })
     .notNull()
     .default("project"),
   name: text("name").notNull(),

@@ -197,7 +197,7 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 1.1 }}
           className="mt-10 flex flex-wrap gap-4"
         >
-          <Link to={t("hero.ctaPrimary.to", "/portfolio")} className="btn-primary">
+          <Link to={t("hero.ctaPrimary.to", "/portfolio")} className="btn-gold">
             {t("hero.ctaPrimary.label", "Explore Our Work")} <ArrowRight className="arrow h-4 w-4" />
           </Link>
           <Link to={t("hero.ctaSecondary.to", "/contact")} className="btn-outline-light">

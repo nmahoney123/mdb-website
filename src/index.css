@@ -132,6 +132,10 @@
   .btn-primary {
     @apply btn bg-mahoney text-white hover:bg-oxblood hover:-translate-y-0.5 shadow-[0_10px_30px_-12px_rgba(125,3,2,0.6)];
   }
+  /* Safety Gold CTA — brand accent for high-impact calls to action */
+  .btn-gold {
+    @apply btn bg-gold text-ink hover:brightness-95 hover:-translate-y-0.5 shadow-[0_10px_30px_-12px_rgba(244,180,0,0.55)];
+  }
   .btn-outline-light {
     @apply btn border border-white/40 text-white hover:border-white hover:bg-white hover:text-ink hover:-translate-y-0.5;
   }

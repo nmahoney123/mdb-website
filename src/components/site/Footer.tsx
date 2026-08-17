@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { Link } from "react-router";
-import { Facebook, Linkedin, Youtube, ArrowRight, MapPin, Phone, Mail } from "lucide-react";
+import { Facebook, Linkedin, Youtube, ArrowRight, Check, MapPin, Phone, Mail } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Logo from "./Logo";
 import { COMPANY, INDUSTRIES, OFFICES, SOCIAL_LINKS, type SocialLabel } from "@/data/content";
 import { useSettings } from "@/hooks/useCms";
+import { trpc } from "@/providers/trpc";
 
 const SOCIAL_ICONS: Record<SocialLabel, LucideIcon> = {
   Facebook,
@@ -13,6 +15,24 @@ const SOCIAL_ICONS: Record<SocialLabel, LucideIcon> = {
 
 export default function Footer() {
   const s = useSettings();
+  const [subscribed, setSubscribed] = useState(false);
+  const subscribe = trpc.inquiries.create.useMutation();
+  const onSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const email = String(new FormData(e.currentTarget).get("email") ?? "").trim();
+    if (!email) return;
+    try {
+      await subscribe.mutateAsync({
+        type: "newsletter",
+        name: "Newsletter subscriber",
+        email,
+        message: "Requested quarterly project insights.",
+      });
+      setSubscribed(true);
+    } catch {
+      /* non-blocking: keep the UI quiet on failure */
+    }
+  };
   return (
     <footer className="bg-ink text-white">
       <div className="container-site grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr] lg:py-20">
@@ -43,7 +63,7 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className="flex h-10 w-10 items-center justify-center border border-white/15 text-white/60 transition-all hover:border-mahoney hover:bg-mahoney hover:text-white"
+                    className="flex h-10 w-10 items-center justify-center border border-gold/30 text-gold/80 transition-all hover:border-gold hover:bg-gold hover:text-ink"
                   >
                     <Icon className="h-4 w-4" />
                   </a>
@@ -126,30 +146,34 @@ export default function Footer() {
               </a>
             </li>
           </ul>
-          <form
-            className="mt-7"
-            onSubmit={(e) => e.preventDefault()}
-            aria-label="Newsletter signup"
-          >
+          <form className="mt-7" onSubmit={onSubscribe} aria-label="Newsletter signup">
             <label htmlFor="newsletter-email" className="field-label !text-white/40">
               Project insights, quarterly
             </label>
-            <div className="mt-2 flex">
-              <input
-                id="newsletter-email"
-                type="email"
-                required
-                placeholder="Work email"
-                className="w-full border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/35 focus:border-mahoney focus:outline-none"
-              />
-              <button
-                type="submit"
-                aria-label="Subscribe"
-                className="flex w-12 shrink-0 items-center justify-center bg-mahoney text-white transition-colors hover:bg-oxblood"
-              >
-                <ArrowRight className="h-4 w-4" />
-              </button>
-            </div>
+            {subscribed ? (
+              <p className="mt-2 flex items-center gap-2 text-sm text-white/70">
+                <Check className="h-4 w-4 text-gold" /> You're on the list.
+              </p>
+            ) : (
+              <div className="mt-2 flex">
+                <input
+                  id="newsletter-email"
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="Work email"
+                  className="w-full border border-white/15 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/35 focus:border-gold focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  aria-label="Subscribe"
+                  disabled={subscribe.isPending}
+                  className="flex w-12 shrink-0 items-center justify-center bg-gold text-ink transition hover:brightness-95 disabled:opacity-60"
+                >
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </div>
+            )}
           </form>
         </div>
       </div>

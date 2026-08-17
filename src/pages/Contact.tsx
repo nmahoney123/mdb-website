@@ -70,7 +70,7 @@ export default function Contact() {
               {PATHS.map((p) => (
                 <StaggerItem key={p.title}>
                   <div className="flex h-full flex-col bg-white p-8">
-                    <p.icon className="h-7 w-7 text-mahoney" strokeWidth={1.5} />
+                    <p.icon className="h-7 w-7 text-gold" strokeWidth={1.5} />
                     <h2 className="mt-5 font-display text-base font-bold uppercase tracking-[0.08em] text-ink">
                       {p.title}
                     </h2>

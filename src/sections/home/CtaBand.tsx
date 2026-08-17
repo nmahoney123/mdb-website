@@ -12,8 +12,8 @@ export default function CtaBand() {
   const ADDRESS = s.address || COMPANY.address;
   return (
     <section className="relative overflow-hidden bg-ink py-24 text-white sm:py-32">
-      <span className="absolute left-0 top-0 h-1 w-full bg-mahoney" aria-hidden />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_20%,rgba(200,16,46,0.14),transparent_55%)]" aria-hidden />
+      <span className="absolute left-0 top-0 h-1 w-full bg-gold" aria-hidden />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_20%,rgba(125,3,2,0.18),transparent_55%)]" aria-hidden />
       <div className="container-site relative grid gap-16 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
         <div>
           <Reveal>

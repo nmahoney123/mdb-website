@@ -60,7 +60,7 @@ const postInput = z.object({
 });
 
 const inquiryInput = z.object({
-  type: z.enum(["project", "subcontractor", "career", "general"]).default("project"),
+  type: z.enum(["project", "subcontractor", "career", "general", "newsletter"]).default("project"),
   name: z.string().min(1).max(160),
   company: z.string().max(200).optional(),
   email: z.string().email().max(200),

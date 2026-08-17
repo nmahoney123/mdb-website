@@ -42,7 +42,7 @@ export default function Industries() {
                   <span className="absolute right-5 top-5 flex h-11 w-11 items-center justify-center border border-white/25 bg-ink/50 text-white backdrop-blur-sm transition-all duration-300 group-hover:border-mahoney group-hover:bg-mahoney">
                     <ArrowUpRight className="h-5 w-5 transition-transform duration-300 group-hover:rotate-45" />
                   </span>
-                  <span className="absolute left-6 top-6 font-display text-[11px] font-bold uppercase tracking-[0.3em] text-white/50">
+                  <span className="absolute left-6 top-6 font-display text-[11px] font-bold uppercase tracking-[0.3em] text-gold">
                     0{i + 1}
                   </span>
                 </div>
