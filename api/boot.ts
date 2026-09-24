@@ -24,13 +24,28 @@ const app = new Hono<{ Bindings: HttpBindings }>();
 
 app.use(securityHeaders);
 
-// The canonical/OG/sitemap URLs point at the real domain (mahoneydesignandbuild.com).
-// Until that domain is connected, keep the temporary *.onrender.com host out of
-// search indexes so it can't be indexed as a throwaway/duplicate. Once the real
-// domain serves the app, this header simply stops applying.
+// Host canonicalization + indexing control.
+// - Alternate hostnames (www, and the mahoney.build domain) 301-redirect to the
+//   single canonical host, so every page has one indexable URL. These hosts only
+//   receive traffic once their DNS points at Render, so this is safe to ship
+//   before the cutover.
+// - The temporary *.onrender.com host stays reachable (useful for testing) but is
+//   kept out of search indexes. Once the real domain is primary we can 301 it too.
+const CANONICAL_HOST = "mahoneydesignandbuild.com";
+const REDIRECT_TO_CANONICAL = new Set([
+  "www.mahoneydesignandbuild.com",
+  "mahoney.build",
+  "www.mahoney.build",
+]);
 app.use(async (c, next) => {
+  const host = (c.req.header("host") || "").toLowerCase().split(":")[0];
+  if (REDIRECT_TO_CANONICAL.has(host)) {
+    const url = new URL(c.req.url);
+    url.protocol = "https:";
+    url.host = CANONICAL_HOST;
+    return c.redirect(url.toString(), 301);
+  }
   await next();
-  const host = (c.req.header("host") || "").toLowerCase();
   if (host.endsWith(".onrender.com")) {
     c.header("X-Robots-Tag", "noindex, nofollow");
   }
