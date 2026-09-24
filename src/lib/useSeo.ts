@@ -16,7 +16,7 @@ import { COMPANY, INDUSTRIES, SOCIAL_LINKS, type Office } from "@/data/content";
  */
 
 /** Canonical production origin — no trailing slash. */
-export const SITE_URL = "https://mahoneydesignandbuild.com";
+export const SITE_URL = "https://www.mahoneydesignandbuild.com";
 
 /** Default social share image (see index.html placeholder note). */
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.jpg`;

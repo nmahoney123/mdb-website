@@ -12,7 +12,7 @@ import { INDUSTRIES, PROJECTS, OFFICES } from "../src/data/content";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
-const SITE_URL = "https://mahoneydesignandbuild.com";
+const SITE_URL = "https://www.mahoneydesignandbuild.com";
 
 type Entry = { path: string; changefreq: string; priority: number };
 

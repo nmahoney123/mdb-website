@@ -31,9 +31,9 @@ app.use(securityHeaders);
 //   before the cutover.
 // - The temporary *.onrender.com host stays reachable (useful for testing) but is
 //   kept out of search indexes. Once the real domain is primary we can 301 it too.
-const CANONICAL_HOST = "mahoneydesignandbuild.com";
+const CANONICAL_HOST = "www.mahoneydesignandbuild.com";
 const REDIRECT_TO_CANONICAL = new Set([
-  "www.mahoneydesignandbuild.com",
+  "mahoneydesignandbuild.com",
   "mahoney.build",
   "www.mahoney.build",
 ]);
