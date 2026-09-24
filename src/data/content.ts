@@ -210,18 +210,20 @@ export const INDUSTRIES: Industry[] = [
     name: "Specialty Commercial",
     short: "Specialty",
     blurb:
-      "Retail, office, medical, and mixed-use — ground-up and tenant fit-out delivered to brand and code with the schedule certainty a hard opening date demands.",
+      "Office and medical-office build-outs, retail, and mixed-use — tenant fit-outs and ground-up work delivered to brand, code, and the hard opening date a commercial or healthcare tenant can't move.",
     overview: [
-      "Specialty commercial covers the projects that don't fit a single mold — retail centers, offices, medical and dental suites, restaurants, and mixed-use developments. What they share is an exacting finish standard and an opening date that can't move.",
-      "MDB delivers these ground-up and as tenant fit-outs, managing landlord coordination, permitting, brand standards, and the inspections that gate a certificate of occupancy — so tenants open on schedule and on budget.",
+      "Specialty commercial covers the projects that don't fit a single mold — office build-outs, medical and dental suites, retail centers, restaurants, and mixed-use developments. What they share is an exacting finish standard and an opening date that can't move.",
+      "We build out office space for commercial tenants — open-plan workplaces, private-office suites, and everything between — handling demolition, MEP, and finishes inside occupied buildings without disrupting the neighbors, and coordinating tightly with landlords and property managers.",
+      "Medical office is a specialty of ours. We deliver fit-outs for healthcare tenants — exam and procedure rooms, imaging and lab spaces, reception and clinical support areas — to the tighter standards those spaces demand: specialized MEP and medical-gas rough-ins, infection-control protocols, ADA-compliant layouts, and the inspections that gate a healthcare certificate of occupancy.",
+      "Across all of it, MDB manages permitting, brand standards, and every inspection so tenants open on schedule and on budget.",
     ],
     capabilities: [
+      "Office space build-outs & tenant improvements",
+      "Medical & dental office fit-outs",
+      "Healthcare-grade MEP, medical-gas & infection control",
       "Retail & restaurant construction",
-      "Office & medical / dental fit-out",
       "Mixed-use developments",
-      "Tenant improvements",
-      "Landlord & brand coordination",
-      "Permitting & certificate-of-occupancy management",
+      "Landlord, brand & permitting coordination",
     ],
     heroShot:
       "Completed multi-tenant retail and office building at dusk — lit storefronts, clean parking field, monument signage",

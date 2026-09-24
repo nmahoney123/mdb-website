@@ -540,28 +540,26 @@ export async function seedDatabase() {
     console.log("Galleries already seeded — skipping.");
   }
 
-  const existingIndustries = await db.select({ id: industries.id }).from(industries).limit(1);
-  if (existingIndustries.length === 0) {
-    console.log("Seeding industries…");
-    let i = 0;
-    for (const ind of INDUSTRIES) {
-      await db.insert(industries).values({
-        slug: ind.slug,
-        name: ind.name,
-        short: ind.short,
-        blurb: ind.blurb,
-        overview: JSON.stringify(ind.overview),
-        capabilities: JSON.stringify(ind.capabilities),
-        heroImage: INDUSTRY_IMAGES[ind.slug]?.heroImage ?? null,
-        cardImage: INDUSTRY_IMAGES[ind.slug]?.cardImage ?? null,
-        statValue: ind.stat.value,
-        statLabel: ind.stat.label,
-        sortOrder: i++,
-        published: true,
-      });
-    }
-  } else {
-    console.log("Industries already seeded — skipping.");
+  // Industries are code-managed: upsert by slug so content edits here sync on
+  // every deploy (admin edits to these slugs are overwritten by deploys).
+  console.log("Syncing industries...");
+  let indOrder = 0;
+  for (const ind of INDUSTRIES) {
+    const row = {
+      slug: ind.slug,
+      name: ind.name,
+      short: ind.short,
+      blurb: ind.blurb,
+      overview: JSON.stringify(ind.overview),
+      capabilities: JSON.stringify(ind.capabilities),
+      heroImage: INDUSTRY_IMAGES[ind.slug]?.heroImage ?? null,
+      cardImage: INDUSTRY_IMAGES[ind.slug]?.cardImage ?? null,
+      statValue: ind.stat.value,
+      statLabel: ind.stat.label,
+      sortOrder: indOrder++,
+      published: true,
+    };
+    await db.insert(industries).values(row).onConflictDoUpdate({ target: industries.slug, set: row });
   }
 
   const existingTestimonials = await db.select({ id: testimonials.id }).from(testimonials).limit(1);
