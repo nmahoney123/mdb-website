@@ -55,7 +55,8 @@ export async function notifyInquiry(input: InquiryPayload): Promise<void> {
   const to = process.env.INQUIRY_NOTIFY_TO || "info@mahoneydesignandbuild.com";
   const from =
     process.env.INQUIRY_NOTIFY_FROM ||
-    "Mahoney Design & Build <onboarding@resend.dev>";
+    // Domain verified in Resend, so send from the domain (delivers to any address).
+    "Mahoney Design & Build <noreply@mahoneydesignandbuild.com>";
   const label = TYPE_LABELS[input.type] || "New Inquiry";
 
   const fields: [string, string | null | undefined][] = [
