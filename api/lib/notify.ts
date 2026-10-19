@@ -52,7 +52,14 @@ export async function notifyInquiry(input: InquiryPayload): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return; // email not configured — inquiry still lives in the admin inbox
 
-  const to = process.env.INQUIRY_NOTIFY_TO || "info@mahoneydesignandbuild.com";
+  // Recipients: the configured INQUIRY_NOTIFY_TO (comma-separated is allowed)
+  // plus any always-on recipients, de-duplicated.
+  const configured = (process.env.INQUIRY_NOTIFY_TO || "info@mahoneydesignandbuild.com")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const alwaysTo = ["nick@48fund.com"];
+  const to = [...new Set([...configured, ...alwaysTo])];
   const from =
     process.env.INQUIRY_NOTIFY_FROM ||
     // Domain verified in Resend, so send from the domain (delivers to any address).
@@ -102,7 +109,7 @@ export async function notifyInquiry(input: InquiryPayload): Promise<void> {
       },
       body: JSON.stringify({
         from,
-        to: [to],
+        to,
         reply_to: input.email,
         subject,
         html,
