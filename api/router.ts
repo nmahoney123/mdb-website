@@ -69,6 +69,8 @@ const inquiryInput = z.object({
   projectType: z.string().max(120).optional(),
   message: z.string().min(1),
   meta: z.record(z.string(), z.string()).optional(),
+  // Honeypot — a hidden field real users never fill. Non-empty ⇒ bot.
+  website: z.string().max(200).optional(),
 });
 
 const industryInput = z.object({
@@ -613,7 +615,23 @@ export const appRouter = createRouter({
           message: "Too many submissions. Please try again later.",
         });
       }
-      const { meta, ...rest } = input;
+      const { meta, website, ...rest } = input;
+
+      // Bot filters. These "accept" (return ok) without saving or emailing, so a
+      // bot gets no signal that it was blocked and won't adapt. Legit users never
+      // trip them.
+      //  1. Honeypot: a hidden form field no human sees or fills.
+      //  2. URL in the name field — names don't contain links; spam does.
+      //  3. Link-stuffed message — classic SEO/backlink spam.
+      const linkCount = (rest.message.match(/https?:\/\//gi) || []).length;
+      const looksLikeSpam =
+        (website != null && website.trim() !== "") ||
+        /https?:\/\/|www\./i.test(rest.name) ||
+        linkCount > 3;
+      if (looksLikeSpam) {
+        return { ok: true };
+      }
+
       await getDb()
         .insert(inquiries)
         .values({ ...rest, meta: meta ? JSON.stringify(meta) : null });

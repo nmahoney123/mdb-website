@@ -27,6 +27,7 @@ export default function LeadForm({ dark = false }: { dark?: boolean }) {
         phone: String(fd.get("phone") ?? "") || undefined,
         projectType: String(fd.get("projectType") ?? "") || undefined,
         message: String(fd.get("message") ?? ""),
+        website: String(fd.get("website") ?? ""),
       });
       trackLead({ project_type: String(fd.get("projectType") ?? "") || undefined });
       setSent(true);
@@ -52,6 +53,11 @@ export default function LeadForm({ dark = false }: { dark?: boolean }) {
 
   return (
     <form onSubmit={submit} className="grid gap-5">
+      {/* Honeypot: hidden from real users; bots fill it and get silently dropped. */}
+      <div aria-hidden="true" className="absolute left-[-9999px] top-[-9999px] h-0 w-0 overflow-hidden">
+        <label htmlFor={`website-${dark ? "d" : "l"}`}>Website</label>
+        <input id={`website-${dark ? "d" : "l"}`} name="website" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor={`name-${dark ? "d" : "l"}`} className="field-label">Name *</label>

@@ -64,6 +64,7 @@ export default function Subcontractors() {
         phone: String(fd.get("phone") ?? "") || undefined,
         projectType: "Subcontractor Prequalification",
         message: String(fd.get("notes") ?? ""),
+        website: String(fd.get("website") ?? ""),
         meta,
       });
       setSent(true);
@@ -162,6 +163,11 @@ export default function Subcontractors() {
                 </div>
               ) : (
                 <form onSubmit={submit} className="grid gap-5 border border-fog bg-bone p-7 sm:p-9">
+                  {/* Honeypot: hidden from real users; bots fill it and get silently dropped. */}
+                  <div aria-hidden="true" className="absolute left-[-9999px] top-[-9999px] h-0 w-0 overflow-hidden">
+                    <label htmlFor="sq-website">Website</label>
+                    <input id="sq-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+                  </div>
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div>
                       <label htmlFor="sq-company" className="field-label">Company Name *</label>
