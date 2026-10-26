@@ -6,25 +6,14 @@ import PageHero from "@/components/site/PageHero";
 import CtaSection from "@/components/site/CtaSection";
 import LocationsMap from "@/components/site/LocationsMap";
 import { useOffices, usePageContent } from "@/hooks/useCms";
-import { useSeo, breadcrumbLd, organizationLd } from "@/lib/useSeo";
+import { useSeo } from "@/lib/useSeo";
+import { STATIC_PAGE_SEO } from "@/lib/seo";
 import { Stagger, StaggerItem } from "@/components/site/motion";
 
 export default function Locations() {
   const offices = useOffices();
   const t = usePageContent("locations");
-  useSeo({
-    title: "Locations — Oneida NY, Chicago IL & Bend OR | Mahoney Design & Build",
-    description:
-      "Mahoney Design & Build operates from three offices — headquarters in Oneida, New York, plus Chicago, Illinois and Bend, Oregon — delivering design-build commercial construction nationwide.",
-    path: "/locations",
-    jsonLd: [
-      organizationLd(),
-      breadcrumbLd([
-        { name: "Home", path: "/" },
-        { name: "Locations", path: "/locations" },
-      ]),
-    ],
-  });
+  useSeo(STATIC_PAGE_SEO["/locations"]);
 
   return (
     <>

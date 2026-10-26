@@ -9,6 +9,9 @@ import { registerAdminRoutes } from "./adminRoutes";
 import { securityHeaders } from "./lib/securityHeaders";
 import { assertAdminPasswordConfigured } from "./lib/adminAuth";
 import { seedDatabase } from "@db/seed";
+import { buildSitemap } from "./lib/pageHead";
+import { legacyRedirectTarget } from "./lib/legacyRedirects";
+import { trimSlashes } from "./lib/paths";
 
 assertAdminPasswordConfigured();
 
@@ -24,13 +27,12 @@ const app = new Hono<{ Bindings: HttpBindings }>();
 
 app.use(securityHeaders);
 
-// Host canonicalization + indexing control.
-// - Alternate hostnames (www, and the mahoney.build domain) 301-redirect to the
-//   single canonical host, so every page has one indexable URL. These hosts only
-//   receive traffic once their DNS points at Render, so this is safe to ship
-//   before the cutover.
-// - The temporary *.onrender.com host stays reachable (useful for testing) but is
-//   kept out of search indexes. Once the real domain is primary we can 301 it too.
+// Host canonicalization: the apex, the mahoney.build domain, and Render's
+// *.onrender.com address all 301 to the single canonical host, so every page
+// has one indexable URL. Safe for deploys: Render sends health checks with a
+// verified custom domain as the Host, and counts a 3xx as healthy regardless.
+// Old-site URLs (mostly linked via the apex) resolve to their new page in the
+// same hop.
 const CANONICAL_HOST = "www.mahoneydesignandbuild.com";
 const REDIRECT_TO_CANONICAL = new Set([
   "mahoneydesignandbuild.com",
@@ -39,16 +41,22 @@ const REDIRECT_TO_CANONICAL = new Set([
 ]);
 app.use(async (c, next) => {
   const host = (c.req.header("host") || "").toLowerCase().split(":")[0];
-  if (REDIRECT_TO_CANONICAL.has(host)) {
+  if (REDIRECT_TO_CANONICAL.has(host) || host.endsWith(".onrender.com")) {
     const url = new URL(c.req.url);
     url.protocol = "https:";
     url.host = CANONICAL_HOST;
-    return c.redirect(url.toString(), 301);
+    const legacy = legacyRedirectTarget(c.req.path);
+    if (legacy) {
+      url.pathname = legacy;
+      url.search = "";
+    } else if (url.pathname.length > 1 && url.pathname.endsWith("/")) {
+      url.pathname = trimSlashes(url.pathname); // /about/ → /about in the same hop
+    }
+    // 308 keeps the method and body for any non-GET request.
+    const status = c.req.method === "GET" || c.req.method === "HEAD" ? 301 : 308;
+    return c.redirect(url.toString(), status);
   }
   await next();
-  if (host.endsWith(".onrender.com")) {
-    c.header("X-Robots-Tag", "noindex, nofollow");
-  }
 });
 
 app.use(bodyLimit({ maxSize: 50 * 1024 * 1024 }));
@@ -62,6 +70,13 @@ app.use("/api/trpc/*", async (c) => {
   });
 });
 app.all("/api/*", (c) => c.json({ error: "Not Found" }, 404));
+
+// Built from live CMS content so it always matches the pages that exist.
+app.get("/sitemap.xml", async (c) => {
+  c.header("Content-Type", "application/xml; charset=utf-8");
+  c.header("Cache-Control", "public, max-age=3600");
+  return c.body(await buildSitemap());
+});
 
 export default app;
 

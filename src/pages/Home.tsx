@@ -1,4 +1,5 @@
-import { useSeo, organizationLd, websiteLd } from "@/lib/useSeo";
+import { useSeo } from "@/lib/useSeo";
+import { STATIC_PAGE_SEO } from "@/lib/seo";
 import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
 import Hero from "@/sections/home/Hero";
@@ -10,14 +11,7 @@ import WhyMdb from "@/sections/home/WhyMdb";
 import CtaBand from "@/sections/home/CtaBand";
 
 export default function Home() {
-  useSeo({
-    title:
-      "Mahoney Design & Build — Design-Build General Contractor | Self Storage, Hospitality, Multifamily",
-    description:
-      "Family-owned design-build general contractor delivering ground-up Self Storage, Hotel, and Multifamily construction across the Northeast. Building since 1985.",
-    path: "/",
-    jsonLd: [organizationLd(), websiteLd()],
-  });
+  useSeo(STATIC_PAGE_SEO["/"]);
   return (
     <>
       <Header />

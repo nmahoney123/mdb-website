@@ -6,7 +6,8 @@ import PageHero from "@/components/site/PageHero";
 import { Reveal, Stagger, StaggerItem } from "@/components/site/motion";
 import { COMPANY } from "@/data/content";
 import { usePageContent } from "@/hooks/useCms";
-import { useSeo, breadcrumbLd } from "@/lib/useSeo";
+import { useSeo } from "@/lib/useSeo";
+import { STATIC_PAGE_SEO } from "@/lib/seo";
 import { trpc } from "@/providers/trpc";
 
 const REQUIREMENTS = [
@@ -38,16 +39,7 @@ export default function Subcontractors() {
   const create = trpc.inquiries.create.useMutation();
   const t = usePageContent("subcontractors");
 
-  useSeo({
-    title: "Subcontractor Prequalification — Join Our Bid List | Mahoney Design & Build",
-    description:
-      "Trade partners: get on the Mahoney Design & Build bid list. Submit your safety record, insurance, licensing, and references to prequalify for commercial projects.",
-    path: "/subcontractors",
-    jsonLd: breadcrumbLd([
-      { name: "Home", path: "/" },
-      { name: "Subcontractors", path: "/subcontractors" },
-    ]),
-  });
+  useSeo(STATIC_PAGE_SEO["/subcontractors"]);
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

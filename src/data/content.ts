@@ -93,7 +93,7 @@ export const INDUSTRIES: Industry[] = [
       "Apartments, condos, and residential communities built for durability, livability, and return — from sitework to final unit.",
     overview: [
       "Multifamily owners need buildings that lease well and hold up. We deliver garden-style communities, townhome rows, and mixed residential developments where durability of assemblies and speed of unit turnover directly drive returns.",
-      "Our superintendents run unit-completion matrices floor by floor, so owners see lease-ready inventory weeks before final turnover. Communities like Green Leaf Station in Cazenovia show the standard: tight envelopes, quiet party walls, common spaces that photograph and lease.",
+      "Our superintendents run unit-completion matrices floor by floor, so owners see lease-ready inventory weeks before final turnover — and the standard holds throughout: tight envelopes, quiet party walls, common spaces that photograph and lease.",
     ],
     capabilities: [
       "Garden-style apartment communities",
@@ -425,20 +425,6 @@ export type NewsItem = {
 };
 
 export const NEWS: NewsItem[] = [
-  {
-    slug: "groundbreaking-empire-storage-phase-2",
-    title: "MDB Breaks Ground on 92,000 Sq Ft Climate-Controlled Storage Facility in Syracuse",
-    date: "March 4, 2026",
-    category: "Project News",
-    excerpt:
-      "Phase two for a repeat development partner adds 640 units to the Syracuse market — steel arrives in May.",
-    body: [
-      "Mahoney Design & Build has broken ground on a 92,000 sq ft, three-story climate-controlled self-storage facility in Syracuse, NY — the second ground-up project for the same development partner in three years.",
-      "The 640-unit project includes a drive-up annex and a retail-front office package. Steel delivery is scheduled for May, with substantial completion targeted for Q1 2027.",
-      "Repeat work is the metric we care about most. When a developer comes back for phase two, the first building did its job.",
-    ],
-    shot: "Groundbreaking ceremony — shovels in fresh earth, MDB team and developer partners in branded hard hats, excavator behind",
-  },
   {
     slug: "2026-storage-cost-outlook",
     title: "2026 Self Storage Cost Outlook: Steel, Sitework, and the Speed Premium",

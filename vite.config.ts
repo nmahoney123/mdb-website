@@ -8,7 +8,8 @@ import { inspectAttr } from 'kimi-plugin-inspect-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    devServer({ entry: "api/boot.ts", exclude: [/^\/(?!api\/).*$/] }),
+    // Hono handles /api/* and the server-built /sitemap.xml; Vite serves the rest.
+    devServer({ entry: "api/boot.ts", exclude: [/^\/(?!api\/|sitemap\.xml(?:\?|$)).*$/] }),
     inspectAttr(), react()],
   server: {
     port: 3000,

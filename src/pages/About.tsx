@@ -8,7 +8,8 @@ import CmsImage from "@/components/site/CmsImage";
 import Gallery from "@/components/site/Gallery";
 import LocationsMap from "@/components/site/LocationsMap";
 import { useGallery, useOffices, usePageContent } from "@/hooks/useCms";
-import { useSeo, breadcrumbLd } from "@/lib/useSeo";
+import { useSeo } from "@/lib/useSeo";
+import { STATIC_PAGE_SEO } from "@/lib/seo";
 import { COMPANY } from "@/data/content";
 import { Reveal, Stagger, StaggerItem, CountUp, Parallax } from "@/components/site/motion";
 
@@ -39,16 +40,7 @@ export default function About() {
   const emGallery = useGallery("extreme-makeover");
   const offices = useOffices();
   const t = usePageContent("about");
-  useSeo({
-    title: "About — Family-Built Since 1985 | Mahoney Design & Build",
-    description:
-      "Founded in Oneida, New York in 1985, Mahoney Design & Build grew from a family homebuilder into a regional design-build commercial general contractor. Meet the team.",
-    path: "/about",
-    jsonLd: breadcrumbLd([
-      { name: "Home", path: "/" },
-      { name: "About", path: "/about" },
-    ]),
-  });
+  useSeo(STATIC_PAGE_SEO["/about"]);
   return (
     <>
       <Header />

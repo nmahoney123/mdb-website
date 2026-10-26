@@ -8,7 +8,9 @@ import CmsImage from "@/components/site/CmsImage";
 import Gallery from "@/components/site/Gallery";
 import { Reveal, Stagger, StaggerItem } from "@/components/site/motion";
 import { useProjects, useGallery, useIndustries } from "@/hooks/useCms";
-import { useSeo, breadcrumbLd } from "@/lib/useSeo";
+import { trpc } from "@/providers/trpc";
+import { useSeo } from "@/lib/useSeo";
+import { industrySeo } from "@/lib/seo";
 
 /** Static hero images per industry (real photos where we have them) */
 const INDUSTRY_HEROES: Record<string, string | null> = {
@@ -199,6 +201,7 @@ function StorageDeepDive() {
 export default function IndustryDetail() {
   const { slug } = useParams();
   const industries = useIndustries();
+  const { isPending } = trpc.industries.list.useQuery();
   const industry = industries.find((i) => i.slug === slug);
   const projects = useProjects();
   const galleryKey = slug ? GALLERY_BY_INDUSTRY[slug] : undefined;
@@ -206,20 +209,12 @@ export default function IndustryDetail() {
 
   useSeo(
     industry
-      ? {
-          title: `${industry.name} Construction — Design-Build GC | Mahoney Design & Build`,
-          description: industry.blurb,
-          path: `/industries/${industry.slug}`,
-          jsonLd: breadcrumbLd([
-            { name: "Home", path: "/" },
-            { name: "Industries", path: "/industries" },
-            { name: industry.name, path: `/industries/${industry.slug}` },
-          ]),
-        }
+      ? industrySeo(industry)
       : { title: "Industries | Mahoney Design & Build", path: "/industries" },
   );
 
-  if (!industry) return <Navigate to="/industries" replace />;
+  // Wait for the CMS before treating the slug as unknown (see ProjectDetail).
+  if (!industry) return isPending ? null : <Navigate to="/industries" replace />;
 
   const relevant = projects.filter((p) => p.industrySlug === industry.slug);
   const heroImage = industry.heroImage ?? INDUSTRY_HEROES[industry.slug] ?? null;

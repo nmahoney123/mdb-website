@@ -11,9 +11,9 @@
  *
  * Env:
  *   RESEND_API_KEY      required to enable email (from resend.com → API Keys)
- *   INQUIRY_NOTIFY_TO   recipient (default info@mahoneydesignandbuild.com)
- *   INQUIRY_NOTIFY_FROM sender  (default "Mahoney Design & Build <onboarding@resend.dev>";
- *                       switch to an address on a Resend-verified domain for production)
+ *   INQUIRY_NOTIFY_TO   recipients, comma-separated (default info@mahoneydesignandbuild.com)
+ *   INQUIRY_NOTIFY_FROM sender (default "Mahoney Design & Build <noreply@mahoneydesignandbuild.com>";
+ *                       must be on a Resend-verified domain)
  */
 
 export type InquiryPayload = {
@@ -52,14 +52,16 @@ export async function notifyInquiry(input: InquiryPayload): Promise<void> {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return; // email not configured — inquiry still lives in the admin inbox
 
-  // Recipients: the configured INQUIRY_NOTIFY_TO (comma-separated is allowed)
-  // plus any always-on recipients, de-duplicated.
-  const configured = (process.env.INQUIRY_NOTIFY_TO || "info@mahoneydesignandbuild.com")
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
-  const alwaysTo = ["nick@48fund.com"];
-  const to = [...new Set([...configured, ...alwaysTo])];
+  // Recipients come only from the environment (comma-separated list) so
+  // personal addresses never live in this public repo.
+  const to = [
+    ...new Set(
+      (process.env.INQUIRY_NOTIFY_TO || "info@mahoneydesignandbuild.com")
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean),
+    ),
+  ];
   const from =
     process.env.INQUIRY_NOTIFY_FROM ||
     // Domain verified in Resend, so send from the domain (delivers to any address).

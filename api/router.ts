@@ -617,27 +617,32 @@ export const appRouter = createRouter({
       }
       const { meta, website, ...rest } = input;
 
-      // Bot filters. These "accept" (return ok) without saving or emailing, so a
-      // bot gets no signal that it was blocked and won't adapt. Legit users never
-      // trip them.
-      //  1. Honeypot: a hidden form field no human sees or fills.
-      //  2. URL in the name field — names don't contain links; spam does.
-      //  3. Link-stuffed message — classic SEO/backlink spam.
-      const linkCount = (rest.message.match(/https?:\/\//gi) || []).length;
-      const looksLikeSpam =
-        (website != null && website.trim() !== "") ||
-        /https?:\/\/|www\./i.test(rest.name) ||
-        linkCount > 3;
-      if (looksLikeSpam) {
+      // Bot filters. Every path returns ok, so a bot gets no signal to adapt.
+      //  - Honeypot (a hidden field no human sees or fills): drop silently.
+      //  - Spam-like content (a link in the name, a link-stuffed message): a
+      //    real person could trip these, so save the inquiry — marked read and
+      //    labeled in the admin inbox — but don't email it.
+      if (website != null && website.trim() !== "") {
         return { ok: true };
       }
+      const linkCount = (rest.message.match(/https?:\/\//gi) || []).length;
+      const spamReason = /https?:\/\/|www\./i.test(rest.name)
+        ? "Link in the name field"
+        : linkCount > 3
+          ? `${linkCount} links in the message`
+          : null;
 
+      const savedMeta = spamReason ? { ...meta, "Spam filter": spamReason } : meta;
       await getDb()
         .insert(inquiries)
-        .values({ ...rest, meta: meta ? JSON.stringify(meta) : null });
+        .values({
+          ...rest,
+          meta: savedMeta ? JSON.stringify(savedMeta) : null,
+          read: spamReason !== null,
+        });
       // Email the business (no-op until RESEND_API_KEY is set; never throws).
       // Skip newsletter signups — those are captured in the admin inbox only.
-      if (rest.type !== "newsletter") {
+      if (rest.type !== "newsletter" && !spamReason) {
         await notifyInquiry(rest);
       }
       return { ok: true };

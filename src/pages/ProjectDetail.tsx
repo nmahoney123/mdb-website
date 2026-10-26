@@ -7,30 +7,25 @@ import CtaSection from "@/components/site/CtaSection";
 import CmsImage from "@/components/site/CmsImage";
 import { Reveal, Stagger, StaggerItem } from "@/components/site/motion";
 import { useProjects } from "@/hooks/useCms";
-import { useSeo, breadcrumbLd } from "@/lib/useSeo";
+import { trpc } from "@/providers/trpc";
+import { useSeo } from "@/lib/useSeo";
+import { projectSeo } from "@/lib/seo";
 
 export default function ProjectDetail() {
   const { slug } = useParams();
   const PROJECTS = useProjects();
+  const { isPending } = trpc.projects.list.useQuery();
   const project = PROJECTS.find((p) => p.slug === slug);
 
   useSeo(
     project
-      ? {
-          title: `${project.name} — ${project.industry} | Mahoney Design & Build`,
-          description: `${project.scope}. ${project.location} · ${project.year} · ${project.size}. Built by Mahoney Design & Build.`,
-          path: `/portfolio/${project.slug}`,
-          image: project.heroImage ?? undefined,
-          jsonLd: breadcrumbLd([
-            { name: "Home", path: "/" },
-            { name: "Portfolio", path: "/portfolio" },
-            { name: project.name, path: `/portfolio/${project.slug}` },
-          ]),
-        }
+      ? projectSeo(project)
       : { title: "Portfolio | Mahoney Design & Build", path: "/portfolio" },
   );
 
-  if (!project) return <Navigate to="/portfolio" replace />;
+  // Until the CMS answers, only the static fallback is loaded — a project added
+  // in Admin isn't in it yet, so wait before treating the slug as unknown.
+  if (!project) return isPending ? null : <Navigate to="/portfolio" replace />;
 
   const idx = PROJECTS.findIndex((p) => p.slug === slug);
   const next = PROJECTS[(idx + 1) % PROJECTS.length];

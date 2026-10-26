@@ -42,10 +42,9 @@ which take priority on slug collision) with any posts created in the admin.
 | Command | Description |
 |---|---|
 | `npm run dev` | Vite dev server (frontend + tRPC API) with HMR |
-| `npm run build` | Generate sitemap → build frontend → bundle the server (`dist/`) |
+| `npm run build` | Build frontend → bundle the server (`dist/`) |
 | `npm start` | Run the production server (`node dist/boot.js`) |
 | `npm run db:seed` | Seed/refresh the SQLite DB from `src/data/content.ts` (idempotent) |
-| `npm run sitemap` | Regenerate `public/sitemap.xml` from the data + blog files |
 | `npm run check` | Type-check (`tsc -b`) |
 | `npm run lint` / `npm run format` | ESLint / Prettier |
 
@@ -82,6 +81,5 @@ src/
   hooks/        CMS data hooks (DB with content.ts fallback)
   lib/          SEO, blog loader, utilities
   data/         content.ts — seed/fallback content
-scripts/        Build-time sitemap generator
-public/         Static assets (media, favicons, robots.txt, sitemap.xml)
+public/         Static assets (media, favicons, robots.txt)
 ```

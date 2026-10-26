@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { ArrowUpRight } from "lucide-react";
-import { useSeo, breadcrumbLd } from "@/lib/useSeo";
+import { useSeo } from "@/lib/useSeo";
+import { STATIC_PAGE_SEO } from "@/lib/seo";
 import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
 import PageHero from "@/components/site/PageHero";
@@ -12,16 +13,7 @@ import { useIndustries, usePageContent } from "@/hooks/useCms";
 export default function Industries() {
   const industries = useIndustries();
   const t = usePageContent("industries");
-  useSeo({
-    title: "Industries We Build — Multifamily, Hotels, Self Storage, Industrial & More | Mahoney Design & Build",
-    description:
-      "Ground-up commercial construction across multifamily, hotels, residential, self storage, industrial, and specialty commercial. Design-build delivery from a family-owned GC.",
-    path: "/industries",
-    jsonLd: breadcrumbLd([
-      { name: "Home", path: "/" },
-      { name: "Industries", path: "/industries" },
-    ]),
-  });
+  useSeo(STATIC_PAGE_SEO["/industries"]);
   return (
     <>
       <Header />

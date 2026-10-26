@@ -276,21 +276,6 @@ const PROJECTS = [
 
 const POSTS = [
   {
-    slug: "groundbreaking-empire-storage-phase-2",
-    title: "MDB Breaks Ground on 92,000 Sq Ft Climate-Controlled Storage Facility in Syracuse",
-    category: "Project News",
-    excerpt:
-      "Phase two for a repeat development partner adds 640 units to the Syracuse market — steel arrives in May.",
-    body: JSON.stringify([
-      "Mahoney Design & Build has broken ground on a 92,000 sq ft, three-story climate-controlled self-storage facility in Syracuse, NY — the second ground-up project for the same development partner in three years.",
-      "The 640-unit project includes a drive-up annex and a retail-front office package. Steel delivery is scheduled for May, with substantial completion targeted for Q1 2027.",
-      "Repeat work is the metric we care about most. When a developer comes back for phase two, the first building did its job.",
-    ]),
-    coverImage: "/media/gallery/self-storage/climate-controlled-structure.webp",
-    status: "published" as const,
-    publishedAt: new Date("2026-03-04"),
-  },
-  {
     slug: "2026-storage-cost-outlook",
     title: "2026 Self Storage Cost Outlook: Steel, Sitework, and the Speed Premium",
     category: "Market Insight",
@@ -495,9 +480,11 @@ const PAGE_CONTENT: { page: string; key: string; value: string }[] = [
 ];
 
 export async function seedDatabase() {
+  // Settings are owner-managed in Admin → Settings: add any missing keys with
+  // their defaults, but never overwrite a saved value (this runs on every boot).
   console.log("Seeding settings…");
   for (const [key, value] of Object.entries(SETTINGS)) {
-    await db.insert(settings).values({ key, value }).onConflictDoUpdate({ target: settings.key, set: { value } });
+    await db.insert(settings).values({ key, value }).onConflictDoNothing({ target: settings.key });
   }
 
   // Projects are code-managed: upsert by slug so edits/additions here sync on
@@ -525,6 +512,13 @@ export async function seedDatabase() {
     for (const p of POSTS) await db.insert(posts).values(p);
   } else {
     console.log("Posts already seeded — skipping.");
+  }
+  // Placeholder post about a retired placeholder project: kept as a draft (its
+  // text stays readable in Admin) rather than deleted, and re-drafted on every
+  // boot while listed here.
+  const RETIRED_POST_SLUGS = ["groundbreaking-empire-storage-phase-2"];
+  for (const slug of RETIRED_POST_SLUGS) {
+    await db.update(posts).set({ status: "draft" }).where(eq(posts.slug, slug));
   }
 
   const existingGallery = await db.select({ id: galleryImages.id }).from(galleryImages).limit(1);

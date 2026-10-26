@@ -125,7 +125,9 @@ export function usePosts(): CmsPost[] {
       coverImage: p.coverImage ?? null,
       shot: fallback?.shot ?? `${p.title} — article photograph`,
       date: p.publishedAt
-        ? new Date(p.publishedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
+        ? // publishedAt is a calendar date stored as UTC midnight; format in UTC
+          // so US visitors don't see the previous day.
+          new Date(p.publishedAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" })
         : fallback?.date ?? "",
     };
   });

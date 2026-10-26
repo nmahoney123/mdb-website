@@ -7,39 +7,26 @@ import CtaSection from "@/components/site/CtaSection";
 import LocationsMap from "@/components/site/LocationsMap";
 import { COMPANY } from "@/data/content";
 import { useOffices, useIndustries } from "@/hooks/useCms";
-import { useSeo, breadcrumbLd, officeLd } from "@/lib/useSeo";
+import { trpc } from "@/providers/trpc";
+import { useSeo } from "@/lib/useSeo";
+import { officeSeo } from "@/lib/seo";
 import { Reveal, Stagger, StaggerItem } from "@/components/site/motion";
 
 export default function LocationDetail() {
   const { slug } = useParams();
   const offices = useOffices();
+  const { isPending } = trpc.offices.list.useQuery();
   const industries = useIndustries();
   const office = offices.find((o) => o.slug === slug);
 
   useSeo(
     office
-      ? {
-          title: `${office.city}, ${office.state} Office — Design-Build General Contractor | ${COMPANY.name}`,
-          description: `Mahoney Design & Build in ${office.city}, ${office.state} — ground-up design-build construction for self storage, hospitality, and multifamily across ${office.serves}.`,
-          path: `/locations/${office.slug}`,
-          jsonLd: [
-            officeLd({
-              ...office,
-              address: office.address ?? undefined,
-              phone: office.phone ?? undefined,
-              email: office.email ?? undefined,
-            }),
-            breadcrumbLd([
-              { name: "Home", path: "/" },
-              { name: "Locations", path: "/locations" },
-              { name: `${office.city}, ${office.state}`, path: `/locations/${office.slug}` },
-            ]),
-          ],
-        }
+      ? officeSeo(office)
       : { title: `Locations | ${COMPANY.name}`, path: "/locations" },
   );
 
-  if (!office) return <Navigate to="/locations" replace />;
+  // Wait for the CMS before treating the slug as unknown (see ProjectDetail).
+  if (!office) return isPending ? null : <Navigate to="/locations" replace />;
 
   return (
     <>

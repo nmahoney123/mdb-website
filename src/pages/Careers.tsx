@@ -7,7 +7,8 @@ import PageHero from "@/components/site/PageHero";
 import CmsImage from "@/components/site/CmsImage";
 import { Reveal, Stagger, StaggerItem } from "@/components/site/motion";
 import { useJobs, usePageContent } from "@/hooks/useCms";
-import { useSeo, breadcrumbLd } from "@/lib/useSeo";
+import { useSeo } from "@/lib/useSeo";
+import { STATIC_PAGE_SEO } from "@/lib/seo";
 import { trpc } from "@/providers/trpc";
 
 const BENEFITS = [
@@ -133,16 +134,7 @@ export default function Careers() {
   const jobs = useJobs();
   const t = usePageContent("careers");
 
-  useSeo({
-    title: "Careers — Build With Mahoney Design & Build | Central NY Construction Jobs",
-    description:
-      "Join a design-build general contractor that promotes from the field. Superintendent, project manager, estimator, and intern roles in Central New York. Apply today.",
-    path: "/careers",
-    jsonLd: breadcrumbLd([
-      { name: "Home", path: "/" },
-      { name: "Careers", path: "/careers" },
-    ]),
-  });
+  useSeo(STATIC_PAGE_SEO["/careers"]);
 
   return (
     <>

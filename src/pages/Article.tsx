@@ -6,13 +6,16 @@ import CtaSection from "@/components/site/CtaSection";
 import CmsImage from "@/components/site/CmsImage";
 import { Reveal, AnimatedWords } from "@/components/site/motion";
 import { usePosts } from "@/hooks/useCms";
+import { trpc } from "@/providers/trpc";
 import { getAllPosts, getPostBySlug } from "@/lib/blog";
-import { useSeo, articleLd, breadcrumbLd } from "@/lib/useSeo";
+import { useSeo } from "@/lib/useSeo";
+import { articleSeo } from "@/lib/seo";
 import { motion, useReducedMotion } from "framer-motion";
 
 export default function Article() {
   const { slug } = useParams();
   const dbPosts = usePosts();
+  const { isPending } = trpc.posts.list.useQuery();
   const reduce = useReducedMotion();
 
   // Markdown (git-committed) posts take priority over DB posts on slug match.
@@ -22,31 +25,13 @@ export default function Article() {
 
   useSeo(
     article
-      ? {
-          title: `${article.title} | Mahoney Design & Build`,
-          description: article.excerpt,
-          path: `/news/${article.slug}`,
-          type: "article",
-          image: article.coverImage ?? undefined,
-          jsonLd: [
-            articleLd({
-              title: article.title,
-              path: `/news/${article.slug}`,
-              date: article.date,
-              image: article.coverImage,
-              description: article.excerpt,
-            }),
-            breadcrumbLd([
-              { name: "Home", path: "/" },
-              { name: "News & Insights", path: "/news" },
-              { name: article.title, path: `/news/${article.slug}` },
-            ]),
-          ],
-        }
+      ? articleSeo(article)
       : { title: "News & Insights | Mahoney Design & Build", path: "/news" },
   );
 
-  if (!article) return <Navigate to="/news" replace />;
+  // Wait for the CMS before treating the slug as unknown: a post written in
+  // Admin isn't in the static fallback (see ProjectDetail).
+  if (!article) return isPending ? null : <Navigate to="/news" replace />;
 
   // "Keep reading" — markdown + DB posts combined, current excluded, deduped.
   const seen = new Set<string>([slug ?? ""]);

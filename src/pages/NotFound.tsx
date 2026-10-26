@@ -3,14 +3,10 @@ import { ArrowRight } from "lucide-react";
 import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
 import { useSeo } from "@/lib/useSeo";
+import { NOT_FOUND_SEO } from "@/lib/seo";
 
 export default function NotFound() {
-  useSeo({
-    title: "Page Not Found | Mahoney Design & Build",
-    description: "The page you're looking for doesn't exist or has moved.",
-    path: "/404",
-    noindex: true,
-  });
+  useSeo(NOT_FOUND_SEO);
 
   return (
     <>
